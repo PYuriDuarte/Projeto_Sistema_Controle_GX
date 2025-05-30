@@ -1,0 +1,131 @@
+.linha_card_chamado {
+    width: 100%;
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.2rem 2vw;
+    box-sizing: border-box;
+}
+
+.card_chamado {
+    width: 33%;
+    background: var(--cor-fundo);
+    border-radius: .5rem;
+    box-shadow: 0 .4rem 1.6rem rgba(62, 62, 93, 0.18);
+    padding: 1.5rem 1.5rem 1.2rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    border-left: .5rem solid;
+    min-height: 7rem;
+    max-height: 1rem;
+    transition: box-shadow 0.18s;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.card_chamado.realizado { border-left: .25rem solid var(--cor-correto); }
+.card_chamado.aberto    { border-left: .25rem solid var(--cor-erro); }
+.card_chamado.pendente  { border-left: .25rem solid var(--cor-alerta); }
+
+.card_chamado:hover {
+    box-shadow: 0 .25rem 1.2rem rgba(62, 62, 93, 0.15);
+}
+
+.linha_card_conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.coluna_card_info {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.titulo_card_chamado {
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1rem;
+    margin-bottom: 0.7rem;
+    opacity: 0.86;
+    word-break: break-word;
+}
+
+.titulo_card_chamado.realizado { color: var(--cor-correto); }
+.titulo_card_chamado.aberto    { color: var(--cor-erro); }
+.titulo_card_chamado.pendente  { color: var(--cor-alerta); }
+
+.valor_card_chamado {
+    font-size: 1.65rem;
+    color: var(--cor-texto-secundario);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+    word-break: break-word;
+}
+
+.coluna_card_icone {
+    margin: 0 -1rem 0 .9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3rem;
+    width: 3rem;
+}
+
+.coluna_card_icone i {
+    font-size: 2rem;
+}
+
+.icone_card {
+    font-size: 2.7rem;
+    opacity: 0.19;
+    transition: opacity 0.15s;
+    margin-top: 0.10rem;
+}
+
+.icone_card.realizado { color: var(--cor-correto); }
+.icone_card.aberto    { color: var(--cor-erro); }
+.icone_card.pendente  { color: var(--cor-alerta); }
+
+.card_barra_progresso {
+    height: 0.46rem;
+    width: 100%;
+    max-width: 34rem;
+    background: #e7eaf6;
+    border-radius: .7rem;
+    overflow: hidden;
+    margin-top: 0.10rem;
+    margin-bottom: 0.24rem;
+    display: block;
+    margin-right: 0;
+}
+
+.card_barra_progresso .progresso {
+    display: block;
+    height: 100%;
+    background: var(--cor-correto);
+    border-radius: .7rem;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Responsivo */
+@media (max-width: 1366px) {
+    .linha_card_chamado {
+        min-width: 0;
+    }
+    .card_chamado{
+        width: 30%;
+    }
+    .card_barra_progresso {
+        width: 99%;
+        max-width: 100%;
+    }
+}
