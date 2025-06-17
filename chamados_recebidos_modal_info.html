@@ -1,0 +1,80 @@
+<div id="modal_chamado_recebido">
+    <div class="modal_chamado_recebido_content">
+        <button class="modal_chamado_recebido_fechar" onclick="fechar_modal_chamado_recebido()">×</button>
+        <div class="modal_info_chamado_recebido_container">
+            <!-- LADO ESQUERDO: DADOS DO CHAMADO -->
+            <div class="modal_info_chamado_recebido_box">
+                <table class="modal_info_chamado_recebido_tabela">
+                    <thead>
+                        <tr>
+                            <th class="col_tarefa">TAREFA</th>
+                            <th class="col_conteudo">CONTEÚDO</th>
+                            <th class="col_comprovacao">COMPROVAÇÃO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="valor_tarefa">
+                                <span>RAZAO</span>
+                            </td>
+                            <td class="valor_conteudo">
+                                <span>DEV DUARTE oooooooooooooooooooooooooooooooooooooT</span>
+                            </td>
+                            <td class="valor_comprovacao">
+                                <label class="fileLabel" for="fileUpload">ANEXAR</label>
+                                <input type="file" class="fileInput" accept=".png,.jpg,.jpeg,.txt,.csv,.pdf" data-chamado="00000001" data-nome="comprovacao">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="valor_tarefa">
+                                <span>TEM CARRO</span>
+                            </td>
+                            <td class="valor_conteudo">
+                                <span>SIM</span>
+                            </td>
+                            <td class="valor_comprovacao">
+                                <span></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="valor_tarefa">
+                                <span>ARQUIVO IPTU</span>
+                            </td>
+                            <td class="valor_conteudo">
+                                <span>ANEXO</span>
+                            </td>
+                            <td class="valor_comprovacao">
+                                <button onclick="baixarArquivoDoServidor('imagens/logo_gx.png', 'teste.png');">ANEXAR</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="valor_tarefa">
+                                <span>ARQUIVO IPVA</span>
+                            </td>
+                            <td class="valor_conteudo">
+                                <span></span>
+                            </td>
+                            <td class="valor_comprovacao">
+                                <span></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button id="modal_info_chamado_recebido_btn_finalizar" class="modal_info_chamado_recebido_btn_finalizar">
+                    Finalizar Chamado
+                </button>
+            </div>
+
+            <!-- LADO DIREITO: CHAT -->
+            <div class="modal_info_chamado_recebido_chat">
+                <div class="modal_info_chamado_recebido_chat_mensagens" id="modal_info_chamado_recebido_chat_mensagens">
+                    <!-- Mensagens simuladas JS -->
+                </div>
+                <div class="modal_info_chamado_recebido_chat_input">
+                    <input type="text" id="modal_info_chamado_recebido_mensagem_input" placeholder="Digite sua mensagem..." autocomplete="off">
+                    <button id="modal_info_chamado_recebido_btn_enviar">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

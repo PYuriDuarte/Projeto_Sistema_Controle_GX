@@ -1,0 +1,47 @@
+<div class="chamados_enviados_central">
+    <form id="chamados_enviados_filtros" class="chamados_enviados_filtros">
+        <label>
+            Tipo de chamado<br>
+            <select name="tipo_chamado" id="chamados_enviados_tipo_chamado"></select>
+        </label>
+        <label>
+            Responsável<br>
+            <select name="responsavel" id="chamados_enviados_responsavel"></select>
+        </label>
+        <label>
+            Data início<br>
+            <input type="date" id="chamados_enviados_data_inicio">
+        </label>
+        <label>
+            Data fim<br>
+            <input type="date" id="chamados_enviados_data_fim">
+        </label>
+        <label class="campo_solicitante">
+            Solicitante<br>
+            <select name="solicitante" id="chamados_enviados_solicitante"></select>
+        </label>
+        <label>
+            Setor<br>
+            <select name="setor" id="chamados_enviados_setor"></select>
+        </label>
+        <label>
+            Status do chamado<br>
+            <select name="status" id="chamados_enviados_status"></select>
+        </label>
+        <button id="chamados_enviados_btn_pesquisar" onclick="preencher_chamados_enviados_consultados(event)">Pesquisar</button>
+    </form>
+    <div class="chamados_enviados_cabecalho">
+        <h4 class="chamados_enviados_coluna chamados_enviados_foto">Foto</h4>
+        <h4 class="chamados_enviados_coluna chamados_enviados_nome">Solicitante</h4>
+        <h4 class="chamados_enviados_coluna chamados_enviados_tipo">Tipo</h4>
+        <h4 class="chamados_enviados_coluna chamados_enviados_data">Data</h4>
+        <h4 class="chamados_enviados_coluna chamados_enviados_foto_responsavel">Foto</h4>
+        <h4 class="chamados_enviados_coluna chamados_enviados_nome_responsavel">Responsável</h4>
+        <h4 class="chamados_enviados_coluna chamados_enviados_status">Status</h4>
+        <h4 class="chamados_enviados_coluna chamados_enviados_info">Info</h4>
+    </div>
+    <ul class="chamados_enviados_lista">
+        <!-- Repita <li> para mais chamados -->
+    </ul>
+    <div id="modal_chamado_enviado_container"></div>
+</div>

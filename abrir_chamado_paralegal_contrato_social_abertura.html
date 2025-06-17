@@ -1,0 +1,135 @@
+<div id="form_contrato_social" class="secao_formulario">
+    <!-- Razão Social (duas opções) -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Razão Social (Informe 2 opções):</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="text" id="razao_social_1" name="razao_social_1" placeholder="Opção 1" required class="campo_texto" />
+        <input type="text" id="razao_social_2" name="razao_social_2" placeholder="Opção 2" required class="campo_texto" />
+    </div>
+    
+    <!-- Nome Fantasia -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Nome Fantasia:</label>
+        <input type="text" id="nome_fantasia" name="nome_fantasia" class="campo_texto" />
+    </div>
+    
+    <!-- Natureza Jurídica -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Natureza Jurídica:</label>
+        <span class="campo_obrigatorio">*</span>
+        <select id="natureza_juridica" name="natureza_juridica" required class="campo_selecao">
+            <option value="" disabled selected>Selecione</option>
+            <option value="sa">S/A</option>
+            <option value="ltda">LTDA</option>
+            <option value="slu">SLU</option>
+            <option value="empresario_individual">Empresário Individual</option>
+            <option value="mei">MEI</option>
+        </select>
+    </div>
+    
+    <!-- Atividade Principal (CNAE) -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Atividade Principal (CNAE):</label>
+        <span class="campo_obrigatorio">*</span>
+        <select id="atividade_principal" name="atividade_principal" required class="campo_selecao">
+            <option value="" disabled selected>Selecione a CNAE</option>
+            <!-- Popule via JS ou backend com a lista oficial de CNAE -->
+        </select>
+    </div>
+    
+    <!-- Atividade Secundária (CNAE) -->
+    <div class="campo_form">
+        <label for="atividade_secundaria" class="rotulo_campo">Atividade Secundária (CNAE):</label>
+        <select id="atividade_secundaria" onchange=adicionar_atividade_selecionada() name="atividade_secundaria" class="campo_selecao">
+            <option value="" disabled selected>Selecione a CNAE</option>
+            <!-- Popule via JS ou backend com a lista oficial de CNAE -->
+        </select>
+        <div id="inputs_atividades"></div>
+    </div>
+    
+    <!-- Valor Capital Social -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Valor Capital Social:</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="number" id="capital_social" name="capital_social" min="0" step="0.01" required class="campo_texto" />
+    </div>
+
+    <!-- Forma de Integralização -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Forma de Integralização:</label>
+        <span class="campo_obrigatorio">*</span>
+        <select id="forma_integralizacao" name="forma_integralizacao" required class="campo_selecao">
+            <option value="" disabled selected>Selecione</option>
+            <option value="dinheiro">Dinheiro</option>
+            <option value="imovel">Imóvel</option>
+            <option value="veiculo">Veículo</option>
+            <option value="estoque">Estoque</option>
+            <option value="maquina">Máquina</option>
+        </select>
+    </div>
+    
+    <!-- Porte da empresa -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Porte da empresa:</label>
+        <span class="campo_obrigatorio">*</span>
+        <select id="porte_empresa" name="porte_empresa" required class="campo_selecao">
+            <option value="" disabled selected>Selecione</option>
+            <option value="me">ME</option>
+            <option value="epp">EPP</option>
+            <option value="demais">Demais</option>
+        </select>
+    </div>
+    
+    <!-- Participação dos sócios (campo dinâmico) -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Porcentagem de participação de cada sócio:</label>
+        <span class="campo_obrigatorio">*</span>
+        <div id="socios_container">
+            <div class="socio_linha">
+                <input type="text" id="nome_socio" name="nome_socio[]" placeholder="Nome do sócio" required class="campo_texto" />
+                <input type="number" id="porcentagem_socio" name="porcentagem_socio[]" placeholder="%" min="0" max="100" required class="campo_texto" />
+                <button type="button" onclick=adicionar_socio_na_listagem() class="adicionar_socio">Adicionar</button>
+            </div>
+        </div>
+        <div id="socios_adicionados">
+            <!-- Campos dinâmicos para sócio serão inseridos aqui via JS -->
+        </div>
+    </div>
+    
+    <!-- Representante legal -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Quem será o representante legal junto à Receita Federal (Administrador)?</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="text" id="representante_legal" name="representante_legal" required class="campo_texto" />
+    </div>
+    
+    <!-- Email no CNPJ -->
+    <div class="campo_form">
+        <label class="rotulo_campo">E-mail para constar no CNPJ:</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="email" id="email_cnpj" name="email_cnpj" required class="campo_texto" />
+    </div>
+
+    <!-- Telefone no CNPJ -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Telefone para constar no CNPJ:</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="tel" id="telefone_cnpj" name="telefone_cnpj" required class="campo_texto" />
+    </div>
+    
+    <!-- IPTU -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Número do IPTU:</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="text" id="numero_iptu" name="numero_iptu" required class="campo_texto" />
+    </div>
+
+    <div class="campo_form">
+        <label class="rotulo_campo">Anexar IPTU:</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="file" id="anexo_iptu" name="anexo_iptu" accept=".pdf,.jpg,.jpeg,.png,.txt" required class="campo_arquivo" />
+    </div>
+    
+    <!-- Botão de submit -->
+    <button class="botao_modelo" onclick="enviar_chamado_contrato_social_abertura(event)" type="submit">Enviar</button>
+</div>

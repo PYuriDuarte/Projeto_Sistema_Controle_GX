@@ -1,0 +1,47 @@
+<div class="chamados_recebidos_central">
+    <form id="chamados_recebidos_filtros" class="chamados_recebidos_filtros">
+        <label>
+            Tipo de chamado<br>
+            <select name="tipo_chamado" id="chamados_recebidos_tipo_chamado"></select>
+        </label>
+        <label>
+            Responsável<br>
+            <select name="responsavel" id="chamados_recebidos_responsavel"></select>
+        </label>
+        <label>
+            Data início<br>
+            <input type="date" id="chamados_recebidos_data_inicio">
+        </label>
+        <label>
+            Data fim<br>
+            <input type="date" id="chamados_recebidos_data_fim">
+        </label>
+        <label class="campo_solicitante">
+            Solicitante<br>
+            <select name="solicitante" id="chamados_recebidos_solicitante"></select>
+        </label>
+        <label>
+            Setor<br>
+            <select name="setor" id="chamados_recebidos_setor"></select>
+        </label>
+        <label>
+            Status do chamado<br>
+            <select name="status" id="chamados_recebidos_status"></select>
+        </label>
+        <button id="chamados_recebidos_btn_pesquisar" onclick="preencher_chamados_recebidos_consultados(event)">Pesquisar</button>
+    </form>
+    <div class="chamados_recebidos_cabecalho">
+        <h4 class="chamados_recebidos_coluna chamados_recebidos_foto">Foto</h4>
+        <h4 class="chamados_recebidos_coluna chamados_recebidos_nome">Solicitante</h4>
+        <h4 class="chamados_recebidos_coluna chamados_recebidos_tipo">Tipo</h4>
+        <h4 class="chamados_recebidos_coluna chamados_recebidos_data">Data</h4>
+        <h4 class="chamados_recebidos_coluna chamados_recebidos_foto_responsavel">Foto</h4>
+        <h4 class="chamados_recebidos_coluna chamados_recebidos_nome_responsavel">Responsável</h4>
+        <h4 class="chamados_recebidos_coluna chamados_recebidos_status">Status</h4>
+        <h4 class="chamados_recebidos_coluna chamados_recebidos_info">Info</h4>
+    </div>
+    <ul class="chamados_recebidos_lista">
+        <!-- Repita <li> para mais chamados -->
+    </ul>
+    <div id="modal_chamado_recebido_container"></div>
+</div>

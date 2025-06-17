@@ -8,9 +8,9 @@
 
 .card_chamado {
     width: 33%;
-    background: var(--cor-fundo);
+    background: var(--cor-fundo-card);
     border-radius: .5rem;
-    box-shadow: 0 .4rem 1.6rem rgba(62, 62, 93, 0.18);
+    box-shadow: var(--cor-sombra-card);
     padding: 1.5rem 1.5rem 1.2rem 1.2rem;
     display: flex;
     flex-direction: column;
@@ -29,7 +29,7 @@
 .card_chamado.pendente  { border-left: .25rem solid var(--cor-alerta); }
 
 .card_chamado:hover {
-    box-shadow: 0 .25rem 1.2rem rgba(62, 62, 93, 0.15);
+    box-shadow: 0 .25rem 1.2rem var(--cor-sombra-card);
 }
 
 .linha_card_conteudo {
@@ -116,16 +116,85 @@
     transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
 }
 
-/* Responsivo */
-@media (max-width: 1366px) {
-    .linha_card_chamado {
-        min-width: 0;
-    }
-    .card_chamado{
-        width: 30%;
-    }
-    .card_barra_progresso {
-        width: 99%;
-        max-width: 100%;
-    }
+/* ======================================= */
+
+
+.linha {
+    display: flex;
+    gap: 4rem;
+}
+
+.coluna-grande {
+    flex: 2;
+}
+
+.coluna-pequena {
+    flex: 1;
+}
+
+.cartao {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    box-shadow: var(--cor-sombra-card);
+    display: flex;
+    flex-direction: column;
+}
+
+.sombra {
+    box-shadow: var(--cor-sombra-card);
+}
+
+.cabecalho-cartao {
+    padding: 18px 24px 12px 24px;
+    border-bottom: 1px solid #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.titulo-cartao {
+    color: #4e73df;
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+.corpo-cartao {
+    padding: 24px;
+    flex: 1;
+}
+
+#graficoArea, #graficoPizza {
+    width: 100% !important;
+    height: 240px !important;
+    max-width: 600px;
+    display: block;
+}
+
+.grafico-area, .grafico-pizza {
+    width: 100%;
+    min-height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.legenda {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 0.98rem;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.legenda .direto {
+    color: #4e73df;
+}
+.legenda .social {
+    color: #1cc88a;
+}
+.legenda .referencia {
+    color: #36b9cc;
 }

@@ -1,0 +1,48 @@
+<div id="form_paralegal_distrato_social" class="secao_formulario">
+
+    <!-- Razão Social -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Razão Social:</label>
+        <span class="campo_obrigatorio">*</span>
+        <select name="razao_social" required class="campo_selecao">
+            <option value="" disabled selected>Selecione a empresa</option>
+            <!-- Opções populadas pela automação -->
+        </select>
+    </div>
+
+    <!-- Possui Funcionários? -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Possui Funcionários?</label>
+        <span class="campo_obrigatorio">*</span>
+        <select name="possui_funcionarios" required class="campo_selecao">
+            <option value="" disabled selected>Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+    </div>
+
+    <!-- Possui Inscrição Municipal Ativa? -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Possui Inscrição Municipal Ativa?</label>
+        <span class="campo_obrigatorio">*</span>
+        <select id="inscricao_municipal_ativa" name="inscricao_municipal_ativa" required class="campo_selecao" onchange=exibir_campo_numero_inscricao_municipal(this.value)>
+            <option value="" disabled selected>Selecione</option>
+            <option value="sim">Sim</option>
+            <option value="nao">Não</option>
+        </select>
+        <input type="text" id="numero_inscricao_municipal" name="numero_inscricao_municipal" class="campo_texto" placeholder="Número da Inscrição Municipal" style="display:none; margin-top:.3rem;" />
+    </div>
+
+    <!-- Responsável pela guarda dos livros -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Quem ficará responsável pela guarda dos livros?</label>
+        <span class="campo_obrigatorio">*</span>
+        <select name="responsavel_livros" required class="campo_selecao">
+            <option value="" disabled selected>Selecione o administrador</option>
+            <!-- Opções populadas pela automação -->
+        </select>
+    </div>
+    
+    <!-- Botão de submit -->
+    <button class="botao_modelo" type="submit">Enviar</button>
+</div>

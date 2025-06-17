@@ -1,0 +1,86 @@
+<div id="form_paralegal_receita_federal" class="secao_formulario">
+    <!-- Razão Social (lista automação eCAC) -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Razão Social (selecionar empresa cadastrada):</label>
+        <span class="campo_obrigatorio">*</span>
+        <select name="razao_social_lista" required class="campo_selecao">
+            <option value="" disabled selected>Selecione a empresa</option>
+            <!-- Opções populadas pela automação eCAC -->
+        </select>
+    </div>
+
+    <!-- Atualização Quadro Societário -->
+    <div class="campo_form campo_form_checkbox">
+        <label class="rotulo_campo" for="flag_atualizacao_quadro_societario">Atualização Quadro Societário:</label>
+        <label class="custom_checkbox">
+            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_atualizacao_quadro_societario" name="atualizacao_quadro_societario" />
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <!-- Alteração CNAE -->
+    <div class="campo_form campo_form_checkbox">
+        <label class="rotulo_campo" for="flag_alteracao_cnae">Alteração CNAE:</label>
+        <label class="custom_checkbox">
+            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_alteracao_cnae" onchange="exibir_campo_cnae_antes_depois('RECEITA', this)" name="alteracao_cnae" />
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <!-- CNAE Antes e Depois (aparecem se "Alteração CNAE" marcada) -->
+    <div id="campo_cnae_antes_depois_receita" style="display:none;">
+        <div class="campo_form">
+            <label class="rotulo_campo">CNAE Antes:</label>
+            <select name="cnae_antes" class="campo_selecao">
+                <option value="" disabled selected>Selecione CNAE Antes</option>
+                <!-- Opções CNAE Antes -->
+            </select>
+        </div>
+
+        <div class="campo_form">
+            <label class="rotulo_campo">CNAE Depois:</label>
+            <select name="cnae_depois" class="campo_selecao">
+                <option value="" disabled selected>Selecione CNAE Depois</option>
+                <!-- Opções CNAE Depois -->
+            </select>
+        </div>
+    </div>
+
+    <!-- Alteração email no CNPJ -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Alteração E-mail no CNPJ:</label>
+        <input type="email" name="alteracao_email_cnpj" class="campo_texto" />
+    </div>
+
+    <!-- Alteração telefone no CNPJ -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Alteração Telefone no CNPJ:</label>
+        <input type="tel" name="alteracao_telefone_cnpj" class="campo_texto" />
+    </div>
+
+    <!-- Alteração Inclusão Nome Fantasia -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Alteração Inclusão Nome Fantasia:</label>
+        <input type="text" name="alteracao_nome_fantasia" class="campo_texto" />
+    </div>
+
+    <!-- Reenquadramento - Enquadramento - Desenquadramento -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Reenquadramento - Enquadramento - Desenquadramento:</label>
+        <select name="reenquadramento" class="campo_selecao">
+            <option value="" disabled selected>Selecione</option>
+            <option value="reenquadramento">Reenquadramento</option>
+            <option value="enquadramento">Enquadramento</option>
+            <option value="desenquadramento">Desenquadramento</option>
+        </select>
+    </div>
+
+    <!-- Outros: descrever -->
+    <div class="campo_form">
+        <label class="rotulo_campo">OUTROS (descrever):</label>
+        <textarea id="outros_descrever" name="outros_descrever" rows="3" class="campo_texto outros_descrever_receita"></textarea>
+    </div>
+
+    <!-- Botão enviar -->
+    <button class="botao_modelo" type="submit">Enviar</button>
+</div>

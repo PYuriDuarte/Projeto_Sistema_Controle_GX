@@ -1,0 +1,88 @@
+<div id="form_paralegal_sefaz" class="secao_formulario">
+    <!-- Razão Social (lista automação eCAC) -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Razão Social (selecionar empresa cadastrada):</label>
+        <span class="campo_obrigatorio">*</span>
+        <select name="razao_social_lista" required class="campo_selecao">
+            <option value="" disabled selected>Selecione a empresa</option>
+            <!-- Opções populadas pela automação eCAC -->
+        </select>
+    </div>
+
+    <!-- Atualização Quadro Societário (flag) -->
+    <div class="campo_form campo_form_checkbox">
+        <label class="rotulo_campo" for="flag_atualizacao_quadro_societario">Atualização Quadro Societário:</label>
+        <label class="custom_checkbox">
+            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_atualizacao_quadro_societario" name="atualizacao_quadro_societario" />
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <!-- Atualização Endereço (flag) -->
+    <div class="campo_form campo_form_checkbox">
+        <label class="rotulo_campo" for="flag_atualizacao_endereco">Atualização Endereço:</label>
+        <label class="custom_checkbox">
+            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_atualizacao_endereco" name="atualizacao_endereco" />
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <!-- Alteração Sócio (flag) -->
+    <div class="campo_form campo_form_checkbox">
+        <label class="rotulo_campo" for="flag_alteracao_socio">Alteração Sócio:</label>
+        <label class="custom_checkbox">
+            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_alteracao_socio" name="alteracao_socio" />
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <!-- Alteração Regime (flag) + novo regime (campo texto) -->
+    <div class="campo_form campo_form_checkbox">
+        <label class="rotulo_campo" for="flag_alteracao_regime">Alteração Regime:</label>
+        <label class="custom_checkbox">
+            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_alteracao_regime" onchange="exibir_campo_novo_regime('SEFAZ', this)" name="alteracao_regime" />
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <div class="campo_form" id="campo_novo_regime_sefaz" style="display:none;">
+        <label class="rotulo_campo">Informar novo regime:</label>
+        <input type="text" name="novo_regime" class="campo_texto" />
+    </div>
+
+    <!-- Alteração CNAE (flag) + abrir campos Antes e Depois -->
+    <div class="campo_form campo_form_checkbox">
+        <label class="rotulo_campo" for="flag_alteracao_cnae">Alteração CNAE:</label>
+        <label class="custom_checkbox">
+            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_alteracao_cnae" onchange="exibir_campo_cnae_antes_depois('SEFAZ', this)" name="alteracao_cnae" />
+            <span class="checkmark"></span>
+        </label>
+    </div>
+
+    <div id="campo_cnae_antes_depois_sefaz" style="display:none;">
+        <div class="campo_form">
+            <label class="rotulo_campo">CNAE Antes:</label>
+            <select name="cnae_antes" class="campo_selecao">
+                <option value="" disabled selected>Selecione CNAE Antes</option>
+                <!-- Opções CNAE antes -->
+            </select>
+        </div>
+
+        <div class="campo_form">
+            <label class="rotulo_campo">CNAE Depois:</label>
+            <select name="cnae_depois" class="campo_selecao">
+                <option value="" disabled selected>Selecione CNAE Depois</option>
+                <!-- Opções CNAE depois -->
+            </select>
+        </div>
+    </div>
+
+    <!-- Outros: descrever -->
+    <div class="campo_form">
+        <label class="rotulo_campo">OUTROS (descrever):</label>
+        <textarea id="outros_descrever" name="outros_descrever" rows="3" class="campo_texto outros_descrever_sefaz"></textarea>
+    </div>
+
+    <!-- Botão de enviar -->
+    <button class="botao_modelo" type="submit">Enviar</button>
+</div>

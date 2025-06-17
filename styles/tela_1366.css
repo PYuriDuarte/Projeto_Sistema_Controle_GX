@@ -1,0 +1,160 @@
+@media (max-width: 1366px) {
+    #container_corpo {
+        flex-direction: column;
+        gap: 1.5rem;
+        height: auto;
+    }
+    .linha_card_chamado {
+        min-width: 0;
+    }
+    .card_chamado{
+        width: 30%;
+    }
+    .card_barra_progresso {
+        width: 99%;
+        max-width: 100%;
+    }
+    .container_abertura_chamado{
+        height: 30.5rem;
+    }
+    #corpo_abertura_chamado{
+        width: 94.5%;
+        height: 90%;
+    }
+    .formulario_chamado{
+        width: 52.8%;
+        margin: 0 21.4%;
+        justify-content: center;
+    }
+    .secao_formulario {
+        height: none;
+        width: 50%;
+    }
+    .botao_modelo {
+        width: 34.3rem;
+    }
+    #form_contato_social #adicionar_socio {
+        width: 34.3rem;
+    }
+    #form_contato_social .remover_socio{
+        width: 8rem;
+        margin: 0 0 .11rem 1rem;
+        padding: .38rem 1.3rem;
+    }
+    .campo_form_checkbox .abrir_chamado_checkbox{
+        margin-right: 5rem;
+    }
+    #outros_descrever {
+        height: 10rem;
+        width: 32.4rem;
+        max-height: 10rem;
+        max-width: 32.4rem;
+    }
+
+    
+    .cabecalho_central_atribuir_chamados .foto{
+        margin-left: 2rem;
+    }
+    .cabecalho_central_atribuir_chamados .nome{
+        margin-left: 3rem;
+    }
+    .cabecalho_central_atribuir_chamados .tipo{
+        margin-left: 8rem;
+    }
+    .cabecalho_central_atribuir_chamados .data{
+        margin-left: 15rem;
+    }
+
+
+    .informacoes_chamado .icone_solicitante{
+        margin-left: .8rem;
+    }
+    .informacoes_chamado span{
+        margin-left: 1.8rem;
+        width: 9.8rem;
+    }
+    .informacoes_chamado .nome_tipo_chamado{
+        margin-left: 1rem;
+        width: 16rem;
+    }
+    .informacoes_chamado .data_hora_abertura_chamado{
+        margin-left: 1rem;
+    }
+    .login_card {
+        width: 60rem;
+    }
+
+
+    /* CHAMADOS RECEBIDOS */
+    .chamados_recebidos_central {
+        width: 92.5%;
+    }
+    .chamados_recebidos_filtros {
+        font-size: .9rem;
+    }
+    .chamados_recebidos_filtros input,
+    .chamados_recebidos_filtros select {
+        font-size: .8rem;
+    }
+    #chamados_recebidos_btn_pesquisar {
+        font-size: .9rem;
+    }
+    .chamados_recebidos_cabecalho {
+        grid-template-columns: 3.75rem .5fr 1fr .64fr 3.75rem 1fr .7fr .33fr;
+    }
+    .chamados_recebidos_nome span,
+    .chamados_recebidos_tipo span,
+    .chamados_recebidos_data span,
+    .chamados_recebidos_nome_responsavel span,
+    .chamados_recebidos_status span {
+        max-width: 10rem;
+    }
+
+
+    /* CHAMADOS RECEBIDOS MODAL INFO */
+    #modal_chamado_recebido .modal_chamado_recebido_content {
+        margin-bottom: 4rem;
+        margin-top: 4rem;
+        width: 60rem;
+        height: 35rem;
+    }
+    .modal_info_chamado_recebido_container {
+        height: 33.5rem;
+    }
+    .col_tarefa {
+        width: 3rem;
+        min-width: 3rem;
+        max-width: 3rem;
+    }
+    .col_conteudo {
+        width: 8rem;
+        min-width: 8rem;
+        max-width: 8rem;
+    }
+    .col_comprovacao {
+        width: 3rem;
+        min-width: 3rem;
+        max-width: 3rem;
+    }
+    .modal_info_chamado_recebido_tabela th {
+        font-size: .7rem;
+    }
+    .modal_info_chamado_recebido_tabela td {
+        font-size: .6rem;
+    }
+    .valor_comprovacao button {
+        font-size: .6rem;
+    }
+    .modal_info_chamado_recebido_btn_finalizar {
+        font-size: .75rem;
+    }
+    .modal_info_chamado_recebido_chat_input input[type="text"] {
+        font-size: .65rem;
+    }
+    .modal_info_chamado_recebido_chat_input button {
+        font-size: .7rem;
+    }
+    .modal_info_chamado_recebido_msg {
+        font-size: 0.7rem;
+    }
+}

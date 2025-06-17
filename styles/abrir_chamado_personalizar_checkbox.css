@@ -1,0 +1,88 @@
+/* Estilo do container principal */
+.campo_form_checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+    padding: .4rem 0;
+}
+
+/* Container do checkbox customizado */
+.custom_checkbox {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+/* Esconde o checkbox nativo */
+.custom_checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Checkmark customizado */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1rem;
+    width: 1rem;
+    background-color: var(--cor-fundo);
+    border: .14rem solid var(--cor-texto-secundario);
+    border-radius: .2rem;
+    transition: all 0.2s ease;
+    margin-top: .15rem;
+}
+
+/* Efeito hover */
+.custom_checkbox:hover input ~ .checkmark {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 .1rem rgba(74, 144, 226, 0.1);
+}
+
+/* Quando checkbox está marcado */
+.custom_checkbox input:checked ~ .checkmark {
+    background-color: var(--cor-secundaria);
+    border-color: var(--cor-secundaria);
+}
+
+/* Cria o checkmark (escondido quando não marcado) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Mostra o checkmark quando marcado */
+.custom_checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Estilo do checkmark */
+.custom_checkbox .checkmark:after {
+    left: .4rem;
+    top: .2rem;
+    width: .25rem;
+    height: .7rem;
+    border: solid white;
+    border-width: 0 .15rem .15rem 0;
+    transform: rotate(45deg);
+}
+
+/* Efeito de foco para acessibilidade */
+.custom_checkbox input:focus ~ .checkmark {
+    box-shadow: 0 0 0 .15rem rgba(74, 144, 226, 0.3);
+    outline: none;
+}
+
+/* Efeito de transição suave para o label quando o checkbox é marcado */
+.custom_checkbox input:checked ~ .rotulo_campo {
+    color: var(--cor-secundaria);
+}

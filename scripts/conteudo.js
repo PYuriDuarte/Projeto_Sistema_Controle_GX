@@ -1,3 +1,25 @@
+// ===================== FUNÇÃO DE TESTE =====================
+
+function teste(){
+    console.log("teste")
+}
+
+// ===================== VOLTAR PARA TELA DE LOGIN =====================
+
+function voltar_para_login() {
+    var confirmar = confirm("Tem certeza que deseja voltar para o login?");
+    if (confirmar) {
+        window.location.href = "login.html";
+    }
+}
+
+// ===================== DEIXA A PRIMEIRA LETRA MAIUSCULA =====================
+
+function maximizar_primeiraletra(palavra) {
+    if (typeof palavra !== "string" || palavra.length === 0) return "";
+    return palavra.charAt(0).toUpperCase() + palavra.slice(1).toLowerCase();
+}
+
 // ===================== NOTIFICAÇÕES =====================
 
 function pegar_icone_e_cor_pelo_tipo(tipo) {
@@ -218,19 +240,52 @@ document.querySelectorAll('.btn_carregar_novo_corpo').forEach(function (botao) {
         var arquivo = this.getAttribute('data-arquivo');
         var display = this.getAttribute('data-display');
         var titulo = this.getAttribute('data-titulo');
-
+        
         var container_corpo = document.getElementById('container_corpo');
         var titulo_pagina = document.getElementById('titulo_pagina');
-
+        
         fetch(arquivo)
             .then(response => response.text())
             .then(html => {
                 container_corpo.innerHTML = html;
                 container_corpo.style.display = display;
                 titulo_pagina.textContent = titulo;
-
-                if (titulo === "Meu Painel"){
-                    atualizarBarraChamados();
+                
+                switch (titulo) {
+                    case "Meu Painel":
+                        atualizarBarraChamados();
+                        desenharGraficos();
+                        break;
+                    case "Abrir Chamado":
+                        popular_setor_atendimento();
+                        popular_tipo_chamado();
+                        monitorar_opcoes_entrada_abrir_chamado();
+                        break;
+                    case "Atribuir Chamados":
+                        monitorar_clique_itens_adribuicao_chamado();
+                        break;
+                    case "Chamados Recebidos":
+                        renderizar_campo_data('chamados_recebidos_data_fim', false, hoje_menos_tantos_dias(0));
+                        renderizar_campo_data('chamados_recebidos_data_inicio', false, hoje_menos_tantos_dias(30));
+                        popular_select({id_campo: 'chamados_recebidos_solicitante', tipo: 'colaborador'});
+                        popular_select({id_campo: 'chamados_recebidos_responsavel', 
+                                        tipo: 'colaborador', 
+                                        nome_item: `${usuario_logado.primeiroNome.toUpperCase()} ${usuario_logado.segundoNome.toUpperCase()}`});
+                        popular_select({id_campo: 'chamados_recebidos_setor', tipo: 'setor'});
+                        popular_select({id_campo: 'chamados_recebidos_tipo_chamado', tipo: 'tipos_chamados'});
+                        popular_select({id_campo: 'chamados_recebidos_status', tipo: 'status_chamados'});
+                        break;
+                    case "Chamados Enviados":
+                        renderizar_campo_data('chamados_enviados_data_fim', false, hoje_menos_tantos_dias(0));
+                        renderizar_campo_data('chamados_enviados_data_inicio', false, hoje_menos_tantos_dias(30));
+                        popular_select({id_campo: 'chamados_enviados_solicitante', 
+                                        tipo: 'colaborador', 
+                                        nome_item: `${usuario_logado.primeiroNome.toUpperCase()} ${usuario_logado.segundoNome.toUpperCase()}`});
+                        popular_select({id_campo: 'chamados_enviados_responsavel', tipo: 'colaborador'});
+                        popular_select({id_campo: 'chamados_enviados_setor', tipo: 'setor'});
+                        popular_select({id_campo: 'chamados_enviados_tipo_chamado', tipo: 'tipos_chamados'});
+                        popular_select({id_campo: 'chamados_enviados_status', tipo: 'status_chamados'});
+                        break;
                 }
             })
             .catch(err => {
@@ -238,4 +293,146 @@ document.querySelectorAll('.btn_carregar_novo_corpo').forEach(function (botao) {
                 titulo_pagina.textContent = "ERRO: Entre em contato com o administrador do sistema.";
             });
     });
+});
+
+const raw = sessionStorage.getItem('usuario');
+const usuario_logado = JSON.parse(raw);
+if (raw) {
+    document.querySelectorAll('.nome_usuario_logado')
+            .forEach(el => el.textContent = `${usuario_logado.primeiroNome.toUpperCase()} ${usuario_logado.segundoNome.toUpperCase()}`);
+}
+
+function popular_select({ id_campo, tipo, nome_item, nome_setor }) {
+    const select = document.getElementById(id_campo);
+
+    if (!select) {
+        console.warn(`Elemento <select id='${id_campo}'> não encontrado no DOM.`);
+        return;
+    }
+
+    // Limpa as opções existentes, mantendo apenas a primeira (placeholder)
+    select.length = 1;
+
+    let itemsFiltrados = [];
+
+    switch (tipo) {
+        case 'setor':
+            itemsFiltrados = setores;
+            break;
+        case 'status_chamados':
+            itemsFiltrados = status_chamados;
+            break;
+        case 'tipos_chamados':
+            itemsFiltrados = tipos_chamados;
+            break;
+        case 'colaborador':
+            itemsFiltrados = nome_setor
+                ? colaboradores.filter(c => (c.nomeSetor || "").toUpperCase() === nome_setor.toUpperCase())
+                : colaboradores;
+            break;
+        default:
+            console.warn(`Tipo '${tipo}' não reconhecido.`);
+            return;
+    }
+
+    // Caso não haja itens, exibe uma opção "Nenhum encontrado"
+    if (!itemsFiltrados.length) {
+        console.warn(`Nenhum ${tipo} disponível para exibir.`);
+        const opt = document.createElement("option");
+        opt.textContent = `Nenhum ${tipo} encontrado`;
+        opt.disabled = true;
+        select.appendChild(opt);
+        return;
+    }
+
+    // Popula o select com os itens filtrados
+    itemsFiltrados.forEach(item => {
+        const option = document.createElement("option");
+
+        let nomeItemCompleto = "";
+        switch (tipo) {
+            case 'setor':
+                nomeItemCompleto = item.nomeSetor || "Sem nome";
+                option.value = item.idSetor;
+                break;
+            case 'status_chamados':
+                nomeItemCompleto = item.nomeStatus || "Sem nome";
+                option.value = item.idStatus;
+                break;
+            case 'tipos_chamados':
+                nomeItemCompleto = item.nomeTipo || "Sem nome";
+                option.value = item.idTipoChamado;
+                break;
+            case 'colaborador':
+                nomeItemCompleto = `${maximizar_primeiraletra(item.primeiroNome) ?? ""} ${maximizar_primeiraletra(item.segundoNome) ?? ""}`.trim();
+                option.value = item.idColaborador;
+                break;
+            default:
+                console.warn(`Tipo '${tipo}' não reconhecido.`);
+                return;
+        }
+
+        option.textContent = nomeItemCompleto || `Sem ${tipo}`;
+
+        select.appendChild(option);
+    });
+
+    // Se nome_item for fornecido, tenta selecionar a opção correspondente
+    if (nome_item) {
+        for (let i = 0; i < select.options.length; i++) {
+            if (select.options[i].text.trim().toUpperCase() === nome_item.trim().toUpperCase()) {
+                select.selectedIndex = i;
+                console.log(`${tipo.charAt(0).toUpperCase() + tipo.slice(1)} selecionado: ${nome_item}`);
+                return;
+            }
+        }
+
+        console.warn(`${tipo.charAt(0).toUpperCase() + tipo.slice(1)} '${nome_item}' não encontrado no select '${id_campo}'.`);
+    }
+}
+
+let colaboradores = [];
+document.addEventListener("DOMContentLoaded", () => {
+    (async () => {
+        try {
+            colaboradores = await consultar_colaboradores(TipoPayloadColaboradores.TODOS_ATIVOS);
+            console.log("colaboradores");
+            // console.log(colaboradores);
+        } catch (erro) {
+            console.error("Erro ao consultar colaboradores:", erro);
+        }
+    })();
+});
+
+let setores = [];
+let status_chamados = [];
+let tipos_chamados = [];
+let campos_chamados = [];
+let campos_chamados_valores = [];
+let campos_chamados_por_tipo = [];
+document.addEventListener("DOMContentLoaded", () => {
+    (async () => {
+        try {
+            setores = await consultar_setores();
+            console.log("setores");
+            console.log(setores);
+            status_chamados = await consultar_status_chamados();
+            console.log("status_chamados");
+            console.log(status_chamados);
+            tipos_chamados = await consultar_tipos_chamados();
+            console.log("tipos_chamados");
+            console.log(tipos_chamados);
+            campos_chamados = await consultar_campos_chamados();
+            console.log("campos_chamados");
+            console.log(campos_chamados);
+            campos_chamados_valores = await consultar_campos_chamados_valores();
+            console.log("campos_chamados_valores");
+            console.log(campos_chamados_valores);
+            campos_chamados_por_tipo = await consultar_campos_chamados_por_tipo();
+            console.log("campos_chamados_por_tipo");
+            console.log(campos_chamados_por_tipo);
+        } catch (erro) {
+            console.error("Erro ao consultar dados iniciais:", erro);
+        }
+    })();
 });

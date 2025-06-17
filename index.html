@@ -1,150 +1,204 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- <link
-         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-         rel="stylesheet"
-      /> -->
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="styles/variaveis.css" />
+        <link rel="stylesheet" href="styles/tela_inicio.css" />
+        <link rel="stylesheet" href="styles/navbar.css" />
+        <link rel="stylesheet" href="styles/conteudo.css" />
+        <link rel="stylesheet" href="styles/meu_painel.css" />
+        <link rel="stylesheet" href="styles/abri_chamado.css" />
+        <link rel="stylesheet" href="styles/abrir_chamado_paralegal.css" />
+        <link rel="stylesheet" href="styles/abrir_chamado_personalizar_checkbox.css" />
+        <link rel="stylesheet" href="styles/atribuir_chamado.css" />
+        <link rel="stylesheet" href="styles/chamados_enviados.css" />
+        <link rel="stylesheet" href="styles/chamados_enviados_modal_info.css" />
+        <link rel="stylesheet" href="styles/chamados_recebidos.css" />
+        <link rel="stylesheet" href="styles/chamados_recebidos_modal_info.css" />
 
-    <link rel="stylesheet" href="styles/variaveis.css" />
-    <link rel="stylesheet" href="styles/navbar.css" />
-    <link rel="stylesheet" href="styles/conteudo.css" />
-    <link rel="stylesheet" href="styles/meu_painel.css" />
+        <link rel="stylesheet" href="styles/tela_1366.css" />
+        <link rel="stylesheet" href="styles/tela_1600.css" />
 
-    <title>Char GX</title>
-  </head>
+        <title>Char GX</title>
+    </head>
 
-  <body>
-    <section class="sidebar" id="sidebar">
-      <ul class="container_sidebar">
-        <li class="sidebar_link_logo">
-          <a class="botao_index_logo" href="index.html">
-            <div class="sidebar_logo_sistema">
-              <img src="imagens/logo_gx.png" alt="Logo SisCham GX" />
-            </div>
-            <div class="sidebar_nome_sistema">SisCham</div>
-          </a>
-        </li>
+    <body>
+        <section class="sidebar" id="sidebar">
+        <ul class="container_sidebar">
+            <li class="sidebar_link_logo">
+                <a class="botao_index_logo" href="index.html">
+                    <div class="sidebar_logo_sistema">
+                        <img src="imagens/logo_gx.png" alt="Logo SisCham GX" />
+                    </div>
+                    <div class="sidebar_nome_sistema">SisCham</div>
+                </a>
+            </li>
 
-        <hr class="sidebar_separador primeiro_separador" />
+            <hr class="sidebar_separador primeiro_separador" />
 
-        <li class="sidebar_link sidebar_link_painel_controle">
-          <a class="sidebar_botao btn_carregar_novo_corpo" id="botao_painel_controle" data-arquivo="meu_painel.html" data-display="flex" data-titulo="Meu Painel">
-            <i class="material-icons">space_dashboard</i>
-            <span>Meu Painel</span>
-          </a>
-        </li>
+            <li class="sidebar_link sidebar_link_painel_controle">
+                <a class="sidebar_botao btn_carregar_novo_corpo" 
+                    id="botao_painel_controle" 
+                    data-arquivo="meu_painel.html" data-display="flex" data-titulo="Meu Painel">
+                    <i class="material-icons">space_dashboard</i>
+                    <span>Meu Painel</span>
+                </a>
+            </li>
 
-        <hr class="sidebar_separador" />
+            <hr class="sidebar_separador" />
 
-        <li class="sidebar_link sidebar_link_abrir_chamado">
-          <a
-            class="sidebar_botao btn_carregar_novo_corpo"
-            id="botao_abrir_chamado"
-            data-arquivo="teste.html" data-display="flex" data-titulo="TESTE 123"
-          >
-            <i class="material-icons">sos</i>
-            <span>Abrir Chamado</span>
-          </a>
-        </li>
+            <li class="sidebar_link sidebar_link_abrir_chamado">
+                <a class="sidebar_botao btn_carregar_novo_corpo"
+                    id="botao_abrir_chamado"
+                    data-arquivo="abrir_chamado.html" data-display="flex" data-titulo="Abrir Chamado">
+                    <i class="material-icons">sos</i>
+                    <span>Abrir Chamado</span>
+                </a>
+            </li>
 
-        <hr class="sidebar_separador" />
+            <hr class="sidebar_separador" />
 
-      </ul>
-    </section>
+            <li class="sidebar_link sidebar_link_atribuir_chamado">
+                <a class="sidebar_botao btn_carregar_novo_corpo"
+                    id="botao_atribuir_chamado"
+                    data-arquivo="atribuir_chamado.html" data-display="flex" data-titulo="Atribuir Chamados">
+                    <i class="material-icons">open_with</i>
+                    <span>Atribuir Chamados</span>
+                </a>
+            </li>
 
-    <section class="container_botao_minimizar_sidebar" id="controleSidebar">
-      <button class="minimizar_sidebar" id="toggleSidebar">
-        <span class="material-icons" id="iconSidebar">expand_circle_down</span>
-      </button>
-    </section>
+            <hr class="sidebar_separador" />
 
-    <section id="container_conteudo">
-        <div class="topbar">
-            <ul class="container_topbar">
-                
-                <li class="container_logon">
-                    <a class="botao_logon" href="#" id="abrir_menu_logon">
-                        <span class="nome_usuario_logado">Yuri Duarte</span>
-                        <img class="foto_usuario_logado" src="Yuri Duarte.png">
-                    </a>
+            <li class="sidebar_link sidebar_link_custom_dropdown">
+                <div class="custom_dropdown">
+                    <button class="sidebar_botao dropdown_toggle">
+                        <i class="material-icons">supervisor_account</i>
+                        <span>Acompanhar Chamado</span>
+                        <i class="material-icons">expand_more</i>
+                    </button>
+                    <div class="dropdown_menu">
+                        <a class="sidebar_subbotao btn_carregar_novo_corpo"
+                            data-arquivo="chamados_recebidos.html" data-display="flex" data-titulo="Chamados Recebidos">
+                            <i class="material-icons">sos</i>
+                            <span>Recebidos</span>
+                        </a>
+
+                        <hr class="sidebar_separador" />
+
+                        <a class="sidebar_subbotao btn_carregar_novo_corpo"
+                            data-arquivo="chamados_enviados.html" data-display="flex" data-titulo="Chamados Enviados">
+                            <i class="material-icons">open_with</i>
+                            <span>Enviados</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+        </section>
+
+        <section class="container_botao_minimizar_sidebar" id="controleSidebar" style="display: none;">
+            <button class="minimizar_sidebar" id="toggleSidebar">
+                <span class="material-icons" id="iconSidebar">expand_circle_down</span>
+            </button>
+        </section>
+
+        <section id="container_conteudo">
+            <div class="topbar">
+                <ul class="container_topbar">
                     
-                    <div class="menu_logon" id="menu_logon_dropdown">
-                        <a class="botao_area_perfil" href="#">
-                            <span class="material-icons" id="icone_perfil">person</span>
-                            <span class="texto_perfil">Perfil</span>
+                    <li class="container_logon">
+                        <a class="botao_logon" href="#" id="abrir_menu_logon">
+                            <span class="nome_usuario_logado">Yuri Duarte</span>
+                            <img class="foto_usuario_logado" src="Yuri Duarte.png">
+                        </a>
+                        
+                        <div class="menu_logon" id="menu_logon_dropdown">
+                            <a class="botao_area_perfil" href="#">
+                                <span class="material-icons" id="icone_perfil">person</span>
+                                <span class="texto_perfil">Perfil</span>
+                            </a>
+
+                            <div class="menu_logon_separador"></div>
+
+                            <a class="botao_logout" href="#">
+                                <span class="material-icons" id="icone_logout">logout</span>
+                                <span class="texto_perfil" onclick="voltar_para_login()">Sair</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <hr class="topbar_separador"/>
+                    
+                    <li class="container_notificacao" style="display: none;">
+                        <a id="botao_notificacao" href="#">
+                            <span class="sino_notificacoes">
+                                <span class="material-icons" id="icone_sino">notifications</span>
+                                <span class="qtde_notificacoes" id="qtdeNotificacoes">0+</span>
+                            </span>
                         </a>
 
-                        <div class="menu_logon_separador"></div>
+                        <div class="container_dropdown_notificacao" id="dropdownNotificacoes">
+                            <div class="central_de_notificacoes_header">CENTRAL DE NOTIFICAÇÕES</div>
+                            <!-- Itens dinâmicos vão aqui via JS -->
+                            <div class="central_de_notificacoes_rodape">
+                                <a href="#">Limpar Notificações</a>
+                            </div>
+                        </div>
+                    </li>
 
-                        <a class="botao_logout" href="#">
-                            <span class="material-icons" id="icone_logout">logout</span>
-                            <span class="texto_perfil">Sair</span>
+                    <li class="container_mensagem" style="display: none;">
+                        <a id="botao_mensagem" href="#">
+                            <span class="carta_mensagem">
+                                <span class="material-icons" id="icone_carta">mail</span>
+                                <span class="qtde_mensagem" id="qtdeMensagem">0+</span>
+                            </span>
                         </a>
-                    </div>
-                </li>
 
-                <hr class="topbar_separador"/>
-
-                <li class="container_notificacao">
-                    <a id="botao_notificacao" href="#">
-                        <span class="sino_notificacoes">
-                            <span class="material-icons" id="icone_sino">notifications</span>
-                            <span class="qtde_notificacoes" id="qtdeNotificacoes">0+</span>
-                        </span>
-                    </a>
-
-                    <div class="container_dropdown_notificacao" id="dropdownNotificacoes">
-                        <div class="central_de_notificacoes_header">
-                            CENTRAL DE NOTIFICAÇÕES
+                        <div class="container_dropdown_mensagem" id="dropdownMensagem">
+                            <div class="central_de_mensagem_header">CENTRAL DE MENSAGENS</div>
+                            <!-- Itens dinâmicos vão aqui via JS -->
+                            <div class="central_de_mensagem_rodape">
+                                <a href="index.html">Ver Mais Mensagens</a>
+                            </div>
                         </div>
-                        <!-- Itens dinâmicos vão aqui via JS -->
-                        <div class="central_de_notificacoes_rodape">
-                            <a href="#">Limpar Notificações</a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
 
-                <li class="container_mensagem">
-                    <a id="botao_mensagem" href="#">
-                        <span class="carta_mensagem">
-                            <span class="material-icons" id="icone_carta">mail</span>
-                            <span class="qtde_mensagem" id="qtdeMensagem">0+</span>
-                        </span>
-                    </a>
+                </ul>
+            </div>
 
-                    <div class="container_dropdown_mensagem" id="dropdownMensagem">
-                        <div class="central_de_mensagem_header">CENTRAL DE MENSAGENS</div>
-                        <!-- Itens dinâmicos vão aqui via JS -->
-                        <div class="central_de_mensagem_rodape">
-                            <a href="index.html">Ver Mais Mensagens</a>
-                        </div>
-                    </div>
-                </li>
+            <div class="conatiner_titulo_pagina">
+                <h1 class="titulo_pagina" id="titulo_pagina">Bem Vindo ao SisCham!</h1>
+            </div>
 
-            </ul>
-        </div>
+            <div id="container_corpo">
+                <div id="imagem_em_construcao">
+                    <img src="imagens/em_construcao.png" alt="Em Construção" />
+                </div>
+            </div>
+        </section>
 
-        <div class="conatiner_titulo_pagina">
-            <h1 class="titulo_pagina" id="titulo_pagina">Baidu</h1>
-        </div>
+        <script src="backend/consts_apis.js"></script>
+        <script src="backend/api_colaboradores.js"></script>
+        <script src="backend/api_dados_iniciais.js"></script>
 
-        <div id="container_corpo">
-            <!-- Corpo dinâmicos vem aqui via JS -->
-        </div>
+        <script src="scripts/navbar.js"></script>
+        <script src="scripts/conteudo.js"></script>
+        <script src="scripts/abrir_chamado.js"></script>
+        <script src="scripts/atribuir_chamado.js"></script>
+        <script src="scripts/chamados_enviados.js"></script>
+        <script src="scripts/chamados_recebidos.js"></script>
+        <script src="scripts/chamados_recebidos_modal_info.js"></script>
 
-    </section>
-
-    <script src="scripts/navbar.js"></script>
-    <script src="scripts/conteudo.js"></script>
-    <script src="scripts/meu_painel.js"></script>
-  </body>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="scripts/meu_painel.js"></script>
+        <script src="scripts/func_geral.js"></script>
+        <script src="backend/upload.js"></script>
+    </body>
 </html>

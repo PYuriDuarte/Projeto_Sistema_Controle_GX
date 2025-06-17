@@ -1,0 +1,53 @@
+<div id="form_paralegal_licenca" class="secao_formulario">
+    <!-- Razão Social (lista da automação eCAC) -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Razão Social (selecionar empresa cadastrada):</label>
+        <span class="campo_obrigatorio">*</span>
+        <select name="razao_social_lista" required class="campo_selecao">
+            <option value="" disabled selected>Selecione a empresa</option>
+            <!-- Opções populadas via automação eCAC -->
+        </select>
+    </div>
+
+    <!-- Número IPTU -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Número do IPTU:</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="text" name="numero_iptu" required class="campo_texto" />
+    </div>
+
+    <!-- Anexar IPTU -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Anexar IPTU:</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="file" name="anexo_iptu" accept=".pdf,.jpg,.jpeg,.png,.txt" required class="campo_arquivo" />
+    </div>
+
+    <!-- Alvará de Funcionamento -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Alvará de Funcionamento:</label>
+        <input type="file" name="alvara_funcionamento" accept=".pdf,.jpg,.jpeg,.png,.txt" class="campo_arquivo" />
+    </div>
+
+    <!-- Anexar Certificado do Bombeiro (obrigatório se selecionou "Sim") -->
+    <div class="campo_form" id="campo_anexo_certificado_bombeiro" style="display:none;">
+        <label class="rotulo_campo">Anexar Certificado do Bombeiro:</label>
+        <span class="campo_obrigatorio">*</span>
+        <input type="file" name="anexo_certificado_bombeiro" accept=".pdf,.jpg,.jpeg,.png,.txt" required class="campo_arquivo" />
+    </div>
+
+    <!-- Licença Sanitária -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Licença Sanitária:</label>
+        <input type="file" name="licenca_sanitaria" accept=".pdf,.jpg,.jpeg,.png,.txt" class="campo_arquivo" />
+    </div>
+
+    <!-- Licença Bombeiros -->
+    <div class="campo_form">
+        <label class="rotulo_campo">Licença Bombeiros:</label>
+        <input type="file" name="licenca_bombeiros" accept=".pdf,.jpg,.jpeg,.png,.txt" class="campo_arquivo" />
+    </div>
+
+    <!-- Botão de submit -->
+    <button class="botao_modelo" type="submit">Enviar</button>
+</div>

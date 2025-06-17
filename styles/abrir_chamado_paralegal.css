@@ -1,0 +1,197 @@
+.secao_formulario {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--cor-fundo-card);
+    box-shadow: var(--cor-sombra-card);
+    width: 37%;
+    max-width: 80rem;
+    height: 94.78%;
+    border-radius: .5rem;
+    margin: 1rem auto;
+    padding: 2.2rem 2rem 1.5rem 2rem;
+}
+
+.rotulo_campo {
+    font-size: .95rem;
+    color: var(--cor-texto-terciario);
+    margin: .2rem 0 .05rem .3rem;
+    font-weight: 500;
+}
+
+/* Estilo dos botões */
+.adicionar_socio{
+    background-color: var(--cor-secundaria);
+    color: var(--cor-fundo-card);
+    border: none;
+    border-radius: 0.5rem;
+    padding: .4rem 1.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: .6rem;
+    margin-right: .5rem;
+    transition: background 0.17s;
+    width: 100%;
+}
+
+.adicionar_socio{
+    width: 8rem;
+    margin: 0 0 .15rem .5rem;
+    padding: .3rem 0;
+}
+
+.adicionar_socio:hover {
+    background-color: var(--cor-primaria);
+}
+
+/* Linha do sócio */
+.socio_linha {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .3rem;
+}
+
+.socio_linha input[name="nome_socio[]"] {
+    width: 25rem;
+}
+
+.socio_linha input[name="porcentagem_socio[]"] {
+    width: 5rem;
+}
+
+/* Alerta de erro de percentual */
+#alerta_percentual {
+    color: red;
+    font-size: .95rem;
+    margin: .25rem 0;
+}
+
+/* ======================== GERAL */
+
+.botao_modelo{
+    background-color: var(--cor-secundaria);
+    color: var(--cor-fundo-card);
+    border: none;
+    border-radius: 0.5rem;
+    padding: .4rem 1.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: .6rem;
+    margin-right: .5rem;
+    transition: background 0.17s;
+    width: 100%;
+}
+
+.botao_modelo:hover{
+    background-color: var(--cor-primaria);
+}
+
+.campo_obrigatorio {
+    color: var(--cor-erro);
+    position: absolute;
+    margin-left: -.3rem;
+}
+
+.campo_texto {
+    width: 94%;
+    padding: .3rem 1rem;
+    border: 0.1rem solid var(--cor-bordar-elementos);
+    border-radius: 0.6rem;
+    background: var(--cor-fundo-secundario);
+    color: var(--cor-texto-terciario);
+    font-size: 1rem;
+    font-family: inherit;
+    box-shadow: none;
+    transition: border 0.18s, background 0.18s;
+    outline: none;
+    margin-bottom: .18rem;
+    text-align: left;
+}
+
+.campo_texto:focus, .campo_texto:hover {
+    border-color: var(--cor-bordar-elementos);
+    background: var(--cor-fundo-secundario);
+}
+
+.campo_arquivo {
+    border: 0.1rem solid var(--cor-bordar-elementos);
+    border-radius: 0.6rem;
+    padding: .18rem .6rem;
+    background: var(--cor-fundo-secundario);
+    color: var(--cor-texto-terciario);
+    font-size: 1rem;
+    margin-bottom: .5rem;
+}
+
+.abrir_chamado_checkbox {
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: var(--cor-secundaria);
+    cursor: pointer;
+    border-radius: .2rem;
+    border: .1rem solid var(--cor-bordar-elementos);
+    transition: border-color 0.2s ease;
+    margin: 0 0 0 3rem;
+}
+
+.abrir_chamado_checkbox:hover {
+    border-color: var(--cor-primaria);
+}
+
+.campo_form {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    margin-bottom: .5rem;
+    position: relative;
+}
+
+#atividade_secundaria {
+    margin-bottom: .6rem;
+}
+
+.botao_remover_elemento_lista {
+    background: transparent;
+    border: none;
+    color: var(--cor-erro);
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    transition: color 0.2s, transform 0.2s;
+    outline: none;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+.elemento_lista_ja_escolhido {
+    background: var(--cor-primaria-hover);
+    border: .15rem solid var(--cor-secundaria-hover);
+    transition: background 0.2s, border 0.2s;
+}
+
+.campo_nome_socio {
+    width: 25rem;
+}
+
+.campo_percentual_socio {
+    width: 5rem;
+}
+
+#outros_descrever {
+    margin-bottom: -.3rem;
+    max-height: 10rem;
+    max-width: 35.8rem;
+    min-height: 5rem;
+    min-width: 20rem;
+}
+
+.outros_descrever_aditivo,
+.outros_descrever_sefaz,
+.outros_descrever_sefin,
+.outros_descrever_receita {
+    max-height: 5rem !important;
+}
