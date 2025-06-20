@@ -7,10 +7,10 @@
 // renderizar_campo_data('chamados_recebidos_data_fim', false, '2025-06-08');
 // Readonly
 // renderizar_campo_data('chamados_recebidos_data_fim', true);
-function renderizar_campo_data(campo, isReadonly = false, valor = null) {
+function renderizar_campo_data(campo, nome_label, isReadonly = false, valor = null) {
     const label = document.querySelector(`label:has(input#${campo})`) || document.querySelector('label');
     if (label) {
-        label.innerHTML = 'Data fim<br>' + montar_campo_data(campo, isReadonly, valor);
+        label.innerHTML = nome_label + '<br>' + montar_campo_data(campo, isReadonly, valor);
     }
 }
 

@@ -1,71 +1,17 @@
-function popular_setor_atendimento() {
-    const setores = [
-        { value: 'PARALEGAL', text: 'PARALEGAL' },
-        { value: 'FISCAL', text: 'FISCAL' },
-        { value: 'CONTABIL', text: 'CONTÁBIL' },
-        { value: 'PESSOAL', text: 'PESSOAL' },
-        { value: 'FINANCEIRO', text: 'FINANCEIRO' },
-        { value: 'EXTERNO', text: 'EXTERNO' },
-        { value: 'INTEGRACAO', text: 'INTEGRAÇÃO' },
-        { value: 'RH', text: 'RH' },
-        { value: 'PAM', text: 'PAM' }
-    ];
-    
-    const setor_atendimento = document.getElementById('setor_atendimento');
-    if (!setor_atendimento) {
-        console.warn('Select setor_atendimento não está na DOM!');
-        return;
-    }
-    setor_atendimento.innerHTML = '<option value="" disabled selected>Selecione o setor</option>';
-    setores.forEach(setor => {
-        const option = document.createElement('option');
-        option.value = setor.value;
-        option.textContent = setor.text;
-        setor_atendimento.appendChild(option);
-    });
-}
-
-function popular_tipo_chamado() {
-    const tipos = [
-        { value: 'CONTRATO_SOCIAL_ABERTURA', text: 'CONTRATO SOCIAL ABERTURA' },
-        { value: 'ADITIVO_ALTERACAO', text: 'ADITIVO/ALTERAÇÃO' },
-        { value: 'DISTRATO_SOCIAL', text: 'DISTRATO SOCIAL' },
-        { value: 'LICENCAS', text: 'LICENÇAS' },
-        { value: 'SEFAZ', text: 'SEFAZ' },
-        { value: 'SEFIN', text: 'SEFIN' },
-        { value: 'CERTIDAO', text: 'CERTIDÃO' },
-        { value: 'RECEITA_FEDERAL', text: 'RECEITA FEDERAL' },
-        { value: 'OUTROS', text: 'OUTROS' }
-    ];
-
-    const tipo_chamado = document.getElementById('tipo_chamado');
-    if (!tipo_chamado) {
-        console.warn('Select tipo_chamado não está na DOM!');
-        return;
-    }
-    tipo_chamado.innerHTML = '<option value="" disabled selected>Selecione o tipo</option>';
-    tipos.forEach(setor => {
-        const option = document.createElement('option');
-        option.value = setor.value;
-        option.textContent = setor.text;
-        tipo_chamado.appendChild(option);
-    });
-}
-
 const combinacoes_setor_tipo_chamado = {
-    "PARALEGAL|CONTRATO_SOCIAL_ABERTURA": {
+    "PARALEGAL|CONTRATO SOCIAL ABERTURA": {
         arquivo: "abrir_chamado_paralegal_contrato_social_abertura.html",
         display: "block",
     },
-    "PARALEGAL|ADITIVO_ALTERACAO": {
+    "PARALEGAL|ADITIVO/ALTERAÇÃO": {
         arquivo: "abrir_chamado_paralegal_ativoalteracao.html",
         display: "block",
     },
-    "PARALEGAL|DISTRATO_SOCIAL": {
+    "PARALEGAL|DISTRATO SOCIAL": {
         arquivo: "abrir_chamado_paralegal_distrato_social.html",
         display: "block",
     },
-    "PARALEGAL|LICENCAS": {
+    "PARALEGAL|LICENÇAS": {
         arquivo: "abrir_chamado_paralegal_licencas.html",
         display: "block",
     },
@@ -77,11 +23,11 @@ const combinacoes_setor_tipo_chamado = {
         arquivo: "abrir_chamado_paralegal_sefin.html",
         display: "block",
     },
-    "PARALEGAL|CERTIDAO": {
+    "PARALEGAL|CERTIDÃO": {
         arquivo: "abrir_chamado_paralegal_certidao.html",
         display: "block",
     },
-    "PARALEGAL|RECEITA_FEDERAL": {
+    "PARALEGAL|RECEITA FEDERAL": {
         arquivo: "abrir_chamado_paralegal_receita_federal.html",
         display: "block",
     },
@@ -104,12 +50,17 @@ function monitorar_opcoes_entrada_abrir_chamado() {
 }
 
 function tentar_carregar_corpo_abrir_chamado() {
+    // Para 'setor_atendimento'
     const selectSetor = document.getElementById('setor_atendimento');
+    const optionSelecionadaSetor = selectSetor ? selectSetor.options[selectSetor.selectedIndex] : null;
+    const textoSelecionadoSetor = optionSelecionadaSetor ? optionSelecionadaSetor.textContent : '';
+    
+    // Para 'tipo_chamado'
     const selectTipo = document.getElementById('tipo_chamado');
-    const valorSetor = selectSetor ? selectSetor.value : '';
-    const valorTipo = selectTipo ? selectTipo.value : '';
+    const optionSelecionadaTipo = selectTipo ? selectTipo.options[selectTipo.selectedIndex] : null;
+    const textoSelecionadoTipo = optionSelecionadaTipo ? optionSelecionadaTipo.textContent : '';
 
-    const chave = `${valorSetor}|${valorTipo}`;
+    const chave = `${textoSelecionadoSetor}|${textoSelecionadoTipo}`;
     const config = combinacoes_setor_tipo_chamado[chave];
 
     if (!config){
@@ -130,18 +81,24 @@ function carregar_corpo_abrir_chamado(arquivo, display, chave) {
                         
             let altura_tela = null
             switch (chave) {
-                case "PARALEGAL|CONTRATO_SOCIAL_ABERTURA":
+                case "PARALEGAL|CONTRATO SOCIAL ABERTURA":
                     altura_tela = 67
                     popular_atividades_secundarias()
+                    popular_select({id_campo: 'natureza_juridica', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Natureza Jurídica"]});
+                    popular_select({id_campo: 'forma_integralizacao', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Forma de Integralização"]});
+                    popular_select({id_campo: 'porte_empresa', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Porte da empresa"]});
                     break;
-                case "PARALEGAL|ADITIVO_ALTERACAO":
+                case "PARALEGAL|ADITIVO/ALTERAÇÃO":
                     altura_tela = 72
                     popular_atividades_secundarias()
+                    popular_select({id_campo: 'natureza_juridica', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Natureza Jurídica"]});
+                    popular_select({id_campo: 'forma_integralizacao', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Forma de Integralização"]});
+                    popular_select({id_campo: 'porte_empresa', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Porte da empresa"]});
                     break;
-                case "PARALEGAL|DISTRATO_SOCIAL":
+                case "PARALEGAL|DISTRATO SOCIAL":
                     altura_tela = 20.5
                     break;
-                case "PARALEGAL|LICENCAS":
+                case "PARALEGAL|LICENÇAS":
                     altura_tela = 31
                     break;
                 case "PARALEGAL|SEFAZ":
@@ -150,10 +107,10 @@ function carregar_corpo_abrir_chamado(arquivo, display, chave) {
                 case "PARALEGAL|SEFIN":
                     altura_tela = 31
                     break;
-                case "PARALEGAL|CERTIDAO":
+                case "PARALEGAL|CERTIDÃO":
                     altura_tela = 31
                     break;
-                case "PARALEGAL|RECEITA_FEDERAL":
+                case "PARALEGAL|RECEITA FEDERAL":
                     altura_tela = 38
                     break;
                 case "PARALEGAL|OUTROS":
@@ -274,6 +231,28 @@ function popular_atividades_secundarias() {
     });
 }
 
+function pegar_atividades_secundarias() {
+    const atividades = [];
+
+    const inputs = document.querySelectorAll('input[name="atividade_escolhida"]');
+
+    inputs.forEach(input => {
+        const descricao = input.value.trim();
+
+        // Tenta obter o código CNAE via option original (caso necessário)
+        const option = Array.from(document.getElementById('atividade_secundaria').options)
+            .find(opt => opt.title === descricao);
+
+        const codigo = option ? option.value : '';
+
+        if (descricao) {
+            atividades.push(`${codigo} - ${descricao}`);
+        }
+    });
+
+    return atividades.join('|');
+}
+
 function adicionar_atividade_selecionada(){
     const atividade_secundaria = document.getElementById('atividade_secundaria')
     const codigo = atividade_secundaria.value;
@@ -323,6 +302,27 @@ function adicionar_atividade_selecionada(){
     container.appendChild(div); // Adiciona div ao container principal
 
     mudar_tamanho_tela_abrir_chamado(2.15, "soma")
+}
+
+function pegar_dados_socios() {
+    const socios = [];
+    
+    // Seleciona todos os inputs de sócios e porcentagens
+    const nomeSocios = document.querySelectorAll('input[name="nome_socio"]');
+    const porcentagemSocios = document.querySelectorAll('input[name="porcentagem_socio"]');
+
+    // Cria a string no formato "nome_socio, percentual; nome_socio, percentual"
+    for (let i = 0; i < nomeSocios.length; i++) {
+        const nome = nomeSocios[i].value.trim();
+        const percentual = porcentagemSocios[i].value.trim();
+        
+        if (nome && percentual) {
+            socios.push(`${nome}/${percentual}`);
+        }
+    }
+
+    // Retorna a string concatenada
+    return socios.join('|');
 }
 
 function adicionar_socio_na_listagem() {
@@ -392,25 +392,27 @@ function adicionar_socio_na_listagem() {
     document.getElementById('porcentagem_socio').value = '';
 }
 
+function verificar_preencimento_dos_campos(campos_valores) {
+    let camposVazios = [];
+
+    // Iterar sobre os campos e verificar se algum valor está vazio ou inválido
+    for (let campo in campos_valores) {
+        const valor = campos_valores[campo];
+        if (!valor || (typeof valor === 'string' && valor.trim() === '')) {
+            camposVazios.push(campo); // Adiciona o campo à lista se estiver vazio
+        }
+    }
+
+    // Se houver campos vazios, exibe o alert com os nomes desses campos
+    if (camposVazios.length > 0) {
+        alert('Os seguintes campos estão sem valor: ' + camposVazios.join(',\n'));
+        return false
+    }
+    return true
+}
+
 function enviar_chamado_contrato_social_abertura(event) {
-    event.preventDefault();
-
-    const razao_1 = document.getElementById('razao_social_1');
-    const razao_2 = document.getElementById('razao_social_2');
-    const nome_fantasia = document.getElementById('nome_fantasia');
-    const nature_juridica = document.getElementById('natureza_juridica');
-    const atividade_principal = document.getElementById('atividade_principal');
-    const lista_atividades_secundarias = document.getElementById('inputs_atividades');
-    const valor_capital_social = document.getElementById('capital_social');
-    const forma_integralizacao = document.getElementById('forma_integralizacao');
-    const porte_empresa = document.getElementById('porte_empresa');
-    const representante_legal = document.getElementById('representante_legal');
-    const email = document.getElementById('email_cnpj');
-    const telefone = document.getElementById('telefone_cnpj');
-    const numero_iptu = document.getElementById('numero_iptu');
-    const anexo_iptu = document.getElementById('anexo_iptu');
     const lista_socios = document.getElementById('socios_adicionados');
-
     const socios_nomes = Array.from(lista_socios.querySelectorAll('input[name="nome_socio"]'));
     const socios_percentuais = Array.from(lista_socios.querySelectorAll('input[name="porcentagem_socio"]'));
     if (socios_nomes.length === 0) {
@@ -428,12 +430,67 @@ function enviar_chamado_contrato_social_abertura(event) {
         alert("A soma das porcentagens dos sócios deve ser 100%.\nSoma atual: " + soma_percentual + "%");
         return false;
     }
-
-    alert("Chamado enviado com sucesso!");
     
-    // Se tudo OK, pode limpar e recarregar
-    const container_corpo = document.getElementById('corpo_abertura_chamado');
-    container_corpo.innerHTML = ''; // limpa conteúdo
+    const selectTipo = document.getElementById('tipo_chamado');
+    let id_tipo_chamado = selectTipo.value;
+    let id_solicitante = usuario_logado.idColaborador
 
-    resetar_pagina_ao_finalizar("PARALEGAL|CONTRATO_SOCIAL_ABERTURA")
+    const fileInput = document.getElementById('anexo_iptu');
+
+    if (fileInput.files.length = 0) {alert("Para continuar, é necessário anexar o documento do IPTU."); return}
+    const fileName = fileInput.files[0].name; // Obtém o nome do arquivo
+    const fileExtension = fileName.split('.').pop().toLowerCase(); // Extrai a extensão do arquivo
+
+    const campos_valores = {
+        "Razão Social - Opção 1": document.getElementById('razao_social_1').value,
+        "Razão Social - Opção 2": document.getElementById('razao_social_2').value,
+        "Nome Fantasia": document.getElementById('nome_fantasia').value,
+        "Natureza Jurídica": document.getElementById('natureza_juridica').options[document.getElementById('natureza_juridica').selectedIndex].text,
+        "Atividade Principal (CNAE)": document.getElementById('atividade_principal').options[document.getElementById('atividade_principal').selectedIndex].text,
+        "Atividade Secundária (CNAE)": pegar_atividades_secundarias(),
+        "Valor Capital Social": document.getElementById('capital_social').value,
+        "Forma de Integralização": document.getElementById('forma_integralizacao').options[document.getElementById('forma_integralizacao').selectedIndex].text,
+        "Porte da empresa": document.getElementById('porte_empresa').options[document.getElementById('porte_empresa').selectedIndex].text,
+        "Percentual de participação de cada sócio": pegar_dados_socios(),
+        "Representante legal junto à Receita Federal": document.getElementById('representante_legal').value,
+        "E-mail para constar no CNPJ": document.getElementById('email_cnpj').value,
+        "Telefone para constar no CNPJ": document.getElementById('telefone_cnpj').value,
+        "Número do IPTU": document.getElementById('numero_iptu').value,
+        "Anexar IPTU": "D:\\Público\\Z_Controle_Chamados\\{id_chamado}\\obrigatorios\\anexo_iptu." + fileExtension
+    };
+
+    if (!verificar_preencimento_dos_campos(campos_valores))
+        return
+
+    let campos_por_tipo = filtrar_campos_dados_iniciais(dados_iniciais_combinados, "CONTRATO SOCIAL ABERTURA", "PARALEGAL")
+
+    let dados_valor = "";
+    campos_por_tipo.forEach(item => {
+        if (item.campo in campos_valores && campos_valores[item.campo]) {
+            dados_valor += `${item.idCampoChamado},${campos_valores[item.campo]};`;
+        }
+    });
+    dados_valor = remover_ultimo_caracter(dados_valor, ';')
+
+    retorno = cadastrar_chamado(id_solicitante, id_tipo_chamado, dados_valor)
+
+    retorno.then(response => {
+        const mensagem = response.mensagem;
+        const partes = mensagem.split('.'); // Divide a string pelo ponto
+        const segundaParte = partes[1] ? partes[1].trim() : ''; // Pega a segunda parte, caso exista
+
+        // Adiciona zeros à esquerda, garantindo que o comprimento seja 6 caracteres
+        const id_com_os_zeros = segundaParte.padStart(6, '0');
+
+        enviar_arquivo_servidor(document.getElementById('anexo_iptu').files[0], id_com_os_zeros, categoria_arquivo.OBRIGATORIEDADE, 'anexo_iptu')
+
+        event.preventDefault()
+        alert("Chamado Enviado!")
+
+        // Se tudo OK, pode limpar e recarregar
+        const container_corpo = document.getElementById('corpo_abertura_chamado');
+        container_corpo.innerHTML = ''; // limpa conteúdo
+
+        resetar_pagina_ao_finalizar("PARALEGAL|CONTRATO SOCIAL ABERTURA")
+    });
 }

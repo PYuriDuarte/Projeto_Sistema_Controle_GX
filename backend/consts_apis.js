@@ -5,6 +5,8 @@ const API_URL_TIPOS_CHAMADOS = "https://api.devduarte.com/tipos-chamados";
 const API_URL_CAMPOS_CHAMADOS = "https://api.devduarte.com/campos-chamados";
 const API_URL_CAMPOS_CHAMADOS_VALORES = "https://api.devduarte.com/campos-chamados-valores";
 const API_URL_CAMPOS_CHAMADOS_POR_TIPO = "https://api.devduarte.com/campos-chamados-por-tipo";
+const API_URL_CHAMADO_CADASTRAR = "https://api.devduarte.com/chamados/cadastrar";
+const API_URL_CHAMADOS = "https://api.devduarte.com/chamados/consultar";
 
 const $ = (id) => document.getElementById(id);
 
