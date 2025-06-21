@@ -31,3 +31,17 @@ function hoje_menos_tantos_dias(qtde_dias){
 
     return dataFormatada
 }
+
+function formatar_data_modelo_consulta_chamados(dataString) {
+    if (!dataString) return "Data não informada";
+    
+    const data = new Date(dataString);
+    const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    const dia = data.getDate();
+    const mes = meses[data.getMonth()];
+    const ano = data.getFullYear();
+    const horas = data.getHours().toString().padStart(2, '0');
+    const minutos = data.getMinutes().toString().padStart(2, '0');
+    
+    return `${dia} ${mes} ${ano} [${horas}h${minutos}]`;
+}

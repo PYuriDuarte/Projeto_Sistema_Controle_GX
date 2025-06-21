@@ -1,149 +1,35 @@
-// ====== DADOS DE EXEMPLO ====== //
-const chamados_enviados = [
-    {
-        solicitante: 'Yuri Duarte',
-        tipo: 'SEFAZ',
-        data: '29 Maio 2025 [17h19]',
-        responsavel: 'Viana Duarte',
-        status: 'Em Andamento',
-        progresso: 70,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false,
-        id_chamado: 13
-    },
-    {
-        solicitante: 'João Baidu',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Pendente',
-        progresso: 40,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false,
-        id_chamado: 15
-    },
-    {
-        solicitante: 'João Teste',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Finalizado',
-        progresso: 100,
-        fotoAtribuido: true,
-        fotoResponsavelAtribuido: true,
-        id_chamado: 17
-    },
-    {
-        solicitante: 'João Baidu',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Pendente',
-        progresso: 40,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false
-    },
-    {
-        solicitante: 'João Baidu',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Pendente',
-        progresso: 40,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false
-    },
-    {
-        solicitante: 'João Baidu',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Pendente',
-        progresso: 40,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false
-    },
-    {
-        solicitante: 'João Baidu',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Pendente',
-        progresso: 40,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false
-    },
-    {
-        solicitante: 'João Baidu',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Pendente',
-        progresso: 40,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false
-    },
-    {
-        solicitante: 'João Baidu',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Pendente',
-        progresso: 40,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false
-    },
-    {
-        solicitante: 'João Baidu',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Pendente',
-        progresso: 40,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false
-    },
-    {
-        solicitante: 'João Baidu',
-        tipo: 'RH',
-        data: '01 Jun 2025 [09h15]',
-        responsavel: 'Maria Silva',
-        status: 'Pendente',
-        progresso: 40,
-        fotoAtribuido: false,
-        fotoResponsavelAtribuido: false
-    },
-];
-
 // ====== FUNÇÃO PARA CRIAR O HTML DE UM CHAMADO ====== //
 function criar_item_chamado_enviado(chamado) {
+    fotoSolicitante = ""
+    fotoResponsavel = ""
+    progresso = 0
     return `
-    <li class="chamados_enviados_item" data-id-chamado="${chamado.id_chamado}">
+    <li class="chamados_enviados_item" data-id-chamado="${chamado.idChamado}">
         <div class="chamados_enviados_informacoes">
             <div class="chamados_enviados_foto">
-                <div class="chamados_enviados_icone ${chamado.fotoAtribuido ? 'chamado_atribuido' : 'chamado_nao_atribuido'}">
+                <div class="chamados_enviados_icone ${fotoSolicitante}">
                     <i class="material-icons">person</i>
                 </div>
             </div>
             <div class="chamados_enviados_nome">
-                <span>${chamado.solicitante}</span>
+                <span>${chamado.nomeSolicitante}</span>
             </div>
             <div class="chamados_enviados_tipo">
-                <span>${chamado.tipo}</span>
+                <span>${chamado.nomeTipo}</span>
             </div>
             <div class="chamados_enviados_data">
-                <span>${chamado.data}</span>
+                <span>${formatar_data_modelo_consulta_chamados(chamado.dataAbertura)}</span>
             </div>
             <div class="chamados_enviados_foto_responsavel">
-                <div class="chamados_enviados_icone ${chamado.fotoResponsavelAtribuido ? 'chamado_atribuido' : 'chamado_nao_atribuido'}">
+                <div class="chamados_enviados_icone ${fotoResponsavel}">
                     <i class="material-icons">person</i>
                 </div>
             </div>
             <div class="chamados_enviados_nome_responsavel">
-                <span>${chamado.responsavel}</span>
+                <span>${chamado.nomeResponsavel}</span>
             </div>
             <div class="chamados_enviados_status">
-                <span>${chamado.status}</span>
+                <span>${chamado.nomeStatus}</span>
             </div>
             <div class="chamados_enviados_info">
                 <button id="botao_chamados_enviados_info" onclick="modal_info_chamado_enviado(this)">
@@ -152,7 +38,7 @@ function criar_item_chamado_enviado(chamado) {
             </div>
         </div>
         <div class="chamados_enviados_barra_progresso">
-            <span class="chamados_enviados_progresso" style="width: ${chamado.progresso}%"></span>
+            <span class="chamados_enviados_progresso" style="width: ${progresso}%"></span>
         </div>
     </li>
     `;
@@ -162,23 +48,39 @@ function criar_item_chamado_enviado(chamado) {
 function preencher_chamados_enviados_consultados(event) {
     event.preventDefault();
 
-    const tipo_chamado = document.getElementById('chamados_enviados_tipo_chamado');
-    const responsavel = document.getElementById('chamados_enviados_responsavel');
-    const solicitante = document.getElementById('chamados_enviados_solicitante');
-    const data_inicio = document.getElementById('chamados_enviados_data_inicio');
-    const data_fim = document.getElementById('chamados_enviados_data_fim');
-    const setor = document.getElementById('chamados_enviados_setor');
-    const satus = document.getElementById('chamados_enviados_status');
+    const id_tipo_chamado = document.getElementById('chamados_enviados_tipo_chamado').value;
+    const id_responsavel = document.getElementById('chamados_enviados_responsavel').value;
+    const id_solicitante = document.getElementById('chamados_enviados_solicitante').value;
+    const data_inicio = document.getElementById('chamados_enviados_data_inicio').value;
+    const data_fim = document.getElementById('chamados_enviados_data_fim').value;
+    const id_setor = document.getElementById('chamados_enviados_setor').value;
+    const id_status = document.getElementById('chamados_enviados_status').value;
+   
+    const payload = {
+        "IdChamado": null,
+        "IdTipoChamado": id_tipo_chamado !== "" ? id_tipo_chamado : null,
+        "IdResponsavel": id_responsavel !== "" ? id_responsavel : null,
+        "IdSolicitante": id_solicitante !== "" ? id_solicitante : null,
+        "DataInicio": data_inicio,
+        "DataFim": data_fim,
+        "IdSetor": id_setor !== "" ? id_setor : null,
+        "IdStatus": id_status !== "" ? id_status : null
+    }
 
-    renderizar_chamados_enviados(chamados_enviados)
+    retorno_consulta = consultar_chamados(payload)
+
+    renderizar_chamados_enviados(retorno_consulta)
 }
 
 // ====== FUNÇÃO PARA RENDERIZAR TODOS OS CHAMADOS ====== //
-function renderizar_chamados_enviados(listaChamados) {
-    const ul = document.querySelector('.chamados_enviados_lista');
-    if (ul) {
-        ul.innerHTML = listaChamados.map(criar_item_chamado_enviado).join('');
-    }
+function renderizar_chamados_enviados(retorno_consulta) {
+    retorno_consulta.then(chamados => {
+        const ul = document.querySelector('.chamados_enviados_lista');
+        if (ul) {
+            const chamadosComResponsavel = chamados.filter(chamado => chamado.nomeResponsavel);
+            ul.innerHTML = chamadosComResponsavel.map(criar_item_chamado_enviado).join('');
+        }
+    });
 }
 
 function modal_info_chamado_enviado(botao) {

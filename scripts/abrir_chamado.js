@@ -243,10 +243,10 @@ function pegar_atividades_secundarias() {
         const option = Array.from(document.getElementById('atividade_secundaria').options)
             .find(opt => opt.title === descricao);
 
-        const codigo = option ? option.value : '';
+        // const codigo = option ? option.value : '';
 
         if (descricao) {
-            atividades.push(`${codigo} - ${descricao}`);
+            atividades.push(`${descricao}`);
         }
     });
 
@@ -480,7 +480,7 @@ function enviar_chamado_contrato_social_abertura(event) {
         const segundaParte = partes[1] ? partes[1].trim() : ''; // Pega a segunda parte, caso exista
 
         // Adiciona zeros à esquerda, garantindo que o comprimento seja 6 caracteres
-        const id_com_os_zeros = segundaParte.padStart(6, '0');
+        const id_com_os_zeros = segundaParte.padStart(7, '0');
 
         enviar_arquivo_servidor(document.getElementById('anexo_iptu').files[0], id_com_os_zeros, categoria_arquivo.OBRIGATORIEDADE, 'anexo_iptu')
 

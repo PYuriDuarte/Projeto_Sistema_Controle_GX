@@ -272,6 +272,7 @@ document.querySelectorAll('.btn_carregar_novo_corpo').forEach(function (botao) {
                         break;
                     case "Atribuir Chamados":
                         monitorar_clique_itens_adribuicao_chamado();
+                        atualizar_consulta_chamados_sem_responsaveis();
                         break;
                     case "Chamados Recebidos":
                         renderizar_campo_data('chamados_recebidos_data_fim', "Data Fim", false, hoje_menos_tantos_dias(0));
@@ -547,4 +548,40 @@ async function enviar_arquivo_servidor(file, id_chamado, categoria, nome_arquivo
     const result = await response.json();
 
     return result.status === 'success' ? true : false;
+}
+
+// async function baixar_arquivo_servidor(id_chamado, categoria, nome_arquivo) 
+async function baixar_arquivo_servidor(event) {
+    event.preventDefault();
+
+    const params = new URLSearchParams();
+    params.append('id_chamado', "000048");
+    params.append('categoria', "obrigatorios");
+    params.append('nome_arquivo', "anexo_iptu.pdf");
+
+    const response = await fetch(`http://26.13.203.58:5000/download?${params.toString()}`, {
+        method: 'GET',
+    });
+
+    if (!response.ok) {
+        // Trate o erro se a resposta não for bem-sucedida
+        console.error("Erro ao baixar o arquivo:", response.statusText);
+        return false;
+    }
+
+    // Usando .blob() para lidar com a resposta como um arquivo
+    const blob = await response.blob();
+
+    // Criar um URL de objeto para o arquivo binário
+    const url = window.URL.createObjectURL(blob);
+
+    // Criar um link para baixar o arquivo
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "anexo_iptu.pdf"; // Nome do arquivo a ser baixado
+    document.body.appendChild(a);
+    a.click(); // Simula o clique para iniciar o download
+    document.body.removeChild(a);
+
+    return true;
 }
