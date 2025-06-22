@@ -75,10 +75,25 @@ function preencher_chamados_enviados_consultados(event) {
 // ====== FUNÇÃO PARA RENDERIZAR TODOS OS CHAMADOS ====== //
 function renderizar_chamados_enviados(retorno_consulta) {
     retorno_consulta.then(chamados => {
-        const ul = document.querySelector('.chamados_enviados_lista');
-        if (ul) {
-            const chamadosComResponsavel = chamados.filter(chamado => chamado.nomeResponsavel);
-            ul.innerHTML = chamadosComResponsavel.map(criar_item_chamado_enviado).join('');
+        const chamados_agrupados = {};
+
+        // Agrupar chamados por idChamado
+        chamados.forEach(chamado => {
+            if (chamado.nomeResponsavel) {
+                if (!chamados_agrupados[chamado.idChamado]) {
+                    chamados_agrupados[chamado.idChamado] = [];
+                }
+                chamados_agrupados[chamado.idChamado].push(chamado);
+            }
+        });
+        
+        // Gerar o HTML dinâmico para a lista de chamados
+        const listaChamadosContainer = document.querySelector('.chamados_enviados_lista');
+        if (listaChamadosContainer) {
+            // Utilizar Object.values para pegar os grupos de chamados e gerar o HTML
+            listaChamadosContainer.innerHTML = Object.values(chamados_agrupados)
+                .map(grupo => criar_item_chamado_enviado(grupo[0])) // Passar o primeiro chamado do grupo para criar_item_chamado_enviado
+                .join('');
         }
     });
 }
@@ -95,8 +110,7 @@ function modal_info_chamado_enviado(botao) {
                 .then(html => {
                     document.getElementById('modal_chamado_enviado_container').innerHTML = html;
                     
-                    // Mostra o modal
-                    document.getElementById('modal_chamado_enviado').style.display = 'flex';
+                    document.getElementById('modal_chamado_enviado').style.display = 'flex'; // Mostra o modal
                 });
         } else {
             // Se já está carregado, só atualiza o ID e exibe de novo

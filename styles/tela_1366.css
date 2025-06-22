@@ -157,4 +157,9 @@
     .modal_info_chamado_recebido_msg {
         font-size: 0.7rem;
     }
+
+    .btn_att_pag_atribuir_chamados {
+        right: 16.5rem;
+        top: 8.5rem;
+    }
 }

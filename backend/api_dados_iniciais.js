@@ -34,3 +34,7 @@ async function cadastrar_chamado(IdSolicitante, IdTipoChamado, ListaCamposComVal
 async function consultar_chamados(payload) {
     return await post_api(payload, API_URL_CHAMADOS_CONSULTA);
 }
+
+async function atualizar_chamados(payload) {
+    return await post_api(payload, API_URL_CHAMADOS_ATUALIZAR);
+}

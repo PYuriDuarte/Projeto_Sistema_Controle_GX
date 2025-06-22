@@ -199,3 +199,32 @@
 .ver-mais:hover {
     text-decoration: underline;
 }
+
+.nome_campo_chamado{
+    color: var(--cor-primaria);
+}
+
+.btn_att_pag_atribuir_chamados {
+    background-color: var(--cor-secundaria);  /* Cor de fundo (exemplo de verde) */
+    border: none;               /* Remove a borda padrão */
+    padding: .4rem;         /* Espaçamento interno do botão */
+    cursor: pointer;           /* Cursor de ponteiro para mostrar que é clicável */
+    border-radius: 2rem;         /* Bordas arredondadas */
+    display: flex;              /* Para garantir que o ícone e texto fiquem centralizados */
+    align-items: center;        /* Alinha verticalmente o conteúdo */
+    justify-content: center;    /* Alinha horizontalmente o conteúdo */
+    transition: background-color 0.3s ease; /* Efeito suave de transição ao passar o mouse */
+    position: absolute;
+    right: 36.5rem;
+    top: 8.5rem;
+}
+
+/* Estilo para o ícone */
+.btn_att_pag_atribuir_chamados .material-icons{
+    font-size: 2rem;           /* Tamanho do ícone */
+}
+
+/* Efeito ao passar o mouse sobre o botão */
+.btn_att_pag_atribuir_chamados:hover {
+    background-color: var(--cor-primaria);  /* Cor de fundo mais escura quando o botão é pressionado */
+}
