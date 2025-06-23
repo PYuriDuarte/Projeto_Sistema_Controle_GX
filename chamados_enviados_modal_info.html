@@ -1,6 +1,39 @@
 <div id="modal_chamado_enviado">
     <div class="modal_chamado_enviado_content">
         <button class="modal_chamado_enviado_fechar" onclick="fechar_modal_chamado_enviado()">×</button>
-        
+        <div class="modal_info_chamado_enviado_container">
+            <!-- LADO ESQUERDO: DADOS DO CHAMADO -->
+            <div class="modal_info_chamado_enviado_box">
+                <table class="modal_info_chamado_enviado_tabela">
+                    <thead>
+                        <tr>
+                            <th class="col_tarefa">TAREFA</th>
+                            <th class="col_conteudo">CONTEÚDO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody_enviados_modal_info">
+                        <!-- JS -->
+                    </tbody>
+                </table>
+                <div class="lista_arquivos_comprovacao_chamado_enviado">
+                    <span>Anexar Comprovação</span>
+
+                    <ul class="lista_anexar_arquivos_comprovacao_chamado_enviado">
+                        <!-- JS -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- LADO DIREITO: CHAT -->
+            <div class="modal_info_chamado_enviado_chat">
+                <div class="modal_info_chamado_enviado_chat_mensagens" id="modal_info_chamado_enviado_chat_mensagens">
+                    <!-- Mensagens simuladas JS -->
+                </div>
+                <div class="modal_info_chamado_enviado_chat_input">
+                    <input type="text" id="modal_info_chamado_enviado_mensagem_input" placeholder="Digite sua mensagem..." autocomplete="off">
+                    <button id="modal_info_chamado_enviado_btn_enviar">Enviar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

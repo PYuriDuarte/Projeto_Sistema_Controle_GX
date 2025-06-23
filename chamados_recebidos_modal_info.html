@@ -9,57 +9,19 @@
                         <tr>
                             <th class="col_tarefa">TAREFA</th>
                             <th class="col_conteudo">CONTEÚDO</th>
-                            <th class="col_comprovacao">COMPROVAÇÃO</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="valor_tarefa">
-                                <span>RAZAO</span>
-                            </td>
-                            <td class="valor_conteudo">
-                                <span>DEV DUARTE oooooooooooooooooooooooooooooooooooooT</span>
-                            </td>
-                            <td class="valor_comprovacao">
-                                <label class="fileLabel" for="fileUpload">ANEXAR</label>
-                                <input type="file" class="fileInput" accept=".png,.jpg,.jpeg,.txt,.csv,.pdf" data-chamado="00000001" data-nome="comprovacao">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="valor_tarefa">
-                                <span>TEM CARRO</span>
-                            </td>
-                            <td class="valor_conteudo">
-                                <span>SIM</span>
-                            </td>
-                            <td class="valor_comprovacao">
-                                <span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="valor_tarefa">
-                                <span>ARQUIVO IPTU</span>
-                            </td>
-                            <td class="valor_conteudo">
-                                <span>ANEXO</span>
-                            </td>
-                            <td class="valor_comprovacao">
-                                <button onclick="baixarArquivoDoServidor('imagens/logo_gx.png', 'teste.png');">ANEXAR</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="valor_tarefa">
-                                <span>ARQUIVO IPVA</span>
-                            </td>
-                            <td class="valor_conteudo">
-                                <span></span>
-                            </td>
-                            <td class="valor_comprovacao">
-                                <span></span>
-                            </td>
-                        </tr>
+                    <tbody id="tbody_recebidos_modal_info">
+                        <!-- JS -->
                     </tbody>
                 </table>
+                <div class="lista_arquivos_comprovacao_chamado_recebido">
+                    <span>Anexar Comprovação</span>
+
+                    <ul class="lista_anexar_arquivos_comprovacao_chamado_recebido">
+                        <!-- JS -->
+                    </ul>
+                </div>
                 <button id="modal_info_chamado_recebido_btn_finalizar" class="modal_info_chamado_recebido_btn_finalizar">
                     Finalizar Chamado
                 </button>

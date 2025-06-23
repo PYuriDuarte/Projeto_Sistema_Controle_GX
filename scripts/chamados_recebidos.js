@@ -32,7 +32,7 @@ function criar_item_chamado_recebido(chamado) {
                 <span>${chamado.nomeStatus}</span>
             </div>
             <div class="chamados_recebidos_info">
-                <button id="botao_chamados_recebidos_info" onclick="modal_info_chamado_recebido(this)">
+                <button id="botao_chamados_recebidos_info" onclick="modal_info_chamado_recebido(this, event)">
                     <i class="material-icons">visibility</i>
                 </button>
             </div>
@@ -99,26 +99,27 @@ function renderizar_chamados_recebidos(retorno_consulta) {
     });
 }
 
-function modal_info_chamado_recebido(botao) {
+async function modal_info_chamado_recebido(botao, event) {
+    // 1. Descobre o id do chamado
     const li = botao.closest('.chamados_recebidos_item');
-    if (li) {
-        const idChamado = li.dataset.idChamado;
-        
-        // Só carrega o modal se ainda não tiver carregado
-        if (!document.getElementById('modal_chamado_recebido')) {
-            fetch('chamados_recebidos_modal_info.html')
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('modal_chamado_recebido_container').innerHTML = html;
-                    document.getElementById('modal_chamado_recebido').style.display = 'flex';
-                    
-                    iniciarChatChamado()
-                });
-        } else {
-            // Se já está carregado, só atualiza o ID e exibe de novo
-            document.getElementById('modal_chamado_recebido').style.display = 'flex';
-        }
-    }
+    if (!li) return;
+
+    const idChamado = li.dataset.idChamado;   // camelCase no dataset!
+
+    // 2. Recarrega SEMPRE o html do modal
+    const container = document.getElementById('modal_chamado_recebido_container');
+    const html      = await fetch('chamados_recebidos_modal_info.html')
+                            .then(r => r.text());
+
+    container.innerHTML = html;                       // substitui o antigo
+    const modal = container.querySelector('#modal_chamado_recebido');
+
+    // 3. Preenche campos + inicia chat com o novo id
+    preencher_chamados_recebidos_modal_consultados(event, idChamado);
+    iniciarChatChamado_recebidos();
+
+    // 4. Exibe
+    modal.style.display = 'flex';
 }
 
 function fechar_modal_chamado_recebido() {

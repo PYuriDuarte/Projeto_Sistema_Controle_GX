@@ -89,7 +89,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    cursor: pointer;
 }
 
 .modal_info_chamado_recebido_tabela td {
@@ -238,4 +237,118 @@
 .fileLabel:hover,
 .valor_comprovacao button:hover {
     background-color: var(--cor-secundaria);
+}
+
+.lista_arquivos_comprovacao_chamado_recebido {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: .5rem;
+    background-color: var(--cor-fundo-card);
+    border-radius: 1rem;
+    border: var(--cor-primaria) solid .2rem;
+    width: 14rem;
+    align-items: center;
+}
+.lista_arquivos_comprovacao_chamado_recebido span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cor-primaria);
+    margin-bottom: 1rem;
+    margin: .5rem 0 .2rem 0;
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    align-items: stretch; 
+    margin: 0;
+    padding: .2rem;
+    list-style: none;
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido li{
+    width: 80%;
+    padding: .4rem .2rem;
+    margin: auto auto;
+    margin-bottom: .45rem;
+    
+    font-size: .95rem;
+    line-height: 1.25;
+    font-weight: 500;
+    text-align: center;
+
+    background: var(--cor-fundo-cinzinha);
+    border: .12rem solid var(--cor-primaria);
+    border-radius: .5rem;
+    cursor: pointer;
+
+    transition:background .15s ease, transform .1s ease;
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido li:first-child{
+    margin-top: .8rem;
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido li:last-child{
+    margin-bottom: .6rem;
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido li:hover {
+    background: var(--cor-primaria);
+    color: var(--cor-fundo-card);
+    outline: none;
+    transform:translateY(-1px);
+    box-shadow:0 2px 4px rgba(0,0,0,.12);
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido li:active{
+    transform:translateY(0);
+    box-shadow:0 0 0 rgba(0,0,0,0);
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido .active{
+    background: var(--cor-primaria);
+    color: var(--cor-fundo-card);
+    outline: none;
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido li.active:hover::after{
+    content: "Arquivo já anexado";
+    position: absolute;
+    left: 50%;
+    top: -2.1rem;                 /* sobe o balão */
+    transform: translateX(-50%);  /* centraliza */
+    
+    background: var(--cor-texto-terciario); /* cor do tooltip */
+    color: var(--cor-fundo-card);
+    padding: .3rem .6rem;
+    border-radius: .35rem;
+    font-size: .75rem;
+    white-space: nowrap;
+    pointer-events: none; /* não rouba o mouse */
+    z-index: 20;
+    
+    opacity: 0;
+    transition: opacity .15s ease;
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido li.active:hover::after{
+    opacity: 1; /* aparece no hover */
+}
+.lista_anexar_arquivos_comprovacao_chamado_recebido li.active:hover::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:-.45rem;
+    transform:translateX(-50%);
+
+    border:.45rem solid transparent;
+    border-top:none;
+    border-bottom:.45rem solid #333;   /* cor igual ao fundo do tooltip */
+    z-index:19;
+    opacity:1;
+}
+
+.botao_com_anexo {
+    background-color: var(--cor-primaria);
+    padding: .4rem .8rem;
+    border: none;
+    border-radius: .2rem;
+    color: var(--cor-fundo);
+    box-shadow: 0 0.1rem 0.2rem var(--cor-secundaria);
+    cursor: pointer;
 }

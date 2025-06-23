@@ -529,8 +529,8 @@ function filtrar_campos_dados_iniciais(dadosCombinados, nomeTipo, nomeSetor, nom
 }
 
 const categoria_arquivo = Object.freeze({
-  COMPROVACAO: "comprovacoes",
-  OBRIGATORIEDADE: "obrigatorios"
+    COMPROVACAO: "comprovacoes",
+    OBRIGATORIEDADE: "obrigatorios"
 });
 
 async function enviar_arquivo_servidor(file, id_chamado, categoria, nome_arquivo) {
@@ -550,14 +550,11 @@ async function enviar_arquivo_servidor(file, id_chamado, categoria, nome_arquivo
     return result.status === 'success' ? true : false;
 }
 
-// async function baixar_arquivo_servidor(id_chamado, categoria, nome_arquivo) 
-async function baixar_arquivo_servidor(event) {
-    event.preventDefault();
-
+async function baixar_arquivo_servidor(id_chamado, categoria, nome_arquivo) {
     const params = new URLSearchParams();
-    params.append('id_chamado', "000048");
-    params.append('categoria', "obrigatorios");
-    params.append('nome_arquivo', "anexo_iptu.pdf");
+    params.append('id_chamado', id_chamado);
+    params.append('categoria', categoria);
+    params.append('nome_arquivo', nome_arquivo);
 
     const response = await fetch(`http://26.13.203.58:5000/download?${params.toString()}`, {
         method: 'GET',
@@ -578,7 +575,7 @@ async function baixar_arquivo_servidor(event) {
     // Criar um link para baixar o arquivo
     const a = document.createElement('a');
     a.href = url;
-    a.download = "anexo_iptu.pdf"; // Nome do arquivo a ser baixado
+    a.download = `${nome_arquivo}`; // Nome do arquivo a ser baixado
     document.body.appendChild(a);
     a.click(); // Simula o clique para iniciar o download
     document.body.removeChild(a);

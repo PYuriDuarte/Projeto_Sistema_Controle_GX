@@ -21,7 +21,6 @@
 .chamados_enviados_filtros label {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
     min-width: 180px;
     font-weight: 500;
 }
@@ -63,7 +62,7 @@
 /* Cabeçalho (títulos das colunas) */
 .chamados_enviados_cabecalho {
     display: grid;
-    grid-template-columns: 3.75rem .5fr 1fr .7fr 3.75rem 1fr .7fr .2fr;
+    grid-template-columns: 3.75rem .5fr 1fr .64fr 3.75rem 1fr .7fr .2fr;
     background: var(--cor-fundo-cinzinha);
     border-bottom: 1px solid var(--cor-borda-cinzinha);
     padding: 0.8rem .5rem 0.8rem 1.7rem;
@@ -157,6 +156,20 @@
     font-size: 0.96rem;
     color: var(--cor-texto-secundario);
     font-weight: 550;
+}
+
+.chamados_enviados_nome span,
+.chamados_enviados_tipo span,
+.chamados_enviados_data span,
+.chamados_enviados_nome_responsavel span,
+.chamados_enviados_status span {
+    display: inline-block;
+    max-width: 15rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 /* Barra de progresso */

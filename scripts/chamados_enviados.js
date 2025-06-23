@@ -32,7 +32,7 @@ function criar_item_chamado_enviado(chamado) {
                 <span>${chamado.nomeStatus}</span>
             </div>
             <div class="chamados_enviados_info">
-                <button id="botao_chamados_enviados_info" onclick="modal_info_chamado_enviado(this)">
+                <button id="botao_chamados_enviados_info" onclick="modal_info_chamado_enviado(this, event)">
                     <i class="material-icons">visibility</i>
                 </button>
             </div>
@@ -98,25 +98,27 @@ function renderizar_chamados_enviados(retorno_consulta) {
     });
 }
 
-function modal_info_chamado_enviado(botao) {
+async function modal_info_chamado_enviado(botao, event) {
+    // 1. Descobre o id do chamado
     const li = botao.closest('.chamados_enviados_item');
-    if (li) {
-        const idChamado = li.dataset.idChamado;
+    if (!li) return;
 
-        // Só carrega o modal se ainda não tiver carregado
-        if (!document.getElementById('modal_chamado_enviado')) {
-            fetch('chamados_enviados_modal_info.html')
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('modal_chamado_enviado_container').innerHTML = html;
-                    
-                    document.getElementById('modal_chamado_enviado').style.display = 'flex'; // Mostra o modal
-                });
-        } else {
-            // Se já está carregado, só atualiza o ID e exibe de novo
-            document.getElementById('modal_chamado_enviado').style.display = 'flex';
-        }
-    }
+    const idChamado = li.dataset.idChamado;   // camelCase no dataset!
+
+    // 2. Recarrega SEMPRE o html do modal
+    const container = document.getElementById('modal_chamado_enviado_container');
+    const html      = await fetch('chamados_enviados_modal_info.html')
+                            .then(r => r.text());
+
+    container.innerHTML = html;                       // substitui o antigo
+    const modal = container.querySelector('#modal_chamado_enviado');
+
+    // 3. Preenche campos + inicia chat com o novo id
+    preencher_chamados_enviados_modal_consultados(event, idChamado);
+    iniciarChatChamado_enviados();
+
+    // 4. Exibe
+    modal.style.display = 'flex';
 }
 
 function fechar_modal_chamado_enviado() {

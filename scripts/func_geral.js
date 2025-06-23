@@ -45,3 +45,15 @@ function formatar_data_modelo_consulta_chamados(dataString) {
     
     return `${dia} ${mes} ${ano} [${horas}h${minutos}]`;
 }
+
+function texto_parece_caminho(str) {
+    if (typeof str !== 'string') return false;
+    const s = str.trim();
+
+    // a) C:\...    b) \\servidor\...
+    const temPrefixoValido = /^[A-Za-z]:\\/.test(s) || /^\\\\[^\\]+\\/.test(s);
+    const temOutraBarra    = s.indexOf('\\', 3) !== -1; // mais uma “\” depois do prefixo
+    const semCaracteresRuins = !/[\"\n\r]/.test(s); // não permite aspas ou quebras de linha
+
+    return temPrefixoValido && temOutraBarra && semCaracteresRuins;
+}
