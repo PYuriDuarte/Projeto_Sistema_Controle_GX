@@ -1,10 +1,10 @@
 <div id="form_contrato_social" class="secao_formulario">
     <!-- Razão Social (duas opções) -->
     <div class="campo_form">
-        <label class="rotulo_campo">Razão Social (selecionar empresa cadastrada):</label>
+        <label class="rotulo_campo">Razão Social:</label>
         <span class="campo_obrigatorio">*</span>
-        <select name="razao_social_lista" required class="campo_selecao">
-            <option value="" disabled selected>Selecione a empresa</option>
+        <select id="razao_social_lista" name="razao_social_lista" required class="campo_selecao">
+            <option value="" disabled selected></option>
             <!-- Opções populadas pela automação eCAC -->
         </select>
     </div>
@@ -19,24 +19,24 @@
     <div class="campo_form">
         <label class="rotulo_campo">Natureza Jurídica:</label>
         <select id="natureza_juridica" name="natureza_juridica"  class="campo_selecao">
-            <option value="" disabled selected>Selecione</option>
+            <option value="" disabled selected></option>
         </select>
     </div>
     
-    <!-- Atividade Principal (CNAE) -->
+    <!-- Atividade Principal -->
     <div class="campo_form">
-        <label class="rotulo_campo">Atividade Principal (CNAE):</label>
+        <label class="rotulo_campo">Atividade Principal:</label>
         <select id="atividade_principal" name="atividade_principal"  class="campo_selecao">
-            <option value="" disabled selected>Selecione a CNAE</option>
+            <option value="" disabled selected></option>
             <!-- Popule via JS ou backend com a lista oficial de CNAE -->
         </select>
     </div>
     
-    <!-- Atividade Secundária (CNAE) -->
+    <!-- Atividade Secundária -->
     <div class="campo_form">
-        <label for="atividade_secundaria" class="rotulo_campo">Atividade Secundária (CNAE):</label>
+        <label for="atividade_secundaria" class="rotulo_campo">Atividade Secundária:</label>
         <select id="atividade_secundaria" onchange=adicionar_atividade_selecionada() name="atividade_secundaria" class="campo_selecao">
-            <option value="" disabled selected>Selecione a CNAE</option>
+            <option value="" disabled selected></option>
             <!-- Popule via JS ou backend com a lista oficial de CNAE -->
         </select>
         <div id="inputs_atividades"></div>
@@ -52,7 +52,7 @@
     <div class="campo_form">
         <label class="rotulo_campo">Forma de Integralização:</label>
         <select id="forma_integralizacao" name="forma_integralizacao"  class="campo_selecao">
-            <option value="" disabled selected>Selecione</option>
+            <option value="" disabled selected></option>
         </select>
     </div>
     
@@ -60,7 +60,7 @@
     <div class="campo_form">
         <label class="rotulo_campo">Porte da empresa:</label>
         <select id="porte_empresa" name="porte_empresa"  class="campo_selecao">
-            <option value="" disabled selected>Selecione</option>
+            <option value="" disabled selected></option>
         </select>
     </div>
     
@@ -105,7 +105,7 @@
 
     <div class="campo_form">
         <label class="rotulo_campo">Anexar IPTU:</label>
-        <input type="file" id="anexo_iptu" name="anexo_iptu" accept=".pdf,.jpg,.jpeg,.png,.txt"  class="campo_arquivo" />
+        <input type="file" id="anexo_iptu" name="anexo_iptu" class="campo_arquivo" />
     </div>
     
     <div class="campo_form">
@@ -114,5 +114,5 @@
     </div>
     
     <!-- Botão de submit -->
-    <button class="botao_modelo" onclick="enviar_chamado_contrato_social_abertura(event)" type="submit">Enviar</button>
+    <button class="botao_modelo" onclick="enviar_chamado_aditivo_alteracao(event)" type="submit">Enviar</button>
 </div>

@@ -4,8 +4,8 @@
     <div class="campo_form">
         <label class="rotulo_campo">Razão Social:</label>
         <span class="campo_obrigatorio">*</span>
-        <select name="razao_social" required class="campo_selecao">
-            <option value="" disabled selected>Selecione a empresa</option>
+        <select id="razao_social_lista" name="razao_social" required class="campo_selecao">
+            <option value="" disabled selected></option>
             <!-- Opções populadas pela automação -->
         </select>
     </div>
@@ -14,8 +14,8 @@
     <div class="campo_form">
         <label class="rotulo_campo">Possui Funcionários?</label>
         <span class="campo_obrigatorio">*</span>
-        <select name="possui_funcionarios" required class="campo_selecao">
-            <option value="" disabled selected>Selecione</option>
+        <select id="possui_funcionarios" name="possui_funcionarios" required class="campo_selecao">
+            <option value="" disabled selected></option>
             <option value="sim">Sim</option>
             <option value="nao">Não</option>
         </select>
@@ -26,7 +26,7 @@
         <label class="rotulo_campo">Possui Inscrição Municipal Ativa?</label>
         <span class="campo_obrigatorio">*</span>
         <select id="inscricao_municipal_ativa" name="inscricao_municipal_ativa" required class="campo_selecao" onchange=exibir_campo_numero_inscricao_municipal(this.value)>
-            <option value="" disabled selected>Selecione</option>
+            <option value="" disabled selected></option>
             <option value="sim">Sim</option>
             <option value="nao">Não</option>
         </select>
@@ -37,12 +37,12 @@
     <div class="campo_form">
         <label class="rotulo_campo">Quem ficará responsável pela guarda dos livros?</label>
         <span class="campo_obrigatorio">*</span>
-        <select name="responsavel_livros" required class="campo_selecao">
-            <option value="" disabled selected>Selecione o administrador</option>
+        <select id="responsavel_livros" name="responsavel_livros" required class="campo_selecao">
+            <option value="" disabled selected></option>
             <!-- Opções populadas pela automação -->
         </select>
     </div>
     
     <!-- Botão de submit -->
-    <button class="botao_modelo" type="submit">Enviar</button>
+    <button class="botao_modelo" onclick="enviar_chamado_distrato_social(event)" type="submit">Enviar</button>
 </div>

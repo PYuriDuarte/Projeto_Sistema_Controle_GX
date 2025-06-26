@@ -1,7 +1,17 @@
+const categoria_arquivo = Object.freeze({
+    COMPROVACAO: "comprovacoes",
+    OBRIGATORIEDADE: "obrigatorios"
+});
+
 // ===================== FUNÇÃO DE TESTE =====================
 
-function teste(){
-    console.log("teste")
+function teste(valor){
+    if(valor){
+        console.log(valor)
+    }
+    else{
+        console.log("teste")
+    }
 }
 
 // ===================== FUNÇÃO DE REMOVER O ULTIMO CARACTER SE FOR O PASSADO =====================
@@ -280,8 +290,9 @@ document.querySelectorAll('.btn_carregar_novo_corpo').forEach(function (botao) {
                         popular_select({id_campo: 'chamados_recebidos_solicitante', tipo: 'colaborador'});
                         popular_select({id_campo: 'chamados_recebidos_responsavel', 
                                         tipo: 'colaborador', 
-                                        nome_item: `${usuario_logado.primeiroNome.toUpperCase()} ${usuario_logado.segundoNome.toUpperCase()}`});
-                        popular_select({id_campo: 'chamados_recebidos_setor', tipo: 'setor'});
+                                        nome_item: `${usuario_logado.primeiroNome.toUpperCase()} ${usuario_logado.segundoNome.toUpperCase()}`,
+                                        nome_setor: usuario_logado.nomeSetor});
+                        popular_select({id_campo: 'chamados_recebidos_setor', tipo: 'setor', nome_setor: usuario_logado.nomeSetor});
                         popular_select({id_campo: 'chamados_recebidos_tipo_chamado', tipo: 'tipos_chamados'});
                         popular_select({id_campo: 'chamados_recebidos_status', tipo: 'status_chamados'});
                         break;
@@ -290,7 +301,8 @@ document.querySelectorAll('.btn_carregar_novo_corpo').forEach(function (botao) {
                         renderizar_campo_data('chamados_enviados_data_inicio', "Data Início", false, hoje_menos_tantos_dias(30));
                         popular_select({id_campo: 'chamados_enviados_solicitante', 
                                         tipo: 'colaborador', 
-                                        nome_item: `${usuario_logado.primeiroNome.toUpperCase()} ${usuario_logado.segundoNome.toUpperCase()}`});
+                                        nome_item: `${usuario_logado.primeiroNome.toUpperCase()} ${usuario_logado.segundoNome.toUpperCase()}`,
+                                        nome_setor: usuario_logado.nomeSetor});
                         popular_select({id_campo: 'chamados_enviados_responsavel', tipo: 'colaborador'});
                         popular_select({id_campo: 'chamados_enviados_setor', tipo: 'setor'});
                         popular_select({id_campo: 'chamados_enviados_tipo_chamado', tipo: 'tipos_chamados'});
@@ -312,7 +324,7 @@ if (raw) {
             .forEach(el => el.textContent = `${usuario_logado.primeiroNome.toUpperCase()} ${usuario_logado.segundoNome.toUpperCase()}`);
 }
 
-function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamicos }) {
+async function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamicos }) {
     const select = document.getElementById(id_campo);
 
     if (!select) {
@@ -327,7 +339,9 @@ function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamico
 
     switch (tipo) {
         case 'setor':
-            itemsFiltrados = setores;
+            itemsFiltrados = nome_setor
+                ? setores.filter(c => (c.nomeSetor || "").toUpperCase() === nome_setor.toUpperCase())
+                : setores;
             break;
         case 'status_chamados':
             itemsFiltrados = status_chamados;
@@ -342,8 +356,16 @@ function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamico
             break;
         case 'campos_valores':
             itemsFiltrados = filtrar_campos_dados_iniciais(dados_iniciais_combinados, ...campos_dinamicos);
-            // console.log(itemsFiltrados)
             break;
+        case 'clientes':
+            itemsFiltrados = await consultar_clientes(1);
+            break;
+        case 'atividades':
+            itemsFiltrados = atividades_clientes;
+            break
+        case 'socios':
+            itemsFiltrados = await consultar_socios(...campos_dinamicos);
+            break
         default:
             console.warn(`Tipo '${tipo}' não reconhecido.`);
             return;
@@ -389,6 +411,18 @@ function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamico
                     select.appendChild(valueOption);
                 });
                 return;
+            case 'clientes':
+                nomeItemCompleto = `${item.cnpj_cpf} | ${item.razao_social}`.trim();
+                option.value = item.id_cliente;
+                break;
+            case 'atividades':
+                nomeItemCompleto = `${item.secao_atividade_cliente} | ${item.subclasse_atividade_cliente} | ${item.descricao_atividade_cliente}`.trim();
+                option.value = item.id_atividade_cliente;
+                break;
+            case 'socios':
+                nomeItemCompleto = `${(item.nome_socio)}`.trim();
+                option.value = item.id_socio;
+                break;
             default:
                 console.warn(`Tipo '${tipo}' não reconhecido.`);
                 return;
@@ -397,6 +431,11 @@ function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamico
         option.textContent = nomeItemCompleto || `Sem ${tipo}`;
 
         select.appendChild(option);
+
+        if (itemsFiltrados.length === 1) {
+            option.selected = true;
+            select.disabled = true; // Desabilita o select
+        }
     });
 
     // Se nome_item for fornecido, tenta selecionar a opção correspondente
@@ -404,7 +443,6 @@ function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamico
         for (let i = 0; i < select.options.length; i++) {
             if (select.options[i].text.trim().toUpperCase() === nome_item.trim().toUpperCase()) {
                 select.selectedIndex = i;
-                // console.log(`${tipo.charAt(0).toUpperCase() + tipo.slice(1)} selecionado: ${nome_item}`);
                 return;
             }
         }
@@ -414,12 +452,12 @@ function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamico
 }
 
 let colaboradores = [];
+let colaboradores_por_setor = [];
 document.addEventListener("DOMContentLoaded", () => {
     (async () => {
         try {
             colaboradores = await consultar_colaboradores(TipoPayloadColaboradores.TODOS_ATIVOS);
-            // console.log("colaboradores");
-            // console.log(colaboradores);
+            colaboradores_por_setor = await consultar_colaboradores_por_setor()
         } catch (erro) {
             console.error("Erro ao consultar colaboradores:", erro);
         }
@@ -433,35 +471,59 @@ let campos_chamados = [];
 let campos_chamados_valores = [];
 let campos_chamados_por_tipo = [];
 let dados_iniciais_combinados = [];
-document.addEventListener("DOMContentLoaded", () => {
-    (async () => {
-        try {
-            setores = await consultar_setores();
-            // console.log("setores");
-            // console.log(setores);
-            status_chamados = await consultar_status_chamados();
-            // console.log("status_chamados");
-            // console.log(status_chamados);
-            tipos_chamados = await consultar_tipos_chamados();
-            // console.log("tipos_chamados");
-            // console.log(tipos_chamados);
-            campos_chamados = await consultar_campos_chamados();
-            // console.log("campos_chamados");
-            // console.log(campos_chamados);
-            campos_chamados_valores = await consultar_campos_chamados_valores();
-            // console.log("campos_chamados_valores");
-            // console.log(campos_chamados_valores);
-            campos_chamados_por_tipo = await consultar_campos_chamados_por_tipo();
-            // console.log("campos_chamados_por_tipo");
-            // console.log(campos_chamados_por_tipo);
+let atividades_clientes = [];
+async function carregarDados() {
+    try {
+        const botao_abrir_chamado = document.getElementById('botao_abrir_chamado');
+        botao_abrir_chamado.style.pointerEvents = 'none';
+        
+        // const botao_painel_controle = document.getElementById('botao_painel_controle');
+        // botao_painel_controle.style.pointerEvents = 'none';
 
-            dados_iniciais_combinados = combinar_listas_dados_iniciais(campos_chamados, campos_chamados_valores, tipos_chamados, setores, campos_chamados_por_tipo);
-            // console.log("dados_iniciais_combinados");
-            // console.log(dados_iniciais_combinados);
-        } catch (erro) {
-            console.error("Erro ao consultar dados iniciais:", erro);
+        // const botao_atribuir_chamado = document.getElementById('botao_atribuir_chamado');
+        // botao_atribuir_chamado.style.pointerEvents = 'none';
+
+        // const botao_acompanhar_chamados = document.getElementById('botao_acompanhar_chamados');
+        // botao_acompanhar_chamados.style.pointerEvents = 'none';
+        
+        setores = await consultar_setores();
+        tipos_chamados = await consultar_tipos_chamados();
+        status_chamados = await consultar_status_chamados();
+
+        botao_abrir_chamado.style.pointerEvents = 'auto';
+
+        campos_chamados = await consultar_campos_chamados();
+        campos_chamados_valores = await consultar_campos_chamados_valores();
+        campos_chamados_por_tipo = await consultar_campos_chamados_por_tipo();
+        atividades_clientes = await consultar_atividades();
+        dados_iniciais_combinados = combinar_listas_dados_iniciais(
+            campos_chamados, 
+            campos_chamados_valores, 
+            tipos_chamados, 
+            setores, 
+            campos_chamados_por_tipo
+        );
+
+        // botao_painel_controle.style.pointerEvents = 'auto'; // Habilita o clique
+        // botao_atribuir_chamado.style.pointerEvents = 'auto';
+        // botao_acompanhar_chamados.style.pointerEvents = 'auto';
+    } catch (erro) {
+        console.error("Erro ao consultar dados iniciais:", erro);
+    }
+}
+
+function aguardarDOMCarregado() {
+    return new Promise((resolve) => {
+        if (document.readyState === 'loading') {
+            document.addEventListener("DOMContentLoaded", resolve);
+        } else {
+            resolve(); // Caso o DOM já tenha sido carregado antes de adicionar o listener
         }
-    })();
+    });
+}
+
+aguardarDOMCarregado().then(() => {
+    carregarDados();
 });
 
 function combinar_listas_dados_iniciais(campos_chamados, campos_chamados_valores, tipos_chamados, setores, campos_chamados_por_tipo) {
@@ -528,13 +590,14 @@ function filtrar_campos_dados_iniciais(dadosCombinados, nomeTipo, nomeSetor, nom
     return camposComValores;
 }
 
-const categoria_arquivo = Object.freeze({
-    COMPROVACAO: "comprovacoes",
-    OBRIGATORIEDADE: "obrigatorios"
-});
-
 async function enviar_arquivo_servidor(file, id_chamado, categoria, nome_arquivo) {
-    // enviar_arquivo_servidor(file, "0000001", categoria_arquivo.OBRIGATORIEDADE, 'documento_cliente')    
+    // enviar_arquivo_servidor(file, "0000001", categoria_arquivo.OBRIGATORIEDADE, 'documento_cliente')
+    const MAX_SIZE = 50 * 1024 * 1024; // 50MB em bytes
+    if (file.size > MAX_SIZE) {
+        alert('O arquivo excede o limite de 50MB. Por favor, envie um arquivo menor.');
+        return false; // Retorna false e não faz o envio
+    }
+
     const data = new FormData();
     data.append('file', file);
     data.append('id_chamado', id_chamado);

@@ -1,10 +1,10 @@
 <div id="form_paralegal_sefin" class="secao_formulario">
     <!-- Razão Social (lista da automação eCAC) -->
     <div class="campo_form">
-        <label class="rotulo_campo">Razão Social (selecionar empresa cadastrada):</label>
+        <label class="rotulo_campo">Razão Social:</label>
         <span class="campo_obrigatorio">*</span>
-        <select name="razao_social_lista" required class="campo_selecao">
-            <option value="" disabled selected>Selecione a empresa</option>
+        <select id="razao_social_lista" name="razao_social_lista" required class="campo_selecao">
+            <option value="" disabled selected></option>
             <!-- Opções populadas pela automação eCAC -->
         </select>
     </div>
@@ -40,33 +40,34 @@
     <div class="campo_form campo_form_checkbox">
         <label class="rotulo_campo" for="flag_alteracao_regime">Alteração Regime:</label>
         <label class="custom_checkbox">
-            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_alteracao_regime" onchange="exibir_campo_novo_regime('SEFIN', this)" name="alteracao_regime" />
+            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_alteracao_regime" 
+            name="alteracao_regime" />
+            <!-- onchange="exibir_campo_novo_regime('SEFIN', this)"  -->
             <span class="checkmark"></span>
         </label>
     </div>
 
-    <!-- Informar novo regime (aparece se "Alteração Regime" marcada) -->
-    <div class="campo_form" id="campo_novo_regime_sefin" style="display:none;">
+    <!-- <div class="campo_form" id="campo_novo_regime_sefin" style="display:none;">
         <label class="rotulo_campo">Informar novo regime:</label>
         <input type="text" name="novo_regime" class="campo_texto" />
-    </div>
+    </div> -->
 
     <!-- Alteração CNAE (flag) + abrir campos Antes e Depois -->
     <div class="campo_form campo_form_checkbox">
         <label class="rotulo_campo" for="flag_alteracao_cnae">Alteração CNAE:</label>
         <label class="custom_checkbox">
-            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_alteracao_cnae" onchange="exibir_campo_cnae_antes_depois('SEFIN', this)" name="alteracao_cnae" />
+            <input class="abrir_chamado_checkbox" type="checkbox" id="flag_alteracao_cnae" 
+            name="alteracao_cnae" />
+            <!-- onchange="exibir_campo_cnae_antes_depois('SEFIN', this)"  -->
             <span class="checkmark"></span>
         </label>
     </div>
 
-    <!-- CNAE Antes e Depois (aparecem se "Alteração CNAE" marcada) -->
-    <div id="campo_cnae_antes_depois_sefin" style="display:none;">
+    <!-- <div id="campo_cnae_antes_depois_sefin" style="display:none;">
         <div class="campo_form">
             <label class="rotulo_campo">CNAE Antes:</label>
             <select name="cnae_antes" class="campo_selecao">
                 <option value="" disabled selected>Selecione CNAE Antes</option>
-                <!-- Opções CNAE Antes -->
             </select>
         </div>
 
@@ -74,17 +75,16 @@
             <label class="rotulo_campo">CNAE Depois:</label>
             <select name="cnae_depois" class="campo_selecao">
                 <option value="" disabled selected>Selecione CNAE Depois</option>
-                <!-- Opções CNAE Depois -->
             </select>
         </div>
-    </div>
+    </div> -->
 
     <!-- Outros: descrever -->
     <div class="campo_form">
         <label class="rotulo_campo">OUTROS (descrever):</label>
-        <textarea id="outros_descrever" name="outros_descrever" rows="3" class="campo_texto outros_descrever_sefin"></textarea>
+        <textarea id="outros_descrever" name="outros_descrever" rows="3" required class="campo_texto outros_descrever_sefin"></textarea>
     </div>
 
     <!-- Botão enviar -->
-    <button class="botao_modelo" type="submit">Enviar</button>
+    <button class="botao_modelo" onclick="enviar_chamado_sefaz_sefin('SEFIN', event)" type="submit">Enviar</button>
 </div>

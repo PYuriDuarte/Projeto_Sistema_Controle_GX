@@ -53,9 +53,12 @@ function atualizar_consulta_chamados_sem_responsaveis() {
 function preencher_select_colaboradores_atribuir_chamado(selectId) {
     const select = document.getElementById(selectId); // Pega o elemento select pelo ID dinâmico
     select.innerHTML = '<option value="" disabled selected>Selecione o colaborador</option>'; // Reseta as opções atuais
-
+    
     // Itera sobre a lista de colaboradores e cria uma nova opção para cada um
     colaboradores.forEach(colaborador => {
+        if (String(usuario_logado.idSetor) !== String(colaborador.idSetor)) {
+            return;
+        }
         const option = document.createElement('option');
         option.value = colaborador.idColaborador; // Define o value da opção
         nomeItemCompleto = `${maximizar_primeiraletra(colaborador.primeiroNome) ?? ""} ${maximizar_primeiraletra(colaborador.segundoNome) ?? ""}`.trim()
@@ -68,8 +71,12 @@ function criar_item_chamado(grupoChamados) {
     // Gerar o HTML para os campos que têm valor
     const camposHTML = grupoChamados.map((chamado, index) => {
         if (chamado.valor && chamado.valor.trim() !== '') {
+            teste(chamado.valor)
             // Substituir os caracteres "|" por <br> para criar uma nova linha no HTML
-            let valorComQuebras = chamado.valor.replace(/\|/g, ';<br>');
+            let valorComQuebras = chamado.valor
+                                    .replace('false', 'NÃO')
+                                    .replace('true', 'SIM')
+                                    .replace(/\|/g, ';<br>');
             
             return `<span class="nome_campo_chamado">${chamado.nomeCampo}:<br></span> ${valorComQuebras}<br>`;
         }

@@ -1,10 +1,10 @@
 <div id="form_paralegal_certidao" class="secao_formulario">
   <!-- Razão Social (lista automação eCAC) -->
     <div class="campo_form">
-        <label class="rotulo_campo">Razão Social (selecionar empresa cadastrada):</label>
+        <label class="rotulo_campo">Razão Social:</label>
         <span class="campo_obrigatorio">*</span>
-        <select name="razao_social_lista" required class="campo_selecao">
-            <option value="" disabled selected>Selecione a empresa</option>
+        <select id="razao_social_lista" name="razao_social_lista" required class="campo_selecao">
+            <option value="" disabled selected></option>
             <!-- Opções populadas pela automação eCAC -->
         </select>
     </div>
@@ -72,6 +72,11 @@
         </label>
     </div>
 
+    <div class="campo_form">
+        <label class="rotulo_campo">OUTROS (descrever):</label>
+        <textarea id="outros_descrever" name="outros_descrever" rows="3" required class="campo_texto outros_descrever_receita"></textarea>
+    </div>
+
     <!-- Botão enviar -->
-    <button class="botao_modelo" type="submit">Enviar</button>
+    <button class="botao_modelo" onclick="enviar_chamado_certidao(event)" type="submit">Enviar</button>
 </div>

@@ -103,7 +103,10 @@ function criar_item_chamado_enviado_modal(chamado) {
             </td>
             <td class="valor_conteudo">
                 ${texto_parece_caminho(chamado.valor)
-                    ? `<span><button>${chamado.valor}</button></span>`
+                    ? `<span><button 
+                                class="botao_com_anexo" 
+                                data-caminho="${chamado.valor}"
+                                onclick="baixar_arquivo_anexado_obrigatorio(this)">ANEXADO</button></span>`
                     : `<span>${chamado.valor}</span>`
                 }
             </td>

@@ -215,8 +215,9 @@
     justify-content: center;    /* Alinha horizontalmente o conteúdo */
     transition: background-color 0.3s ease; /* Efeito suave de transição ao passar o mouse */
     position: absolute;
-    right: 36.5rem;
+    right: 32rem;
     top: 8.5rem;
+    box-shadow: var(--cor-sombra-card);
 }
 
 /* Estilo para o ícone */
