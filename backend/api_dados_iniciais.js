@@ -28,7 +28,6 @@ async function cadastrar_chamado(IdSolicitante, IdTipoChamado, ListaCamposComVal
         IdTipoChamado: IdTipoChamado,
         ListaCamposComValor: ListaCamposComValor
     };
-    teste(dados)
     return await post_api(dados, API_URL_CHAMADO_CADASTRAR);
 }
 
@@ -52,6 +51,25 @@ function consultar_clientes(cliente_ativo){
         
     const retorno_sql = runSqlSelect(sql_comando, { 
         js_ativo: cliente_ativo
+    })
+    return retorno_sql
+}
+
+function consultar_colaborador_eh_lider(id_colaborador, id_setor) {
+    const sql_comando =
+        `
+            SELECT 
+                colaborador_lider 
+            FROM 
+                tbl_Colaboradores_Setores 
+            WHERE 
+                id_colaborador = @js_id_colaborador and
+                id_setor = @js_id_setor;
+        `;
+        
+    const retorno_sql = runSqlSelect(sql_comando, { 
+        js_id_colaborador: id_colaborador,
+        js_id_setor: id_setor
     })
     return retorno_sql
 }

@@ -2,11 +2,9 @@
     <!-- Razão Social (duas opções) -->
     <div class="campo_form">
         <label class="rotulo_campo">Razão Social:</label>
-        <span class="campo_obrigatorio">*</span>
-        <select id="razao_social_lista" name="razao_social_lista" required class="campo_selecao">
-            <option value="" disabled selected></option>
-            <!-- Opções populadas pela automação eCAC -->
-        </select>
+        <input class="campo_de_pesquisa" type="text" value="" placeholder="Digite para filtrar">
+        <output id="razao_social_id" hidden></output>
+        <ul class="lista_de_valores"></ul>
     </div>
     
     <!-- Nome Fantasia -->

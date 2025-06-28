@@ -3,6 +3,68 @@ const categoria_arquivo = Object.freeze({
     OBRIGATORIEDADE: "obrigatorios"
 });
 
+let setores = [];
+let status_chamados = [];
+let tipos_chamados = [];
+let campos_chamados = [];
+let campos_chamados_valores = [];
+let campos_chamados_por_tipo = [];
+let dados_iniciais_combinados = [];
+let atividades_clientes = [];
+async function carregarDados() {
+    try {
+        const botao_abrir_chamado = document.getElementById('botao_abrir_chamado');
+        botao_abrir_chamado.style.pointerEvents = 'none';
+        
+        // const botao_painel_controle = document.getElementById('botao_painel_controle');
+        // botao_painel_controle.style.pointerEvents = 'none';
+
+        // const botao_atribuir_chamado = document.getElementById('botao_atribuir_chamado');
+        // botao_atribuir_chamado.style.pointerEvents = 'none';
+
+        // const botao_acompanhar_chamados = document.getElementById('botao_acompanhar_chamados');
+        // botao_acompanhar_chamados.style.pointerEvents = 'none';
+        
+        setores = await consultar_setores();
+        tipos_chamados = await consultar_tipos_chamados();
+        status_chamados = await consultar_status_chamados();
+
+        botao_abrir_chamado.style.pointerEvents = 'auto';
+
+        campos_chamados = await consultar_campos_chamados();
+        campos_chamados_valores = await consultar_campos_chamados_valores();
+        campos_chamados_por_tipo = await consultar_campos_chamados_por_tipo();
+        atividades_clientes = await consultar_atividades();
+        dados_iniciais_combinados = combinar_listas_dados_iniciais(
+            campos_chamados, 
+            campos_chamados_valores, 
+            tipos_chamados, 
+            setores, 
+            campos_chamados_por_tipo
+        );
+
+        // botao_painel_controle.style.pointerEvents = 'auto'; // Habilita o clique
+        // botao_atribuir_chamado.style.pointerEvents = 'auto';
+        // botao_acompanhar_chamados.style.pointerEvents = 'auto';
+    } catch (erro) {
+        console.error("Erro ao consultar dados iniciais:", erro);
+    }
+}
+
+function aguardarDOMCarregado() {
+    return new Promise((resolve) => {
+        if (document.readyState === 'loading') {
+            document.addEventListener("DOMContentLoaded", resolve);
+        } else {
+            resolve(); // Caso o DOM já tenha sido carregado antes de adicionar o listener
+        }
+    });
+}
+
+aguardarDOMCarregado().then(() => {
+    carregarDados();
+});
+
 // ===================== FUNÇÃO DE TESTE =====================
 
 function teste(valor){
@@ -31,6 +93,25 @@ function voltar_para_login() {
         window.location.href = "login.html";
     }
 }
+
+// ===================== VOLTAR PARA TELA DE LOGIN =====================
+
+document.addEventListener('DOMContentLoaded', () => {
+    let colaborador_eh_lider = consultar_colaborador_eh_lider(usuario_logado.idColaborador, usuario_logado.idSetor)
+    colaborador_eh_lider.then(eh => {
+        controlarAtribuirChamado(eh[0].colaborador_lider);
+    });
+});
+
+// ===================== VOLTAR PARA TELA DE LOGIN =====================
+
+document.addEventListener('DOMContentLoaded', () => {
+    const botao = document.getElementById('botao_painel_controle');
+
+    if (botao) {
+        botao.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    }
+});
 
 // ===================== DEIXA A PRIMEIRA LETRA MAIUSCULA =====================
 
@@ -324,7 +405,7 @@ if (raw) {
             .forEach(el => el.textContent = `${usuario_logado.primeiroNome.toUpperCase()} ${usuario_logado.segundoNome.toUpperCase()}`);
 }
 
-async function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamicos }) {
+async function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_dinamicos }, block_select=true) {
     const select = document.getElementById(id_campo);
 
     if (!select) {
@@ -432,7 +513,7 @@ async function popular_select({ id_campo, tipo, nome_item, nome_setor, campos_di
 
         select.appendChild(option);
 
-        if (itemsFiltrados.length === 1) {
+        if (itemsFiltrados.length === 1 && block_select) {
             option.selected = true;
             select.disabled = true; // Desabilita o select
         }
@@ -462,68 +543,6 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Erro ao consultar colaboradores:", erro);
         }
     })();
-});
-
-let setores = [];
-let status_chamados = [];
-let tipos_chamados = [];
-let campos_chamados = [];
-let campos_chamados_valores = [];
-let campos_chamados_por_tipo = [];
-let dados_iniciais_combinados = [];
-let atividades_clientes = [];
-async function carregarDados() {
-    try {
-        const botao_abrir_chamado = document.getElementById('botao_abrir_chamado');
-        botao_abrir_chamado.style.pointerEvents = 'none';
-        
-        // const botao_painel_controle = document.getElementById('botao_painel_controle');
-        // botao_painel_controle.style.pointerEvents = 'none';
-
-        // const botao_atribuir_chamado = document.getElementById('botao_atribuir_chamado');
-        // botao_atribuir_chamado.style.pointerEvents = 'none';
-
-        // const botao_acompanhar_chamados = document.getElementById('botao_acompanhar_chamados');
-        // botao_acompanhar_chamados.style.pointerEvents = 'none';
-        
-        setores = await consultar_setores();
-        tipos_chamados = await consultar_tipos_chamados();
-        status_chamados = await consultar_status_chamados();
-
-        botao_abrir_chamado.style.pointerEvents = 'auto';
-
-        campos_chamados = await consultar_campos_chamados();
-        campos_chamados_valores = await consultar_campos_chamados_valores();
-        campos_chamados_por_tipo = await consultar_campos_chamados_por_tipo();
-        atividades_clientes = await consultar_atividades();
-        dados_iniciais_combinados = combinar_listas_dados_iniciais(
-            campos_chamados, 
-            campos_chamados_valores, 
-            tipos_chamados, 
-            setores, 
-            campos_chamados_por_tipo
-        );
-
-        // botao_painel_controle.style.pointerEvents = 'auto'; // Habilita o clique
-        // botao_atribuir_chamado.style.pointerEvents = 'auto';
-        // botao_acompanhar_chamados.style.pointerEvents = 'auto';
-    } catch (erro) {
-        console.error("Erro ao consultar dados iniciais:", erro);
-    }
-}
-
-function aguardarDOMCarregado() {
-    return new Promise((resolve) => {
-        if (document.readyState === 'loading') {
-            document.addEventListener("DOMContentLoaded", resolve);
-        } else {
-            resolve(); // Caso o DOM já tenha sido carregado antes de adicionar o listener
-        }
-    });
-}
-
-aguardarDOMCarregado().then(() => {
-    carregarDados();
 });
 
 function combinar_listas_dados_iniciais(campos_chamados, campos_chamados_valores, tipos_chamados, setores, campos_chamados_por_tipo) {
@@ -644,4 +663,105 @@ async function baixar_arquivo_servidor(id_chamado, categoria, nome_arquivo) {
     document.body.removeChild(a);
 
     return true;
+}
+
+function criarCampoDePesquisa(class_campo_texto, id_campo_id, class_lista_de_elementos, texto_placeholder_1, lista_dados) {   
+    const campoDeTexto = document.querySelector(class_campo_texto); // Campo de input onde o usuário digita
+    const campoDeId = document.getElementById(id_campo_id);
+    const listaDeValores = document.querySelector(class_lista_de_elementos); // Lista de opções (dropdown)
+    const container_corpo = document.getElementById('corpo_abertura_chamado');
+
+    const ajustarAltura = delta => {
+        const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const atual = parseFloat(getComputedStyle(container_corpo).height) / rem;
+        container_corpo.style.height = `${atual + delta}rem`;
+    };
+
+    // Preenche a lista de valores dinamicamente com base no array de dados
+    function preencherListaComValores(dados) {
+        listaDeValores.innerHTML = '';          // limpa a <ul>
+
+        dados.forEach(({ id, texto }) => {      // destrutura o objeto
+            const li = document.createElement('li');
+
+            li.textContent = texto; // o que o usuário enxerga
+            li.dataset.value = id
+
+            listaDeValores.appendChild(li);
+        });
+    }
+    
+    // Inicializa a lista com todos os itens
+    preencherListaComValores(lista_dados);
+
+    // Array para armazenar os valores da lista
+    const valoresArray = [...document.querySelectorAll(`${class_lista_de_elementos} li`)];
+
+    // Evento para lidar com a entrada do usuário
+    campoDeTexto.addEventListener('input', () => {
+        listaDeValores.classList.add('aberto'); // Abre o dropdown ao digitar
+        let valorDigitado = campoDeTexto.value.toLowerCase();
+
+        // Caso o valor seja digitado, filtra a lista
+        if (valorDigitado.length > 0) {
+            for (let i = 0; i < valoresArray.length; i++) {
+                let valorDaLista = valoresArray[i].textContent.toLowerCase();
+                if (!(valorDaLista.substring(0, valorDigitado.length) === valorDigitado)) {
+                    valoresArray[i].classList.add('fechado'); // Fecha a opção se não corresponder
+                } 
+                else {
+                    valoresArray[i].classList.remove('fechado'); // Mantém a opção visível
+                }
+            }
+        } 
+        else {
+            // Caso o campo de pesquisa esteja vazio, mostra todos os itens
+            valoresArray.forEach(item => item.classList.remove('fechado'));
+        }
+    });
+
+    // Evento de clique em cada item da lista
+    valoresArray.forEach(item => {
+        item.addEventListener('click', () => {
+            campoDeId.value = item.dataset.value;
+            campoDeTexto.value = item.textContent; // Preenche o campo com o valor selecionado
+            ajustarAltura(-30)
+
+            valoresArray.forEach(itemLista => itemLista.classList.add('fechado')); // Fecha as opções após a seleção
+            listaDeValores.style.display = 'none';
+        });
+    });
+
+    // Evento para fechar o dropdown se o clique for fora da área
+    document.addEventListener('click', (e) => {
+        if (!listaDeValores.classList.contains('aberto')) 
+            return;
+
+        if (campoDeTexto.contains(e.target) || listaDeValores.contains(e.target)) 
+            return;
+
+        ajustarAltura(-30);
+        listaDeValores.classList.remove('aberto');
+        listaDeValores.style.display = 'none';
+    });
+
+    // Evento para abrir a lista de valores ao focar no campo de pesquisa
+    campoDeTexto.addEventListener('focus', () => {
+        campoDeTexto.placeholder = texto_placeholder_1; // Altera o placeholder quando o campo é focado
+        listaDeValores.classList.add('aberto'); // Abre o dropdown
+        
+        ajustarAltura(+23.5)
+        
+        valoresArray.forEach(item => item.classList.remove('fechado')); // Mostra todas as opções
+        listaDeValores.style.display = 'block';
+    });
+}
+
+async function preencher_lista_clientes() {
+    let lista_clientes = await consultar_clientes(1)
+    let lista_clientes_normalizada = normalizarLista(
+        lista_clientes, 
+        'id_cliente', 
+        item => `${item.cnpj_cpf} | ${item.razao_social}`)
+    return lista_clientes_normalizada
 }

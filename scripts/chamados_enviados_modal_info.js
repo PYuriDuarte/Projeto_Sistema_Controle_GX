@@ -1,3 +1,5 @@
+let id_chamado_enviados_modal_info = 0
+
 document.addEventListener('mouseenter', function(event) {
     const td = event.target;
     if (td.classList && td.classList.contains('valor_conteudo')) {
@@ -61,7 +63,9 @@ function iniciarChatChamado_enviados() {
 async function preencher_chamados_enviados_modal_consultados(event, id_chamado) {
     event.preventDefault();
 
-    const payload = { IdChamado: id_chamado };
+    id_chamado_enviados_modal_info = id_chamado
+
+    const payload = { IdChamado: id_chamado_enviados_modal_info };
 
     try {
         /* ---------------- 1ª consulta ---------------- */
@@ -78,20 +82,26 @@ async function preencher_chamados_enviados_modal_consultados(event, id_chamado) 
         if (!id_tipo_chamado) return;
 
         /* ---------------- 2ª consulta ---------------- */
-        const arquivosObrig = await consultar_chamados_arquivos_obrigatorios_por_tipo(id_chamado, id_tipo_chamado);
+        carregar_lista_arquivos_obrigatorios_enviado(id_tipo_chamado)
+    } 
+    catch (err) {
+        console.error('Erro ao preencher modal:', err);
+    }
+}
 
+async function carregar_lista_arquivos_obrigatorios_enviado(id_tipo_chamado) {
+    try {
         const lista = document.querySelector('.lista_anexar_arquivos_comprovacao_chamado_enviado');
+        const arquivosObrig = await consultar_chamados_arquivos_obrigatorios_por_tipo_enviado(id_tipo_chamado);
         if (lista) {
             lista.innerHTML = arquivosObrig
                 .map(a => criar_item_chamados_enviados_arquivos_obrigatorios_por_tipo(a))
                 .join('');
         }
 
-        ativarUploadArquivos_chamado_enviado_modal(id_chamado, lista)
-
-    } 
-    catch (err) {
-        console.error('Erro ao preencher modal:', err);
+        ativarUploadArquivos_chamado_enviado_modal(lista)
+    } catch (err) {
+        console.error('Erro ao carregar arquivos obrigatórios:', err);
     }
 }
 
@@ -116,7 +126,7 @@ function criar_item_chamado_enviado_modal(chamado) {
     return campo
 }
 
-function consultar_chamados_arquivos_obrigatorios_por_tipo(id_chamado, id_tipo_chamado) {
+function consultar_chamados_arquivos_obrigatorios_por_tipo_enviado(id_tipo_chamado) {
     const sql_comando =
         `
             SELECT
@@ -130,7 +140,7 @@ function consultar_chamados_arquivos_obrigatorios_por_tipo(id_chamado, id_tipo_c
         `;
         
     retorno_sql = runSqlSelect(sql_comando, { 
-        id_chamado: id_chamado,
+        id_chamado: id_chamado_enviados_modal_info,
         id_tipo_chamado: id_tipo_chamado
     })
     return retorno_sql
@@ -153,7 +163,7 @@ function criar_item_chamados_enviados_arquivos_obrigatorios_por_tipo(arquivo_obr
     return campo
 }
 
-function ativarUploadArquivos_chamado_enviado_modal(id_chamado, lista) {
+function ativarUploadArquivos_chamado_enviado_modal(lista) {
     lista.addEventListener('click', event => {
         const li = event.target.closest('li');
         if (!li || !lista.contains(li)) return;
@@ -170,6 +180,6 @@ function ativarUploadArquivos_chamado_enviado_modal(id_chamado, lista) {
         const ok = confirm(`Deseja baixar o arquivo:\n\n${nomeArquivo}?`);
         if (!ok) return;
 
-        baixar_arquivo_servidor(String(id_chamado).padStart(7, '0'), categoria_arquivo.COMPROVACAO, nomeArquivo)
+        baixar_arquivo_servidor(String(id_chamado_enviados_modal_info).padStart(7, '0'), categoria_arquivo.COMPROVACAO, nomeArquivo)
     });
 }

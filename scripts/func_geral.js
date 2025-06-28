@@ -14,6 +14,22 @@ function renderizar_campo_data(campo, nome_label, isReadonly = false, valor = nu
     }
 }
 
+function pegar_data_hora_agora(tipo_retorno){
+    const agora = new Date();
+    
+    if(tipo_retorno == 'soData'){
+        return agora.toISOString().slice(0, 10);
+    }
+    else if (tipo_retorno == 'isoUtc'){
+        return agora.toISOString();       // '2025-06-27T14:32:11.734Z'
+    }
+    else if (tipo_retorno == 'isoLocal'){
+        return agora.toISOString()        // '2025-06-27T14:32:11.734Z'
+                    .slice(0, 19)         // '2025-06-27T14:32:11'
+                    .replace('T', ' ');   // '2025-06-27 14:32:11'
+    }
+}
+
 function montar_campo_data(campo, isReadonly = false, valor = null) {
     let v = valor?.match(/^\d{2}\/\d{2}\/\d{4}$/)
         ? valor.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$2-$1')
@@ -56,4 +72,43 @@ function texto_parece_caminho(str) {
     const semCaracteresRuins = !/[\"\n\r]/.test(s); // não permite aspas ou quebras de linha
 
     return temPrefixoValido && temOutraBarra && semCaracteresRuins;
+}
+
+
+/**
+ * Transforma um array de objetos em [{id, texto}]
+ *
+ * @param {Array<Object>} lista          Array original
+ * @param {string} campoId               Nome da propriedade que vira id
+ * @param {string|Function} campoTexto   Nome da propriedade **ou** função que gera o texto
+ * @returns {Array<{id:any, texto:any}>}
+ */
+function normalizarLista(lista, campoId, campoTexto) {
+  return lista.map(item => ({
+    id   : item[campoId],
+    texto: typeof campoTexto === 'function'
+              ? campoTexto(item)                  // usa a função fornecida
+              : item[campoTexto]                  // usa o campo simples
+  }));
+}
+
+
+/**
+ * Exibe ou oculta a opção "Atribuir Chamados"
+ * @param {boolean} ehLider – true para mostrar, false para esconder
+ */
+function controlarAtribuirChamado(ehLider) {
+    const item = document.getElementById('item_atribuir_chamado');
+    const hr   = document.getElementById('hr_atribuir_chamado');
+    
+    if (!item || !hr){return};           // segurança
+
+    // duas opções: só esconder ou remover do DOM.
+    if (ehLider) {
+        item.style.display = '';         // mostra
+        hr.style.display   = '';
+    } else {
+        item.style.display = 'none';     // oculta
+        hr.style.display   = 'none';
+    }
 }

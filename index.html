@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="styles/chamados_recebidos_modal_info.css" />
 
         <link rel="stylesheet" href="styles/tela_1366.css" />
-        <link rel="stylesheet" href="styles/tela_1600.css" />
+        <link rel="stylesheet" href="styles/tela_1600.css" />        
 
         <title>Char GX</title>
     </head>
@@ -62,9 +62,9 @@
                 </a>
             </li>
 
-            <hr class="sidebar_separador" />
+            <hr id="hr_atribuir_chamado" class="sidebar_separador" style="display: none;"/>
 
-            <li class="sidebar_link sidebar_link_atribuir_chamado">
+            <li id="item_atribuir_chamado" class="sidebar_link sidebar_link_atribuir_chamado" style="display: none;">
                 <a class="sidebar_botao btn_carregar_novo_corpo"
                     id="botao_atribuir_chamado"
                     data-arquivo="atribuir_chamado.html" data-display="flex" data-titulo="Atribuir Chamados">
@@ -178,9 +178,9 @@
             </div>
 
             <div id="container_corpo">
-                <div id="imagem_em_construcao">
+                <!-- <div id="imagem_em_construcao">
                     <img src="imagens/em_construcao.png" alt="Em Construção" />
-                </div>
+                </div> -->
             </div>
         </section>
 

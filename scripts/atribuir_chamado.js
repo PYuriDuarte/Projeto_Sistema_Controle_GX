@@ -71,7 +71,6 @@ function criar_item_chamado(grupoChamados) {
     // Gerar o HTML para os campos que têm valor
     const camposHTML = grupoChamados.map((chamado, index) => {
         if (chamado.valor && chamado.valor.trim() !== '') {
-            teste(chamado.valor)
             // Substituir os caracteres "|" por <br> para criar uma nova linha no HTML
             let valorComQuebras = chamado.valor
                                     .replace('false', 'NÃO')
@@ -159,8 +158,8 @@ function salvar_atribuicao_chamado(id_chamado, id_campo_responsavel) {
 
     retorno_consulta = atualizar_chamados(payload)
     retorno_consulta.then(resposta => {
-        if(resposta[0].mensagem === '[SQL] CHAMADO ATUALIZADO COM SUCESSO'){
-            atualizar_pagina_atribuir_chamados()
+        if(resposta[0].mensagem === '[SQL] CHAMADO ATUALIZADO COM SUCESSO') {
+            alert('CHAMADO FINALIZADO COM SUCESSO.')
         }
     });
 }

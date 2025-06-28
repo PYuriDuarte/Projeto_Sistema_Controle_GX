@@ -64,15 +64,18 @@ function tentar_carregar_corpo_abrir_chamado() {
     const config = combinacoes_setor_tipo_chamado[chave];
 
     if (!config){
+        const container_corpo = document.getElementById('corpo_abertura_chamado');
+        container_corpo.style.display = 'none';
         return null
     }
     
     carregar_corpo_abrir_chamado(config.arquivo, config.display, chave);
 }
 
-function carregar_corpo_abrir_chamado(arquivo, display, chave) {
+async function carregar_corpo_abrir_chamado(arquivo, display, chave) {
     const container_corpo = document.getElementById('corpo_abertura_chamado');
-
+    let clientes = await preencher_lista_clientes()
+    
     fetch(arquivo)
         .then(response => response.text())
         .then(html => {
@@ -91,7 +94,7 @@ function carregar_corpo_abrir_chamado(arquivo, display, chave) {
                     break;
                 case "PARALEGAL|ADITIVO/ALTERAÇÃO":
                     altura_tela = 74
-                    popular_select({id_campo: 'razao_social_lista', tipo: 'clientes'});
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
                     popular_select({id_campo: 'atividade_principal', tipo: 'atividades'});
                     popular_select({id_campo: 'atividade_secundaria', tipo: 'atividades'});
                     popular_select({id_campo: 'natureza_juridica', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Natureza Jurídica"]});
@@ -99,31 +102,39 @@ function carregar_corpo_abrir_chamado(arquivo, display, chave) {
                     popular_select({id_campo: 'porte_empresa', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Porte da empresa"]});
                     break;
                 case "PARALEGAL|DISTRATO SOCIAL":
-                    popular_select({id_campo: 'razao_social_lista', tipo: 'clientes'});
-                    const selectElement = document.getElementById('razao_social_lista');
-                    selectElement.addEventListener('change', function() {
-                        popular_select({id_campo: 'responsavel_livros', tipo: 'socios', campos_dinamicos: selectElement.value});
-                    });
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
+                    const out = document.getElementById('razao_social_id');
+
+                    new MutationObserver(() => {
+                        console.log('Mutação detectada; valor atual →', out.value);
+
+                        popular_select({
+                            id_campo: 'responsavel_livros',
+                            tipo: 'socios',
+                            campos_dinamicos: out.value
+                        });
+                    }).observe(out, { childList: true });
+                    
                     altura_tela = 20
                     break;
                 case "PARALEGAL|LICENÇAS":
-                    popular_select({id_campo: 'razao_social_lista', tipo: 'clientes'});
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
                     altura_tela = 31
                     break;
                 case "PARALEGAL|SEFAZ":
-                    popular_select({id_campo: 'razao_social_lista', tipo: 'clientes'});
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
                     altura_tela = 32
                     break;
                 case "PARALEGAL|SEFIN":
-                    popular_select({id_campo: 'razao_social_lista', tipo: 'clientes'});
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
                     altura_tela = 32
                     break;
                 case "PARALEGAL|CERTIDÃO":
-                    popular_select({id_campo: 'razao_social_lista', tipo: 'clientes'});
-                    altura_tela = 38.5
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
+                    altura_tela = 39
                     break;
                 case "PARALEGAL|RECEITA FEDERAL":
-                    popular_select({id_campo: 'razao_social_lista', tipo: 'clientes'});
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
                     altura_tela = 39
                     break;
                 case "PARALEGAL|OUTROS":
@@ -132,6 +143,7 @@ function carregar_corpo_abrir_chamado(arquivo, display, chave) {
             }
 
             container_corpo.style.height = `${altura_tela}rem`
+            container_corpo.style.minHeight = `${altura_tela}rem`
         })
         .catch(err => {
             container_corpo.style.display = display;
@@ -517,7 +529,7 @@ function enviar_chamado_aditivo_alteracao(event) {
     if (!verificar_preencimento_de_ao_menos_um_campo(campos_valores))
         return
 
-    campos_valores["Razão Social"] = document.getElementById('razao_social_lista').value;
+    campos_valores["Razão Social"] = document.getElementById('razao_social_id').value;
 
     const fileInput = document.getElementById('anexo_iptu');
     if(fileInput.files[0]){
@@ -563,7 +575,7 @@ function enviar_chamado_aditivo_alteracao(event) {
 
 function enviar_chamado_distrato_social(event) {
     const campos_valores = {
-        "Razão Social": document.getElementById('razao_social_lista').value,
+        "Razão Social": document.getElementById('razao_social_id').value,
         "Possui Funcionários?": document.getElementById('possui_funcionarios').value,
         "Possui Inscrição Municipal Ativa?": document.getElementById('inscricao_municipal_ativa').value,
         "Quem ficará responsável pela guarda dos livros?": document.getElementById('responsavel_livros').options[document.getElementById('responsavel_livros').selectedIndex].text,
@@ -644,7 +656,7 @@ function enviar_chamado_licencas(event) {
     if (!verificar_preencimento_de_ao_menos_um_campo(campos_valores))
         return
     
-    campos_valores["Razão Social"] = document.getElementById('razao_social_lista').value;
+    campos_valores["Razão Social"] = document.getElementById('razao_social_id').value;
     campos_valores["Número do IPTU"] = document.getElementById('numero_iptu').value;
     
     let campos_por_tipo = filtrar_campos_dados_iniciais(dados_iniciais_combinados, "LICENÇAS", "PARALEGAL")
@@ -702,7 +714,7 @@ function enviar_chamado_sefaz_sefin(sefaz_ou_sefin, event) {
     
     event.preventDefault()
 
-    campos_valores["Razão Social"] = document.getElementById('razao_social_lista').value;
+    campos_valores["Razão Social"] = document.getElementById('razao_social_id').value;
     campos_valores["OUTROS (descrever)"] = document.getElementById('outros_descrever').value;
 
     const selectTipo = document.getElementById('tipo_chamado');
@@ -749,7 +761,7 @@ function enviar_chamado_certidao(event) {
 
     event.preventDefault()
 
-    campos_valores["Razão Social"] = document.getElementById('razao_social_lista').value;
+    campos_valores["Razão Social"] = document.getElementById('razao_social_id').value;
     campos_valores["OUTROS (descrever)"] = document.getElementById('outros_descrever').value;
 
     const selectTipo = document.getElementById('tipo_chamado');
@@ -795,7 +807,7 @@ function enviar_chamado_receita_federal(event) {
     
     campos_valores["Atualização Quadro Societário"] = document.getElementById('flag_atualizacao_quadro_societario').checked;
     campos_valores["Alteração CNAE"] = document.getElementById('flag_alteracao_cnae').checked;
-    campos_valores["Razão Social"] = document.getElementById('razao_social_lista').value;
+    campos_valores["Razão Social"] = document.getElementById('razao_social_id').value;
     campos_valores["OUTROS (descrever)"] = document.getElementById('outros_descrever').value;
 
     const selectTipo = document.getElementById('tipo_chamado');

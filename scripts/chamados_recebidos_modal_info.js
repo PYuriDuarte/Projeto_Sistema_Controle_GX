@@ -1,3 +1,5 @@
+let id_chamado_recebidos_modal_info = 0
+
 document.addEventListener('mouseenter', function(event) {
     const td = event.target;
     if (td.classList && td.classList.contains('valor_conteudo')) {
@@ -61,7 +63,9 @@ function iniciarChatChamado_recebidos() {
 async function preencher_chamados_recebidos_modal_consultados(event, id_chamado) {
     event.preventDefault();
 
-    const payload = { IdChamado: id_chamado };
+    id_chamado_recebidos_modal_info = id_chamado
+
+    const payload = { IdChamado: id_chamado_recebidos_modal_info };
 
     try {
         /* ---------------- 1ª consulta ---------------- */
@@ -78,7 +82,7 @@ async function preencher_chamados_recebidos_modal_consultados(event, id_chamado)
         if (!id_tipo_chamado) return;
 
         /* ---------------- 2ª consulta ---------------- */
-        carregar_lista_arquivos_obrigatorios(id_chamado, id_tipo_chamado)
+        carregar_lista_arquivos_obrigatorios_recebido(id_tipo_chamado)
     } 
     catch (err) {
         console.error('Erro ao preencher modal:', err);
@@ -123,7 +127,7 @@ function baixar_arquivo_anexado_obrigatorio(botao) {
     baixar_arquivo_servidor(id_chamado, categoria, nome_arquivo)
 }
 
-function consultar_chamados_arquivos_obrigatorios_por_tipo(id_chamado, id_tipo_chamado) {
+function consultar_chamados_arquivos_obrigatorios_por_tipo_recebido(id_tipo_chamado) {
     const sql_comando =
         `
         SELECT
@@ -137,7 +141,7 @@ function consultar_chamados_arquivos_obrigatorios_por_tipo(id_chamado, id_tipo_c
         `;
         
     retorno_sql = runSqlSelect(sql_comando, { 
-        id_chamado: id_chamado,
+        id_chamado: id_chamado_recebidos_modal_info,
         id_tipo_chamado: id_tipo_chamado
     })
     return retorno_sql
@@ -160,7 +164,7 @@ function criar_item_chamados_recebidos_arquivos_obrigatorios_por_tipo(arquivo_ob
     return campo
 }
 
-function ativarUploadArquivos_chamado_recebido_modal(id_chamado, id_tipo_chamado, lista) {
+function ativarUploadArquivos_chamado_recebido_modal(id_tipo_chamado, lista) {
     lista.addEventListener('click', event => {
         const li = event.target.closest('li');
         if (!li || !lista.contains(li)) return;
@@ -184,7 +188,7 @@ function ativarUploadArquivos_chamado_recebido_modal(id_chamado, id_tipo_chamado
             input.addEventListener('change', () => {
                 const file = input.files[0];
                 if (file) {
-                    let id_chamado_formatado = String(id_chamado).padStart(7, '0')
+                    let id_chamado_formatado = String(id_chamado_recebidos_modal_info).padStart(7, '0')
                     let nome_arquivo = li.textContent.trim().replace(/\s+/g, "_")
                     const extensao = file.name.split('.').pop().toLowerCase();
                     arquivo_foi_enviado = enviar_arquivo_servidor(file, id_chamado_formatado, categoria_arquivo.COMPROVACAO, nome_arquivo)
@@ -205,10 +209,10 @@ function ativarUploadArquivos_chamado_recebido_modal(id_chamado, id_tipo_chamado
                         )
                     `;
                     let caminho_arquivo = `D:\\Público\\Z_Controle_Chamados\\${id_chamado_formatado}\\${categoria_arquivo.COMPROVACAO}\\${nome_arquivo}.${extensao}`
-                    retorno_insert = runSqlInsert(sql, { js_id_chamado: id_chamado, js_id_tipo_arquivo: String(id_tipo_arquivo), js_caminho_arquivo: caminho_arquivo })
+                    retorno_insert = runSqlInsert(sql, { js_id_chamado: id_chamado_recebidos_modal_info, js_id_tipo_arquivo: String(id_tipo_arquivo), js_caminho_arquivo: caminho_arquivo })
                     retorno_insert.then(id_insert => {
                         console.log("O ID inserido na tabela foi o ID: " + id_insert)
-                        carregar_lista_arquivos_obrigatorios(id_chamado, id_tipo_chamado)                        
+                        carregar_lista_arquivos_obrigatorios_recebido(id_tipo_chamado)                        
                     })
                 }
             });
@@ -220,19 +224,39 @@ function ativarUploadArquivos_chamado_recebido_modal(id_chamado, id_tipo_chamado
     });
 }
 
-async function carregar_lista_arquivos_obrigatorios(id_chamado, id_tipo_chamado) {
-  try {
+async function carregar_lista_arquivos_obrigatorios_recebido(id_tipo_chamado) {
+    try {
         const lista = document.querySelector('.lista_anexar_arquivos_comprovacao_chamado_recebido');
-        const arquivosObrig = await consultar_chamados_arquivos_obrigatorios_por_tipo(id_chamado, id_tipo_chamado);
-
+        const arquivosObrig = await consultar_chamados_arquivos_obrigatorios_por_tipo_recebido(id_tipo_chamado);
         if (lista) {
             lista.innerHTML = arquivosObrig
                 .map(a => criar_item_chamados_recebidos_arquivos_obrigatorios_por_tipo(a))
                 .join('');
         }
 
-        ativarUploadArquivos_chamado_recebido_modal(id_chamado, id_tipo_chamado, lista)
-  } catch (err) {
-    console.error('Erro ao carregar arquivos obrigatórios:', err);
-  }
+        ativarUploadArquivos_chamado_recebido_modal(id_tipo_chamado, lista)
+    } catch (err) {
+        console.error('Erro ao carregar arquivos obrigatórios:', err);
+    }
+}
+
+function finalizar_chamado(event) {
+    event.preventDefault();
+
+    const payload = {
+        "IdChamado": parseInt(id_chamado_recebidos_modal_info),
+        "IdStatus": 3, // Chamado "ATENDIDOS"
+        "IdResponsavel": null,
+        // "DataFechamento": '2025-06-27',
+        "DataFechamento": pegar_data_hora_agora('soData'),
+    }
+
+    teste(payload)
+    
+    retorno_update = atualizar_chamados(payload)
+    retorno_update.then(resposta => {
+        if(resposta[0].mensagem === '[SQL] CHAMADO ATUALIZADO COM SUCESSO') {
+            atualizar_pagina_atribuir_chamados()
+        }
+    });
 }
