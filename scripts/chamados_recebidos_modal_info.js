@@ -138,7 +138,8 @@ function consultar_chamados_arquivos_obrigatorios_por_tipo_recebido(id_tipo_cham
             ON  c.id_tipo_arquivo = t.id_chamado_arquivo_obrigatorio_por_tipo
             AND c.id_chamado  = @id_chamado
         WHERE t.id_tipo_chamado = @id_tipo_chamado;
-        `;
+        `
+    ;
         
     retorno_sql = runSqlSelect(sql_comando, { 
         id_chamado: id_chamado_recebidos_modal_info,
@@ -149,9 +150,12 @@ function consultar_chamados_arquivos_obrigatorios_por_tipo_recebido(id_tipo_cham
 
 function criar_item_chamados_recebidos_arquivos_obrigatorios_por_tipo(arquivo_obrigatorio) {
     const campo = `
-        <li ${arquivo_obrigatorio.caminho_arquivo
-            ? 'class="active"'
-            : ''} tabindex="0">
+        <li ${
+                arquivo_obrigatorio.caminho_arquivo
+                ? 'class="active"'
+                : ''
+            } 
+            tabindex="0">
             ${arquivo_obrigatorio.nome_tipo_arquivo}
 
             <input
@@ -242,21 +246,28 @@ async function carregar_lista_arquivos_obrigatorios_recebido(id_tipo_chamado) {
 
 function finalizar_chamado(event) {
     event.preventDefault();
+    
+    const itens = document.querySelectorAll('.lista_anexar_arquivos_comprovacao_chamado_recebido li');
+    const todosAtivos = [...itens].every(li => li.classList.contains('active'));
+
+    if (!todosAtivos) {
+        alertaInfo('Ainda existem comprovantes não anexados. Anexe todos antes de finalizar o chamado.')
+        return;
+    }
 
     const payload = {
         "IdChamado": parseInt(id_chamado_recebidos_modal_info),
         "IdStatus": 3, // Chamado "ATENDIDOS"
         "IdResponsavel": null,
-        // "DataFechamento": '2025-06-27',
         "DataFechamento": pegar_data_hora_agora('soData'),
     }
-
-    teste(payload)
     
     retorno_update = atualizar_chamados(payload)
     retorno_update.then(resposta => {
         if(resposta[0].mensagem === '[SQL] CHAMADO ATUALIZADO COM SUCESSO') {
-            atualizar_pagina_atribuir_chamados()
+            fechar_modal_chamado_recebido()
+
+            preencher_chamados_recebidos_consultados({preventDefault() {}});
         }
     });
 }

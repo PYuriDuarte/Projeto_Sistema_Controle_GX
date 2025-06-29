@@ -145,7 +145,7 @@ function atualizar_pagina_atribuir_chamados() {
 function salvar_atribuicao_chamado(id_chamado, id_campo_responsavel) {
     const id_responsavel = document.getElementById(id_campo_responsavel + id_chamado).value;
     if (!id_responsavel || id_responsavel.trim() === "") {
-        alert("Selecione um colaborador para ser o responsavel do chamado antes de salvar.")
+        alertaInfo("Selecione um colaborador para ser o responsavel do chamado antes de salvar.")
         return
     }
 
@@ -155,11 +155,12 @@ function salvar_atribuicao_chamado(id_chamado, id_campo_responsavel) {
         "IdResponsavel": parseInt(id_responsavel),
         "DataFechamento": null,
     }
-
+    
     retorno_consulta = atualizar_chamados(payload)
     retorno_consulta.then(resposta => {
         if(resposta[0].mensagem === '[SQL] CHAMADO ATUALIZADO COM SUCESSO') {
-            alert('CHAMADO FINALIZADO COM SUCESSO.')
+            alertaSucesso('Responsável atribuido ao chamado.')
+            atualizar_pagina_atribuir_chamados()
         }
     });
 }

@@ -121,7 +121,8 @@
 
 .linha {
     display: flex;
-    gap: 4rem;
+    gap: 8rem;
+    margin: auto auto;
 }
 
 .coluna-grande {
@@ -167,7 +168,7 @@
 
 #graficoArea, #graficoPizza {
     width: 100% !important;
-    height: 240px !important;
+    height: 100% !important;
     max-width: 600px;
     display: block;
 }

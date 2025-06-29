@@ -96,10 +96,12 @@ function voltar_para_login() {
 
 // ===================== VOLTAR PARA TELA DE LOGIN =====================
 
+let colaborador_eh_lider = false
 document.addEventListener('DOMContentLoaded', () => {
-    let colaborador_eh_lider = consultar_colaborador_eh_lider(usuario_logado.idColaborador, usuario_logado.idSetor)
-    colaborador_eh_lider.then(eh => {
-        controlarAtribuirChamado(eh[0].colaborador_lider);
+    colaborador_eh_lider_consulta = consultar_colaborador_eh_lider(usuario_logado.idColaborador, usuario_logado.idSetor)
+    colaborador_eh_lider_consulta.then(eh => {
+        colaborador_eh_lider = eh[0].colaborador_lider
+        controlarAtribuirChamado(colaborador_eh_lider);
     });
 });
 
@@ -613,7 +615,7 @@ async function enviar_arquivo_servidor(file, id_chamado, categoria, nome_arquivo
     // enviar_arquivo_servidor(file, "0000001", categoria_arquivo.OBRIGATORIEDADE, 'documento_cliente')
     const MAX_SIZE = 50 * 1024 * 1024; // 50MB em bytes
     if (file.size > MAX_SIZE) {
-        alert('O arquivo excede o limite de 50MB. Por favor, envie um arquivo menor.');
+        alertaInfo('O arquivo excede o limite de 50MB. Por favor, envie um arquivo menor.');
         return false; // Retorna false e não faz o envio
     }
 
@@ -665,97 +667,97 @@ async function baixar_arquivo_servidor(id_chamado, categoria, nome_arquivo) {
     return true;
 }
 
-function criarCampoDePesquisa(class_campo_texto, id_campo_id, class_lista_de_elementos, texto_placeholder_1, lista_dados) {   
-    const campoDeTexto = document.querySelector(class_campo_texto); // Campo de input onde o usuário digita
-    const campoDeId = document.getElementById(id_campo_id);
-    const listaDeValores = document.querySelector(class_lista_de_elementos); // Lista de opções (dropdown)
-    const container_corpo = document.getElementById('corpo_abertura_chamado');
+function criarCampoDePesquisa(classCampoTexto, idCampoId, classLista,
+                            idContainer, placeholderAtivo, lista_dados, 
+                            tamanho_bloco = '150%', incrementoRem  = 23.5) 
+{
+    /* ---------- referências DOM ---------- */
+    const input    = document.querySelector(classCampoTexto);
+    const outputEl = document.getElementById(idCampoId);
+    const lista    = document.querySelector(classLista);
+    const cont     = document.getElementById(idContainer);
 
-    const ajustarAltura = delta => {
-        const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
-        const atual = parseFloat(getComputedStyle(container_corpo).height) / rem;
-        container_corpo.style.height = `${atual + delta}rem`;
+    /* ---------- popula a <ul> ---------- */
+    lista.innerHTML = '';
+    lista.style.maxWidth = tamanho_bloco;
+
+    lista_dados.forEach(({ id, texto }) => {
+        const li = document.createElement('li');
+        li.textContent   = texto;
+        li.dataset.value = id;
+        lista.appendChild(li);
+    });
+
+    /* ---------- alturas ---------- */
+    const rem            = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const baseHeightRem  = parseFloat(getComputedStyle(cont).height) / rem;
+
+    let listaAberta = false;
+
+    const abrir = () => {
+        if (listaAberta) return;
+        lista.style.display = 'block';
+        lista.classList.add('aberto');
+        cont.style.height = `${baseHeightRem + incrementoRem}rem`;
+        listaAberta = true;
     };
 
-    // Preenche a lista de valores dinamicamente com base no array de dados
-    function preencherListaComValores(dados) {
-        listaDeValores.innerHTML = '';          // limpa a <ul>
+    const fechar = () => {
+        if (!listaAberta) return;
+        cont.style.height = `${baseHeightRem}rem`;
+        lista.classList.remove('aberto');
+        lista.style.display = 'none';
+        listaAberta = false;
+    };
 
-        dados.forEach(({ id, texto }) => {      // destrutura o objeto
-            const li = document.createElement('li');
+    /* ---------- array de <li> ---------- */
+    const valoresArray = [...lista.querySelectorAll('li')];
 
-            li.textContent = texto; // o que o usuário enxerga
-            li.dataset.value = id
-
-            listaDeValores.appendChild(li);
+    /* ---------- filtra enquanto digita ---------- */
+    input.addEventListener('input', () => {
+        abrir();
+        const v = input.value.toLowerCase();
+        valoresArray.forEach(li => {
+        li.classList.toggle(
+            'fechado',
+            !li.textContent.toLowerCase().startsWith(v)
+        );
         });
-    }
+    });
+
+    /* ---------- focus mostra tudo ---------- */
+    input.addEventListener('focus', () => {
+        input.placeholder = placeholderAtivo;
+        valoresArray.forEach(li => li.classList.remove('fechado'));
+        abrir();
+    });
+
+    /* ---------- perder o foco fecha ---------- */
+    input.addEventListener('blur', () => {
+            /* espera um micro-tick para permitir que o click/mousedown no <li> aconteça */
+            setTimeout(() => {
+                /* se o elemento atualmente focado NÃO está dentro da lista, então pode fechar */
+                if (!lista.contains(document.activeElement)) fechar();
+            }, 300);
+        });
+
+    /* ---------- clique em item fecha ---------- */
+    valoresArray.forEach(li => {
+        li.addEventListener('click', () => {
+        outputEl.value = li.dataset.value; // <output hidden>
+        input.value    = li.textContent;
+        fechar();
+        });
+    });
     
-    // Inicializa a lista com todos os itens
-    preencherListaComValores(lista_dados);
-
-    // Array para armazenar os valores da lista
-    const valoresArray = [...document.querySelectorAll(`${class_lista_de_elementos} li`)];
-
-    // Evento para lidar com a entrada do usuário
-    campoDeTexto.addEventListener('input', () => {
-        listaDeValores.classList.add('aberto'); // Abre o dropdown ao digitar
-        let valorDigitado = campoDeTexto.value.toLowerCase();
-
-        // Caso o valor seja digitado, filtra a lista
-        if (valorDigitado.length > 0) {
-            for (let i = 0; i < valoresArray.length; i++) {
-                let valorDaLista = valoresArray[i].textContent.toLowerCase();
-                if (!(valorDaLista.substring(0, valorDigitado.length) === valorDigitado)) {
-                    valoresArray[i].classList.add('fechado'); // Fecha a opção se não corresponder
-                } 
-                else {
-                    valoresArray[i].classList.remove('fechado'); // Mantém a opção visível
-                }
-            }
-        } 
-        else {
-            // Caso o campo de pesquisa esteja vazio, mostra todos os itens
-            valoresArray.forEach(item => item.classList.remove('fechado'));
-        }
-    });
-
-    // Evento de clique em cada item da lista
-    valoresArray.forEach(item => {
-        item.addEventListener('click', () => {
-            campoDeId.value = item.dataset.value;
-            campoDeTexto.value = item.textContent; // Preenche o campo com o valor selecionado
-            ajustarAltura(-30)
-
-            valoresArray.forEach(itemLista => itemLista.classList.add('fechado')); // Fecha as opções após a seleção
-            listaDeValores.style.display = 'none';
-        });
-    });
-
-    // Evento para fechar o dropdown se o clique for fora da área
-    document.addEventListener('click', (e) => {
-        if (!listaDeValores.classList.contains('aberto')) 
-            return;
-
-        if (campoDeTexto.contains(e.target) || listaDeValores.contains(e.target)) 
-            return;
-
-        ajustarAltura(-30);
-        listaDeValores.classList.remove('aberto');
-        listaDeValores.style.display = 'none';
-    });
-
-    // Evento para abrir a lista de valores ao focar no campo de pesquisa
-    campoDeTexto.addEventListener('focus', () => {
-        campoDeTexto.placeholder = texto_placeholder_1; // Altera o placeholder quando o campo é focado
-        listaDeValores.classList.add('aberto'); // Abre o dropdown
-        
-        ajustarAltura(+23.5)
-        
-        valoresArray.forEach(item => item.classList.remove('fechado')); // Mostra todas as opções
-        listaDeValores.style.display = 'block';
+    /* ---------- clique fora (mousedown) fecha ---------- */
+    document.addEventListener('mousedown', e => {
+        if (e.target === input || lista.contains(e.target)) return;
+        fechar();
     });
 }
+
+// ===============================================
 
 async function preencher_lista_clientes() {
     let lista_clientes = await consultar_clientes(1)

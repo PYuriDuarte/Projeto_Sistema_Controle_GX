@@ -94,7 +94,7 @@ async function carregar_corpo_abrir_chamado(arquivo, display, chave) {
                     break;
                 case "PARALEGAL|ADITIVO/ALTERAÇÃO":
                     altura_tela = 74
-                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'corpo_abertura_chamado', 'Selecione um cliente', clientes);
                     popular_select({id_campo: 'atividade_principal', tipo: 'atividades'});
                     popular_select({id_campo: 'atividade_secundaria', tipo: 'atividades'});
                     popular_select({id_campo: 'natureza_juridica', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Natureza Jurídica"]});
@@ -102,7 +102,7 @@ async function carregar_corpo_abrir_chamado(arquivo, display, chave) {
                     popular_select({id_campo: 'porte_empresa', tipo: 'campos_valores', campos_dinamicos: ["CONTRATO SOCIAL ABERTURA", "PARALEGAL", "Porte da empresa"]});
                     break;
                 case "PARALEGAL|DISTRATO SOCIAL":
-                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'corpo_abertura_chamado', 'Selecione um cliente', clientes);
                     const out = document.getElementById('razao_social_id');
 
                     new MutationObserver(() => {
@@ -118,23 +118,23 @@ async function carregar_corpo_abrir_chamado(arquivo, display, chave) {
                     altura_tela = 20
                     break;
                 case "PARALEGAL|LICENÇAS":
-                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'corpo_abertura_chamado', 'Selecione um cliente', clientes);
                     altura_tela = 31
                     break;
                 case "PARALEGAL|SEFAZ":
-                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'corpo_abertura_chamado', 'Selecione um cliente', clientes);
                     altura_tela = 32
                     break;
                 case "PARALEGAL|SEFIN":
-                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'corpo_abertura_chamado', 'Selecione um cliente', clientes);
                     altura_tela = 32
                     break;
                 case "PARALEGAL|CERTIDÃO":
-                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'corpo_abertura_chamado', 'Selecione um cliente', clientes);
                     altura_tela = 39
                     break;
                 case "PARALEGAL|RECEITA FEDERAL":
-                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'Selecione um cliente', clientes);
+                    criarCampoDePesquisa('.campo_de_pesquisa', 'razao_social_id', '.lista_de_valores', 'corpo_abertura_chamado', 'Selecione um cliente', clientes);
                     altura_tela = 39
                     break;
                 case "PARALEGAL|OUTROS":
@@ -397,7 +397,7 @@ function verificar_preencimento_de_todos_os_campos(campos_valores) {
 
     // Se houver campos vazios, exibe o alert com os nomes desses campos
     if (camposVazios.length > 0) {
-        alert('Os seguintes campos estão sem valor: ' + camposVazios.join(',\n'));
+        alertaInfo('Os seguintes campos estão sem valor: ' + camposVazios.join(',\n'));
         return false
     }
     return true
@@ -417,7 +417,7 @@ function verificar_preencimento_de_ao_menos_um_campo(campos_valores) {
 
     // Se nenhum campo estiver preenchido, exibe o alert
     if (!camposPreenchidos) {
-        alert('Pelo menos um campo deve ser preenchido.');
+        alertaInfo('Pelo menos um campo deve ser preenchido.');
         return false;
     }
     return true;
@@ -428,7 +428,7 @@ function enviar_chamado_contrato_social_abertura(event) {
     const socios_nomes = Array.from(lista_socios.querySelectorAll('input[name="nome_socio"]'));
     const socios_percentuais = Array.from(lista_socios.querySelectorAll('input[name="porcentagem_socio"]'));
     if (socios_nomes.length === 0) {
-        alert("É obrigatório a adição de ao menos um sócio.");
+        alertaInfo("É obrigatório a adição de ao menos um sócio.");
         return false;
     }
 
@@ -439,7 +439,7 @@ function enviar_chamado_contrato_social_abertura(event) {
     });
 
     if (soma_percentual !== 100) {
-        alert("A soma das porcentagens dos sócios deve ser 100%.\nSoma atual: " + soma_percentual + "%");
+        alertaInfo("A soma das porcentagens dos sócios deve ser 100%.\nSoma atual: " + soma_percentual + "%");
         return false;
     }
     
@@ -497,7 +497,7 @@ function enviar_chamado_contrato_social_abertura(event) {
 
         enviar_arquivo_servidor(document.getElementById('anexo_iptu').files[0], id_com_os_zeros, categoria_arquivo.OBRIGATORIEDADE, 'anexo_iptu')
 
-        alert(`Chamado Enviado! {${id_com_os_zeros}}`)
+        alertaSucesso(`Chamado Enviado! {${id_com_os_zeros}}`)
 
         // Se tudo OK, pode limpar e recarregar
         const container_corpo = document.getElementById('corpo_abertura_chamado');
@@ -563,7 +563,7 @@ function enviar_chamado_aditivo_alteracao(event) {
             enviar_arquivo_servidor(document.getElementById('anexo_iptu').files[0], id_com_os_zeros, categoria_arquivo.OBRIGATORIEDADE, 'anexo_iptu')
         }
 
-        alert(`Chamado Enviado! {${id_com_os_zeros}}`)
+        alertaSucesso(`Chamado Enviado! {${id_com_os_zeros}}`)
 
         // Se tudo OK, pode limpar e recarregar
         const container_corpo = document.getElementById('corpo_abertura_chamado');
@@ -611,7 +611,7 @@ function enviar_chamado_distrato_social(event) {
         const segundaParte = partes[1] ? partes[1].trim() : ''; // Pega a segunda parte, caso exista
         const id_com_os_zeros = segundaParte.padStart(7, '0');
 
-        alert(`Chamado Enviado! {${id_com_os_zeros}}`)
+        alertaSucesso(`Chamado Enviado! {${id_com_os_zeros}}`)
 
         // Se tudo OK, pode limpar e recarregar
         const container_corpo = document.getElementById('corpo_abertura_chamado');
@@ -693,7 +693,7 @@ function enviar_chamado_licencas(event) {
             enviar_arquivo_servidor(document.getElementById('licenca_bombeiros').files[0], id_com_os_zeros, categoria_arquivo.OBRIGATORIEDADE, 'licenca_bombeiros')
         }
 
-        alert(`Chamado Enviado! {${id_com_os_zeros}}`)
+        alertaSucesso(`Chamado Enviado! {${id_com_os_zeros}}`)
 
         // Se tudo OK, pode limpar e recarregar
         const container_corpo = document.getElementById('corpo_abertura_chamado');
@@ -738,7 +738,7 @@ function enviar_chamado_sefaz_sefin(sefaz_ou_sefin, event) {
         const segundaParte = partes[1] ? partes[1].trim() : ''; // Pega a segunda parte, caso exista
         const id_com_os_zeros = segundaParte.padStart(7, '0');
 
-        alert(`Chamado Enviado! {${id_com_os_zeros}}`)
+        alertaSucesso(`Chamado Enviado! {${id_com_os_zeros}}`)
 
         // Se tudo OK, pode limpar e recarregar
         const container_corpo = document.getElementById('corpo_abertura_chamado');
@@ -785,7 +785,7 @@ function enviar_chamado_certidao(event) {
         const segundaParte = partes[1] ? partes[1].trim() : ''; // Pega a segunda parte, caso exista
         const id_com_os_zeros = segundaParte.padStart(7, '0');
 
-        alert(`Chamado Enviado! {${id_com_os_zeros}}`)
+        alertaSucesso(`Chamado Enviado! {${id_com_os_zeros}}`)
 
         // Se tudo OK, pode limpar e recarregar
         const container_corpo = document.getElementById('corpo_abertura_chamado');
@@ -831,7 +831,7 @@ function enviar_chamado_receita_federal(event) {
         const segundaParte = partes[1] ? partes[1].trim() : ''; // Pega a segunda parte, caso exista
         const id_com_os_zeros = segundaParte.padStart(7, '0');
 
-        alert(`Chamado Enviado! {${id_com_os_zeros}}`)
+        alertaSucesso(`Chamado Enviado! {${id_com_os_zeros}}`)
 
         // Se tudo OK, pode limpar e recarregar
         const container_corpo = document.getElementById('corpo_abertura_chamado');
@@ -922,8 +922,8 @@ function enviar_chamado_outros(event) {
         if(campos_valores["Anexo 5"]){
             enviar_arquivo_servidor(document.getElementById('anexo_outros_5').files[0], id_com_os_zeros, categoria_arquivo.OBRIGATORIEDADE, 'anexo_5')
         }
-
-        alert(`Chamado Enviado! {${id_com_os_zeros}}`)
+        
+        alertaSucesso(`Chamado Enviado! {${id_com_os_zeros}}`)
 
         // Se tudo OK, pode limpar e recarregar
         const container_corpo = document.getElementById('corpo_abertura_chamado');

@@ -169,7 +169,7 @@ function ativarUploadArquivos_chamado_enviado_modal(lista) {
         if (!li || !lista.contains(li)) return;
 
         if (!li.classList.contains('active')) {
-            alert('Este item não possui arquivo anexado até o momento.');
+            alertaInfo('Este item não possui arquivo anexado até o momento.');
             return
         }
 

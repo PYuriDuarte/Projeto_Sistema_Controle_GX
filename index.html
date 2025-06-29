@@ -5,9 +5,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+        <!-- Ícones / fontes -->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+        <!-- SweetAlert2 – só o tema (inclui o core CSS) -->
+        <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.min.css" rel="stylesheet">
         
+        <!-- Estilos -->
         <link rel="stylesheet" href="styles/variaveis.css" />
         <link rel="stylesheet" href="styles/tela_inicio.css" />
         <link rel="stylesheet" href="styles/navbar.css" />
@@ -21,6 +26,7 @@
         <link rel="stylesheet" href="styles/chamados_enviados_modal_info.css" />
         <link rel="stylesheet" href="styles/chamados_recebidos.css" />
         <link rel="stylesheet" href="styles/chamados_recebidos_modal_info.css" />
+        <link rel="stylesheet" href="styles/chamados_recebidos_modal_reatribuir.css" />
 
         <link rel="stylesheet" href="styles/tela_1366.css" />
         <link rel="stylesheet" href="styles/tela_1600.css" />        
@@ -184,6 +190,13 @@
             </div>
         </section>
 
+        <!-- SweetAlert2 JS (depois do DOM) -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.1/dist/sweetalert2.all.min.js"></script>
+
+        <script src="scripts/func_geral.js"></script>
+        <script src="scripts/func_alertas.js"></script>
+
+        <script src="scripts/meu_painel.js"></script>
         <script src="backend/api_consulta.js"></script>
         <script src="backend/api_insert.js"></script>
         <script src="backend/consts_apis.js"></script>
@@ -200,7 +213,5 @@
         <script src="scripts/chamados_recebidos_modal_info.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="scripts/meu_painel.js"></script>
-        <script src="scripts/func_geral.js"></script>
     </body>
 </html>

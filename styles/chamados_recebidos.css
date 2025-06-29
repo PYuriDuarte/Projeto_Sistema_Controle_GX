@@ -62,7 +62,7 @@
 /* Cabeçalho (títulos das colunas) */
 .chamados_recebidos_cabecalho {
     display: grid;
-    grid-template-columns: 3.75rem .5fr 1fr .64fr 3.75rem 1fr .7fr .2fr;
+    grid-template-columns: 3.5rem .87fr 1.5fr 1.05fr 3.5rem .75fr .85fr .55fr;
     background: var(--cor-fundo-cinzinha);
     border-bottom: 1px solid var(--cor-borda-cinzinha);
     padding: 0.8rem .5rem 0.8rem 1.7rem;
@@ -101,10 +101,14 @@
     border-bottom: .15rem solid var(--cor-borda-cinzinha);
 }
 
+.chamados_recebidos_info {
+    display: flex;
+}
+
 /* Grid do conteúdo */
 .chamados_recebidos_informacoes {
     display: grid;
-    grid-template-columns: 3.75rem .55fr 1fr .85fr 3.75rem 1.05fr .85fr .2fr;
+    grid-template-columns: 3.75rem .55fr 1fr .85fr 3.75rem .5fr .6fr .2fr;
     align-items: center;
     gap: 0.6rem;
     min-height: 52px;
@@ -199,7 +203,8 @@
 .chamados_recebidos_status .status_finalizado { color: var(--cor-correto); }
 .chamados_recebidos_status .status_pendente { color: var(--cor-erro); }
 
-#botao_chamados_recebidos_info {
+#botao_chamados_recebidos_info,
+#botao_reatribuir_chamados_recebidos {
     background: var(--cor-fundo-cinzinha);
     border: none;
     border-radius: 0.5rem;
@@ -215,12 +220,16 @@
 }
 
 #botao_chamados_recebidos_info:hover,
-#botao_chamados_recebidos_info:focus {
+#botao_chamados_recebidos_info:focus,
+#botao_reatribuir_chamados_recebidos:hover,
+#botao_reatribuir_chamados_recebidos:focus {
     background: var(--cor-fundo-cinzinha);
     box-shadow: 0 0.125rem 0.375rem rgba(0,0,0,0.09);
 }
 
-#botao_chamados_recebidos_info .material-icons {
+#botao_chamados_recebidos_info .material-icons,
+#botao_reatribuir_chamados_recebidos .material-icons
+ {
     font-size: 1.5rem;
     color: var(--cor-texto-terciario);
     vertical-align: middle;

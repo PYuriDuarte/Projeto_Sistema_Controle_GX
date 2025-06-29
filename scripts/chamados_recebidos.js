@@ -3,6 +3,7 @@ function criar_item_chamado_recebido(chamado) {
     fotoSolicitante = ""
     fotoResponsavel = ""
     progresso = 0
+    teste(usuario_logado)
     return `
     <li class="chamados_recebidos_item" data-id-chamado="${chamado.idChamado}">
         <div class="chamados_recebidos_informacoes">
@@ -32,8 +33,22 @@ function criar_item_chamado_recebido(chamado) {
                 <span>${chamado.nomeStatus}</span>
             </div>
             <div class="chamados_recebidos_info">
-                <button id="botao_chamados_recebidos_info" onclick="modal_info_chamado_recebido(this, event)">
+                <button ${
+                            !colaborador_eh_lider && chamado.idResponsavel !== usuario_logado.idColaborador
+                            ? `disabled`
+                            : ``
+                        }
+                    data-status-chamado="${chamado.nomeStatus}" id="botao_chamados_recebidos_info" onclick="modal_info_chamado_recebido(this, event)">
                     <i class="material-icons">visibility</i>
+                </button>
+
+                <button ${
+                            !colaborador_eh_lider || chamado.nomeStatus.toUpperCase() === 'ATENDIDOS'
+                            ? `style="visibility: hidden;"`
+                            : ``
+                        }
+                    id="botao_reatribuir_chamados_recebidos" onclick="modal_reatribuir_chamado_recebido(this, event)">
+                    <i class="material-icons">swap_horizontal_circle</i>
                 </button>
             </div>
         </div>
@@ -105,6 +120,7 @@ async function modal_info_chamado_recebido(botao, event) {
     if (!li) return;
 
     const idChamado = li.dataset.idChamado;   // camelCase no dataset!
+    const statusChamado = botao.dataset.statusChamado
 
     // 2. Recarrega SEMPRE o html do modal
     const container = document.getElementById('modal_chamado_recebido_container');
@@ -115,6 +131,9 @@ async function modal_info_chamado_recebido(botao, event) {
     const modal = container.querySelector('#modal_chamado_recebido');
 
     // 3. Preenche campos + inicia chat com o novo id
+    const botao_finalizar_chamado = document.getElementById('modal_info_chamado_recebido_btn_finalizar');
+    if(statusChamado.toUpperCase() === 'ATENDIDOS')
+        botao_finalizar_chamado.style.display = "none"
     preencher_chamados_recebidos_modal_consultados(event, idChamado);
     iniciarChatChamado_recebidos();
 
@@ -125,4 +144,66 @@ async function modal_info_chamado_recebido(botao, event) {
 function fechar_modal_chamado_recebido() {
     const modal = document.getElementById('modal_chamado_recebido');
     if (modal) modal.style.display = 'none';
+}
+
+async function modal_reatribuir_chamado_recebido(botao, event) {
+    // 1. Descobre o id do chamado
+    const li = botao.closest('.chamados_recebidos_item');
+    if (!li) return;
+
+    const idChamado = li.dataset.idChamado;   // camelCase no dataset!
+
+    // 2. Recarrega SEMPRE o html do modal
+    const container = document.getElementById('modal_chamado_recebido_container');
+    const html      = await fetch('chamados_recebidos_modal_reatribuir.html')
+                            .then(r => r.text());
+
+    container.innerHTML = html;                       // substitui o antigo
+    const modal = container.querySelector('#modal_reatribuir_chamado');
+
+    select_colaboradores = document.querySelector('.campo_de_pesquisa_reatribuir')
+    select_colaboradores.dataset.idChamado = idChamado;
+
+    let colaboradores_por_setor_normalizada = normalizarLista(
+        colaboradores_por_setor, 
+        'id_colaborador', 
+        item => `${maximizar_primeiraletra(item.primeiro_nome)} ${maximizar_primeiraletra(item.segundo_nome)}`)
+    
+    criarCampoDePesquisa('.campo_de_pesquisa_reatribuir', 'colaboradores_para_reatribuir', '.lista_de_valores_reatribuir',
+                        'modal_chamado_recebido_content', 'Digite para filtrar', colaboradores_por_setor_normalizada, '100%');
+    
+    // 4. Exibe
+    modal.style.display = 'flex';
+}
+
+function fechar_modal_reatribuir_chamado_recebido() {
+    const modal = document.getElementById('modal_reatribuir_chamado');
+    if (modal) modal.style.display = 'none';
+}
+
+function salvar_reatribuicao_chamado() {
+    let id_chamado = document.querySelector('.campo_de_pesquisa_reatribuir').dataset.idChamado
+    let id_responsavel = document.getElementById('colaboradores_para_reatribuir').value
+
+    if (!id_responsavel || id_responsavel.trim() === "") {
+        alertaInfo("Selecione um colaborador para ser o responsavel do chamado antes de salvar.")
+        return
+    }
+
+    const payload = {
+        "IdChamado": parseInt(id_chamado),
+        "IdStatus": 2,
+        "IdResponsavel": parseInt(id_responsavel),
+        "DataFechamento": null,
+    }
+    
+    retorno_consulta = atualizar_chamados(payload)
+    retorno_consulta.then(resposta => {
+        if(resposta[0].mensagem === '[SQL] CHAMADO ATUALIZADO COM SUCESSO') {
+            alertaSucesso('Responsável atribuido ao chamado.')
+            fechar_modal_reatribuir_chamado_recebido()
+
+            preencher_chamados_recebidos_consultados({preventDefault() {}});
+        }
+    });
 }
