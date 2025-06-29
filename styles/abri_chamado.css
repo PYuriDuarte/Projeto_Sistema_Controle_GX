@@ -14,6 +14,7 @@
     margin: .1rem auto;
     align-items: flex-end;
     justify-content: center;
+    background-color: red;
 }
 
 .coluna_campo {

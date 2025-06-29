@@ -121,3 +121,34 @@ function consultar_colaboradores_por_setor() {
     const retorno_sql = runSqlSelect(sql_comando)
     return retorno_sql
 }
+
+function consultar_chat_chamado(id_chamado) {
+    const sql_comando =
+        `
+            SELECT 
+                id_chat_chamado,
+                tbl_Chamados.id_chamado,
+                tbl_Tipos_Remetentes.id_tipo_remetente,
+                nome_remetente,
+                id_remetente,
+                primeiro_nome as primeiro_nome_remetente,
+                segundo_nome as segundo_nome_remetente,
+                mensagem,
+                data_envio
+            FROM 
+                tbl_Chat_Chamado
+                JOIN tbl_Colaboradores 
+                    ON id_remetente = id_colaborador
+                JOIN tbl_Chamados 
+                    ON tbl_Chat_Chamado.id_chamado = tbl_Chamados.id_chamado
+                JOIN tbl_Tipos_Remetentes
+                    ON tbl_Chat_Chamado.id_tipo_remetente = tbl_Tipos_Remetentes.id_tipo_remetente
+            WHERE
+	            tbl_Chamados.id_chamado = @js_id_chamado
+            ORDER BY
+	            data_envio
+        `;
+        
+    const retorno_sql = runSqlSelect(sql_comando, {js_id_chamado: id_chamado})
+    return retorno_sql
+}

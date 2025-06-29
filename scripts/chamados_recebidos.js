@@ -3,7 +3,7 @@ function criar_item_chamado_recebido(chamado) {
     fotoSolicitante = ""
     fotoResponsavel = ""
     progresso = 0
-    teste(usuario_logado)
+    
     return `
     <li class="chamados_recebidos_item" data-id-chamado="${chamado.idChamado}">
         <div class="chamados_recebidos_informacoes">
@@ -135,15 +135,41 @@ async function modal_info_chamado_recebido(botao, event) {
     if(statusChamado.toUpperCase() === 'ATENDIDOS')
         botao_finalizar_chamado.style.display = "none"
     preencher_chamados_recebidos_modal_consultados(event, idChamado);
-    iniciarChatChamado_recebidos();
+
+    iniciarChatChamado(
+        'modal_info_chamado_recebido_chat_mensagens', 
+        'modal_info_chamado_recebido_mensagem_input', 
+        'modal_info_chamado_recebido_btn_enviar', 
+        'modal_info_chamado_recebido_msg',
+        idChamado,
+        'responsavel'
+    );
+
+    iniciarLoopChatChamado(
+        'modal_info_chamado_recebido_chat_mensagens', 
+        'modal_info_chamado_recebido_mensagem_input', 
+        'modal_info_chamado_recebido_btn_enviar', 
+        'modal_info_chamado_recebido_msg',
+        idChamado,
+        'responsavel'
+    );
 
     // 4. Exibe
     modal.style.display = 'flex';
 }
 
-function fechar_modal_chamado_recebido() {
+function fechar_modal_chamado_recebido(id_chamado) {
+    if (!id_chamado){
+        baidu = document.getElementById('.chamados_recebidos_item')
+        id_chamado = li.dataset.idChamado;
+        teste('--')
+        teste(id_chamado)
+    }
+
     const modal = document.getElementById('modal_chamado_recebido');
     if (modal) modal.style.display = 'none';
+
+    encerrarLoopChatChamado(idChamado)
 }
 
 async function modal_reatribuir_chamado_recebido(botao, event) {

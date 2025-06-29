@@ -767,3 +767,135 @@ async function preencher_lista_clientes() {
         item => `${item.cnpj_cpf} | ${item.razao_social}`)
     return lista_clientes_normalizada
 }
+
+// ===============================================
+
+const _mensagensExibidas = new Set();
+
+function iniciarChatChamado(
+  idChatMensagens, idInputMensagem, idBtnEnviar,
+  idListaMensagens, idChamado, nomeTipoRemetente
+) {
+    /* ---------------- elementos de UI ---------------- */
+    const chatMensagens = document.getElementById(idChatMensagens);
+    const inputMensagem = document.getElementById(idInputMensagem);
+    const btnEnviar     = document.getElementById(idBtnEnviar);
+
+    if (!chatMensagens || !inputMensagem || !btnEnviar) {
+        console.warn("Elementos do chat não encontrados.");
+        return;
+    }
+
+    /* ---------------- helpers ---------------- */
+    function adicionarMensagem(id_mensagem, texto, tipo = 'solicitante') {
+        if (_mensagensExibidas.has(id_mensagem)) return;  // já foi renderizada
+
+        const div = document.createElement('div');
+        div.classList.add(idListaMensagens, tipo);
+        div.dataset.msgId = id_mensagem;
+        div.textContent   = texto;
+        chatMensagens.appendChild(div);
+        chatMensagens.scrollTop = chatMensagens.scrollHeight;
+
+        _mensagensExibidas.add(id_mensagem);
+    }
+
+    function enviarMensagem() {
+        const texto = inputMensagem.value.trim();
+        if (!texto) return;
+
+        const sql =
+            `
+                INSERT INTO tbl_Chat_Chamado (
+                    id_chamado,
+                    id_tipo_remetente,
+                    id_remetente,
+                    mensagem,
+                    data_envio
+                )
+                VALUES (
+                    @js_id_chamado,
+                    (SELECT id_tipo_remetente FROM tbl_Tipos_Remetentes WHERE nome_remetente = @js_nome_tipo_remetente),
+                    @js_id_remetente,
+                    @js_mensagem,
+                    @js_data_envio
+                )
+            `;
+        
+        retorno_insert = runSqlInsert(sql, {js_id_chamado: idChamado, 
+                                            js_nome_tipo_remetente: nomeTipoRemetente, 
+                                            js_id_remetente: usuario_logado.idColaborador,
+                                            js_mensagem: texto,
+                                            js_data_envio: pegar_data_hora_agora('isoUtc')})
+        retorno_insert.then(id_insert => {
+            console.log("O ID inserido na tabela foi o ID: " + id_insert)
+            iniciarChatChamado(
+                idChatMensagens, idInputMensagem, idBtnEnviar,
+                idListaMensagens, idChamado, nomeTipoRemetente
+            );
+        })
+        
+        inputMensagem.value = '';
+    }
+
+    function preencherMensagem() {
+        const texto = inputMensagem.value.trim();
+        if (!texto) return;
+
+        // gera id temporário só para não duplicar localmente
+        const idTemp = `temp-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        adicionarMensagem(idTemp, texto, nomeTipoRemetente);
+        
+        inputMensagem.value = '';
+    }
+
+    /* ---------------- listeners ---------------- */
+    if (!btnEnviar.dataset.listenerAttached) {
+        btnEnviar.addEventListener('click', enviarMensagem);
+        inputMensagem.addEventListener('keydown', e => {
+            if (e.key === 'Enter') 
+                enviarMensagem();
+        });
+        btnEnviar.dataset.listenerAttached = '1';
+    }
+
+    /* ---------------- carrega histórico do servidor ---------------- */
+    consultar_chat_chamado(idChamado).then(chatArr => {
+            chatArr.forEach(msg =>
+                adicionarMensagem(msg.id_chat_chamado, msg.mensagem, msg.nome_remetente)
+            );
+        })
+        .catch(console.error);
+}
+
+const _chatLoops = new Map();
+
+// iniciarLoopChat(idChamado);
+function iniciarLoopChatChamado(
+    idChatMensagens, idInputMensagem, idBtnEnviar,
+    idListaMensagens, idChamado, nomeTipoRemetente, ms=3000
+) {
+    if (_chatLoops.has(idChamado)) {
+        return;
+    }
+    const intervalId = setInterval(() => {
+        iniciarChatChamado(
+            idChatMensagens,
+            idInputMensagem,
+            idBtnEnviar,
+            idListaMensagens,
+            idChamado,
+            nomeTipoRemetente
+        );
+    }, ms);
+
+    _chatLoops.set(idChamado, intervalId);
+}
+
+function encerrarLoopChatChamado(idChamado) {
+    const intervalId = _chatLoops.get(idChamado);
+    if (intervalId) {
+        clearInterval(intervalId);
+        _chatLoops.delete(idChamado);
+    }
+}

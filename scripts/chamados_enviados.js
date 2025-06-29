@@ -115,7 +115,15 @@ async function modal_info_chamado_enviado(botao, event) {
 
     // 3. Preenche campos + inicia chat com o novo id
     preencher_chamados_enviados_modal_consultados(event, idChamado);
-    iniciarChatChamado_enviados();
+    
+    iniciarChatChamado(
+        'modal_info_chamado_enviado_chat_mensagens', 
+        'modal_info_chamado_enviado_mensagem_input', 
+        'modal_info_chamado_enviado_btn_enviar', 
+        'modal_info_chamado_enviado_msg',
+        idChamado,
+        'solicitante'
+    );
 
     // 4. Exibe
     modal.style.display = 'flex';

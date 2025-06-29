@@ -11,55 +11,6 @@ document.addEventListener('mouseenter', function(event) {
     }
 }, true); // <--- O 'true' garante o hover correto em tabela
 
-function iniciarChatChamado_recebidos() {
-    const chatMensagens = document.getElementById('modal_info_chamado_recebido_chat_mensagens');
-    const inputMensagem = document.getElementById('modal_info_chamado_recebido_mensagem_input');
-    const btnEnviar = document.getElementById('modal_info_chamado_recebido_btn_enviar');
-
-    // Garante que os elementos existem
-    if (!chatMensagens || !inputMensagem || !btnEnviar) {
-        console.warn("Elementos do chat não encontrados.");
-        return;
-    }
-
-    // Função que adiciona uma mensagem ao chat
-    function adicionarMensagem(texto, tipo = 'solicitante') {
-        const msg = document.createElement('div');
-        msg.classList.add('modal_info_chamado_recebido_msg', tipo);
-        msg.textContent = texto;
-        chatMensagens.appendChild(msg);
-        chatMensagens.scrollTop = chatMensagens.scrollHeight;
-    }
-
-    // Função chamada ao enviar mensagem
-    function enviarMensagem() {
-        const texto = inputMensagem.value.trim();
-        if (!texto) return;
-        adicionarMensagem(texto, 'solicitante'); // Adiciona a mensagem do usuário
-        inputMensagem.value = ''; // Limpa o campo
-
-        // Resposta automática de simulação
-        setTimeout(function() {
-            adicionarMensagem('Ok! Mensagem recebida.', 'responsavel');
-        }, 1200);
-    }
-
-    // Evento de click no botão Enviar
-    btnEnviar.addEventListener('click', function() {
-        enviarMensagem();
-    });
-
-    // Evento de pressionar Enter no campo de texto
-    inputMensagem.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            enviarMensagem();
-        }
-    });
-
-    // Mensagem inicial simulada do responsável
-    adicionarMensagem('Olá, em que posso ajudar?', 'responsavel');
-}
-
 async function preencher_chamados_recebidos_modal_consultados(event, id_chamado) {
     event.preventDefault();
 
@@ -265,7 +216,7 @@ function finalizar_chamado(event) {
     retorno_update = atualizar_chamados(payload)
     retorno_update.then(resposta => {
         if(resposta[0].mensagem === '[SQL] CHAMADO ATUALIZADO COM SUCESSO') {
-            fechar_modal_chamado_recebido()
+            fechar_modal_chamado_recebido(id_chamado_recebidos_modal_info)
 
             preencher_chamados_recebidos_consultados({preventDefault() {}});
         }
