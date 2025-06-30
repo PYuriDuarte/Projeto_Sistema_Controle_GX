@@ -42,7 +42,7 @@ async function preencher_chamados_recebidos_modal_consultados(event, id_chamado)
 
 function criar_item_chamado_recebido_modal(chamado) {
     campo = `
-        <tr>
+        <tr data-id-chamado="${chamado.IdChamado}" class="tr_item_modal_info">
             <td class="valor_tarefa">
                 <span>${chamado.nomeCampo}</span>
             </td>

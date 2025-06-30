@@ -28,10 +28,6 @@
 .card_chamado.aberto    { border-left: .25rem solid var(--cor-erro); }
 .card_chamado.pendente  { border-left: .25rem solid var(--cor-alerta); }
 
-.card_chamado:hover {
-    box-shadow: 0 .25rem 1.2rem var(--cor-sombra-card);
-}
-
 .linha_card_conteudo {
     display: flex;
     align-items: center;
@@ -199,3 +195,70 @@
 .legenda .referencia {
     color: #36b9cc;
 }
+
+/* ================================= */
+
+/* =======================================================
+   Escopo exclusivo do gráfico de chamados
+   ======================================================= */
+.colab-chart{
+    color:var(--cor-texto-padrao);
+    padding:2rem 1rem;
+    margin: 1.5rem 2.5rem;
+    background-color: var(--cor-fundo-card);
+    border-radius: .5rem;
+    box-shadow: var(--cor-sombra-card);
+    width: 100%;
+}
+
+.colab-chart-title{margin:0 0 1rem;font-size:1.2rem;}
+
+/* ---------- seletor de setor ---------- */
+.colab-chart-select-wrapper{margin-bottom:1rem;}
+.colab-chart-select{
+    padding:.5rem .8rem;
+    border:1px solid var(--cor-bordar-elementos); border-radius:.25rem;
+    background:var(--cor-fundo);
+}
+.colab-chart-select:focus{
+    outline:none; border-color:var(--cor-bordar-elementos-focus);
+    box-shadow:0 0 5px rgba(0,87,152,.3);
+}
+
+/* ---------- cards (gráfico + tabela) ---------- */
+.colab-chart-card{
+    background:var(--cor-fundo-card);
+    border:1px solid var(--cor-bordar-elementos);
+    border-radius:.5rem;
+    box-shadow:var(--cor-sombra-card);
+    padding:1rem; margin-top:1.5rem;
+}
+
+.colab-chart-card--table{
+    width: 50%;
+}
+
+/* ---------- gráfico ---------- */
+.colab-chart-canvas{width:100%!important;max-height:360px;}
+
+/* ---------- tabela ---------- */
+.colab-chart-table{
+    width:100%;
+    border-collapse:collapse;
+}
+.colab-chart-thead{
+    background:var(--cor-fundo-azulzinho);
+}
+.colab-chart-th,
+.colab-chart-tr td{
+    padding: .5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--cor--borda-cinzinha);
+}
+/* cores das colunas numéricas */
+.colab-chart-table .colab-chart-th:nth-child(2),
+.colab-chart-table td:nth-child(2){color:var(--cor-alerta);}   /* solicitados */
+.colab-chart-table .colab-chart-th:nth-child(3),
+.colab-chart-table td:nth-child(3){color:var(--cor-correto);}     /* andamento */
+.colab-chart-table .colab-chart-th:nth-child(4),
+.colab-chart-table td:nth-child(4){color:var(--cor-erro);}    /* atendidos */

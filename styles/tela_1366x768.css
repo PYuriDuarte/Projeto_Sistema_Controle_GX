@@ -1,4 +1,5 @@
-@media (max-width: 1366px) {
+/* Desktop HD (1366 × 768) ou maior */
+@media (min-width: 1366px) and (min-height: 768px) {
     #container_corpo {
         flex-direction: column;
         gap: 1.5rem;
@@ -6,6 +7,7 @@
     }
     .linha_card_chamado {
         min-width: 0;
+        width: 101%;
     }
     .card_chamado{
         width: 30%;
@@ -17,21 +19,38 @@
     .container_abertura_chamado{
         height: 30.5rem;
     }
-    #corpo_abertura_chamado{
-        width: 94.5%;
-        height: 90%;
-    }
     .formulario_chamado{
-        width: 52.8%;
-        margin: 0 21.4%;
+        width: 70%;
+        margin: 2rem auto 1rem auto;
         justify-content: center;
+    }
+    #corpo_abertura_chamado{
+        width: 64.5%;
+        height: 90%;
+        margin: auto auto auto 11.2rem;
+    }
+    #form_contrato_social #anexo_iptu{
+        width: 95.5%;
+    }
+    #form_contrato_social{
+        width: 100%;
+    }
+    #form_contrato_social select{
+        width: 98.5%;
+    }
+    #form_contrato_social .campo_de_pesquisa{
+        width: 95%;
+    }
+    .botao_modelo{
+        margin-top: 1rem;
+        width: 100%;
+    }
+    #outros_descrever {
+        max-width: 94% !important;
     }
     .secao_formulario {
         height: none;
         width: 50%;
-    }
-    .botao_modelo {
-        width: 34.3rem;
     }
     #form_contato_social #adicionar_socio {
         width: 34.3rem;
@@ -86,40 +105,53 @@
 
 
     /* CHAMADOS RECEBIDOS */
-    .chamados_recebidos_central {
-        width: 92.5%;
+    .chamados_recebidos_central,
+    .chamados_enviados_central {
+        width: 92%;
     }
-    .chamados_recebidos_filtros {
+    .chamados_recebidos_filtros,
+    .chamados_enviados_filtros {
         font-size: .9rem;
     }
     .chamados_recebidos_filtros input,
-    .chamados_recebidos_filtros select {
+    .chamados_enviados_filtros select,
+    .chamados_recebidos_filtros input,
+    .chamados_enviados_filtros select {
         font-size: .8rem;
     }
-    #chamados_recebidos_btn_pesquisar {
+    #chamados_recebidos_btn_pesquisar,
+    #chamados_enviados_btn_pesquisar {
         font-size: .9rem;
     }
-    .chamados_recebidos_cabecalho {
+    .chamados_recebidos_cabecalho,
+    .chamados_enviados_cabecalho {
         grid-template-columns: 3.75rem .5fr 1fr .64fr 3.75rem 1fr .7fr .33fr;
     }
     .chamados_recebidos_nome span,
     .chamados_recebidos_tipo span,
     .chamados_recebidos_data span,
     .chamados_recebidos_nome_responsavel span,
-    .chamados_recebidos_status span {
+    .chamados_recebidos_status span,
+    .chamados_enviados_nome span,
+    .chamados_enviados_tipo span,
+    .chamados_enviados_data span,
+    .chamados_enviados_nome_responsavel span,
+    .chamados_enviados_status span {
         max-width: 10rem;
     }
 
 
     /* CHAMADOS RECEBIDOS MODAL INFO */
-    #modal_chamado_recebido .modal_chamado_recebido_content {
+    #modal_chamado_recebido .modal_chamado_recebido_content,
+    #modal_chamado_enviado .modal_chamado_enviado_content {
         margin-bottom: 4rem;
         margin-top: 4rem;
-        width: 60rem;
-        height: 35rem;
+        width: 68rem;
+        height: 40rem;
     }
-    .modal_info_chamado_recebido_container {
-        height: 33.5rem;
+    .modal_info_chamado_recebido_container,
+    .modal_info_chamado_enviado_container {
+        height: 38.5rem;
     }
     .col_tarefa {
         width: 3rem;
@@ -136,10 +168,12 @@
         min-width: 3rem;
         max-width: 3rem;
     }
-    .modal_info_chamado_recebido_tabela th {
+    .modal_info_chamado_recebido_tabela th,
+    .modal_info_chamado_enviado_tabela th {
         font-size: .7rem;
     }
-    .modal_info_chamado_recebido_tabela td {
+    .modal_info_chamado_recebido_tabela td,
+    .modal_info_chamado_enviado_tabela td {
         font-size: .6rem;
     }
     .valor_comprovacao button {
@@ -148,18 +182,42 @@
     .modal_info_chamado_recebido_btn_finalizar {
         font-size: .75rem;
     }
-    .modal_info_chamado_recebido_chat_input input[type="text"] {
+    .modal_info_chamado_recebido_chat_input input[type="text"],
+    .modal_info_chamado_enviado_chat_input input[type="text"] {
         font-size: .65rem;
     }
-    .modal_info_chamado_recebido_chat_input button {
+    .modal_info_chamado_recebido_chat_input button,
+    .modal_info_chamado_enviado_chat_input button {
         font-size: .7rem;
     }
-    .modal_info_chamado_recebido_msg {
+    .modal_info_chamado_recebido_msg,
+    .modal_info_chamado_enviado_msg {
         font-size: 0.7rem;
     }
 
     .btn_att_pag_atribuir_chamados {
         right: 14rem;
         top: 8.5rem;
+    }
+
+    .colab-chart{
+        margin: .4rem 2rem;
+        width: 87.8%;
+    }
+    #form_paralegal_distrato_social,
+    #form_paralegal_licenca,
+    #form_paralegal_receita_federal,
+    #form_paralegal_sefaz,
+    #form_paralegal_sefin,
+    #form_paralegal_certidao,
+    #form_paralegal_outros {
+        width: 100%;
+    }
+
+    .btn_att_pag_atribuir_chamados {
+        margin-right: .5rem;
+    }
+    .central_atribuir_chamados{
+        margin-top: 1rem;
     }
 }

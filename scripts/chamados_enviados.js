@@ -125,6 +125,15 @@ async function modal_info_chamado_enviado(botao, event) {
         'solicitante'
     );
 
+    iniciarLoopChatChamado(
+        'modal_info_chamado_enviado_chat_mensagens', 
+        'modal_info_chamado_enviado_mensagem_input', 
+        'modal_info_chamado_enviado_btn_enviar', 
+        'modal_info_chamado_enviado_msg',
+        idChamado,
+        'solicitante'
+    );
+
     // 4. Exibe
     modal.style.display = 'flex';
 }

@@ -138,7 +138,7 @@ async function carregar_corpo_abrir_chamado(arquivo, display, chave) {
                     altura_tela = 39
                     break;
                 case "PARALEGAL|OUTROS":
-                    altura_tela = 34.5
+                    altura_tela = 40.5
                     break;
             }
 

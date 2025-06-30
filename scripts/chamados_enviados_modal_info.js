@@ -58,7 +58,7 @@ async function carregar_lista_arquivos_obrigatorios_enviado(id_tipo_chamado) {
 
 function criar_item_chamado_enviado_modal(chamado) {
     campo = `
-        <tr>
+        <tr data-id-chamado="${chamado.IdChamado}" class="tr_item_modal_info">
             <td class="valor_tarefa">
                 <span>${chamado.nomeCampo}</span>
             </td>

@@ -160,16 +160,15 @@ async function modal_info_chamado_recebido(botao, event) {
 
 function fechar_modal_chamado_recebido(id_chamado) {
     if (!id_chamado){
-        baidu = document.getElementById('.chamados_recebidos_item')
+        const botao = document.getElementById('botao_chamados_recebidos_info')
+        const li = botao.closest('.chamados_recebidos_item');
         id_chamado = li.dataset.idChamado;
-        teste('--')
-        teste(id_chamado)
     }
 
     const modal = document.getElementById('modal_chamado_recebido');
     if (modal) modal.style.display = 'none';
 
-    encerrarLoopChatChamado(idChamado)
+    encerrarLoopChatChamado(id_chamado)
 }
 
 async function modal_reatribuir_chamado_recebido(botao, event) {

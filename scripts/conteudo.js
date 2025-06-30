@@ -355,8 +355,11 @@ document.querySelectorAll('.btn_carregar_novo_corpo').forEach(function (botao) {
                 
                 switch (titulo) {
                     case "Meu Painel":
+                        preencher_qtde_chamados_realizados();
                         atualizarBarraChamados();
-                        desenharGraficos();
+                        // desenharGraficos();
+                        let dadosColaboradores = consultar_dados_chamados_por_colaborador_e_setor()
+                        dadosColaboradores.then(retorno => initColabChart(retorno))
                         break;
                     case "Abrir Chamado":
                         popular_select({id_campo: 'setor_atendimento', tipo: 'setor'});
@@ -718,10 +721,10 @@ function criarCampoDePesquisa(classCampoTexto, idCampoId, classLista,
         abrir();
         const v = input.value.toLowerCase();
         valoresArray.forEach(li => {
-        li.classList.toggle(
-            'fechado',
-            !li.textContent.toLowerCase().startsWith(v)
-        );
+            // true se o item CONTÉM o texto digitado, em qualquer posição
+            const contem = li.textContent.toLowerCase().includes(v);
+            // adiciona a classe 'fechado' quando NÃO contém
+            li.classList.toggle('fechado', !contem);
         });
     });
 

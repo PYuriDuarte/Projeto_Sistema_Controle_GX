@@ -3,8 +3,8 @@
     <div class="card_chamado realizado">
         <div class="linha_card_conteudo">
             <div class="coluna_card_info">
-                <div class="titulo_card_chamado realizado">Chamados Realizados ( 30 dias )</div>
-                <div class="valor_card_chamado" id="qtd_realizados">70</div>
+                <div class="titulo_card_chamado realizado">Chamados <br>"ATENDIDOS"</div>
+                <div class="valor_card_chamado" id="qtd_realizados">0</div>
                 <div class="card_barra_progresso">
                     <span class="progresso" id="barra_realizados"></span>
                 </div>
@@ -19,8 +19,8 @@
     <div class="card_chamado pendente">
         <div class="linha_card_conteudo">
             <div class="coluna_card_info">
-                <div class="titulo_card_chamado pendente">Chamados Pendentes</div>
-                <div class="valor_card_chamado" id="qtd_pendentes">30</div>
+                <div class="titulo_card_chamado pendente">Chamados <br>"EM ANDAMENTO"</div>
+                <div class="valor_card_chamado" id="qtd_pendentes">0</div>
             </div>
             <div class="coluna_card_icone">
                 <i class="material-icons">notifications</i>
@@ -32,8 +32,8 @@
     <div class="card_chamado aberto">
         <div class="linha_card_conteudo">
             <div class="coluna_card_info">
-                <div class="titulo_card_chamado aberto">Chamados Abertos</div>
-                <div class="valor_card_chamado" id="qtd_abertos">50</div>
+                <div class="titulo_card_chamado aberto">Chamados <br>"SOLICITADOS"</div>
+                <div class="valor_card_chamado" id="qtd_abertos">0</div>
             </div>
             <div class="coluna_card_icone">
                 <i class="material-icons">sos</i>
@@ -42,7 +42,39 @@
     </div>
 </div>
 
-<div class="linha">
+<div class="colab-chart" id="colabChart">
+    <h5 class="colab-chart-title">Chamados por Colaborador</h5>
+
+    <!-- seletor de setor -->
+    <div class="colab-chart-select-wrapper">
+        <label for="colabChartSelect" class="colab-chart-label">
+            <strong>Escolha o setor:</strong>
+        </label>
+        <select id="colabChartSelect" class="colab-chart-select"></select>
+    </div>
+
+    <!-- tabela -->
+    <div class="colab-chart-card colab-chart-card--table">
+        <table id="colabChartTable" class="colab-chart-table">
+            <thead class="colab-chart-thead">
+                <tr class="colab-chart-tr">
+                    <th class="colab-chart-th">Colaborador</th>
+                    <th class="colab-chart-th">Em Andamento</th>
+                    <th class="colab-chart-th">Atendidos</th>
+                    <th class="colab-chart-th">Solicitados</th>
+                </tr>
+            </thead>
+            <tbody class="colab-chart-tbody"><!-- preenchido via JS --></tbody>
+        </table>
+    </div>
+
+    <!-- gráfico -->
+    <div class="colab-chart-card colab-chart-card--chart">
+        <canvas id="colabChartCanvas" class="colab-chart-canvas"></canvas>
+    </div>
+</div>
+
+<div class="linha" style="display: none;">
     <!-- Gráfico de Área -->
     <div class="coluna-grande">
         <div class="cartao sombra">

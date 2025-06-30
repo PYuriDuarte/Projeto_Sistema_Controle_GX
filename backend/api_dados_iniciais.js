@@ -152,3 +152,76 @@ function consultar_chat_chamado(id_chamado) {
     const retorno_sql = runSqlSelect(sql_comando, {js_id_chamado: id_chamado})
     return retorno_sql
 }
+
+function consultar_qtde_chamados_realizados(id_responsavel) {
+    const sql_comando =
+        `
+            SELECT
+                COUNT(*) AS qtde_chamados,
+                s.id_status,
+                s.nome_status,
+                c.id_responsavel as id_colaborador
+            FROM tbl_Chamados AS c
+            JOIN tbl_Status_Chamados AS s ON s.id_status = c.id_status
+            WHERE c.id_responsavel = @js_id_responsavel 
+            GROUP BY
+                s.id_status,
+                s.nome_status,
+                c.id_responsavel
+
+            UNION
+
+            SELECT
+                COUNT(*) AS qtde_chamados,
+                s.id_status,
+                s.nome_status,
+                c.id_solicitante as id_colaborador
+            FROM tbl_Chamados AS c
+            JOIN tbl_Status_Chamados AS s ON s.id_status = c.id_status
+            WHERE c.id_solicitante = @js_id_responsavel 
+            GROUP BY
+                s.id_status,
+                s.nome_status,
+                c.id_solicitante;
+        `;
+        
+    const retorno_sql = runSqlSelect(sql_comando, {js_id_responsavel: id_responsavel})
+    return retorno_sql
+}
+
+function consultar_dados_chamados_por_colaborador_e_setor() {
+    const sql_comando =
+        `
+            SELECT
+                s.nome_setor as setor,
+                CONCAT(
+                    UPPER(LEFT( c.primeiro_nome , 1 )),
+                    LOWER(SUBSTRING( c.primeiro_nome , 2 , LEN(c.primeiro_nome) )),
+                    ' ',
+                    UPPER(LEFT( c.segundo_nome , 1 )),
+                    LOWER(SUBSTRING( c.segundo_nome , 2 , LEN(c.segundo_nome) ))
+                ) AS nome,
+                SUM(CASE WHEN ch.id_solicitante = c.id_colaborador THEN 1 ELSE 0 END) AS solicitados, -- Nº de chamados abertos pelo colaborador
+                SUM(CASE WHEN ch.id_responsavel = c.id_colaborador AND ch.id_status = 2 THEN 1 ELSE 0 END) AS andamento, -- Nº de chamados em que ele é responsável e status = 2
+                SUM(CASE WHEN ch.id_responsavel = c.id_colaborador AND ch.id_status = 3 THEN 1 ELSE 0 END) AS atendidos -- Nº de chamados em que ele é responsável e status = 3
+            FROM tbl_Colaboradores c
+                JOIN tbl_Colaboradores_Setores cs 
+                    ON cs.id_colaborador = c.id_colaborador
+                JOIN tbl_Setores s  
+                    ON s.id_setor = cs.id_setor
+                LEFT JOIN tbl_Chamados ch 
+                    ON (ch.id_solicitante = c.id_colaborador OR ch.id_responsavel = c.id_colaborador)
+            GROUP BY
+                s.id_setor,
+                s.nome_setor,
+                c.id_colaborador,
+                c.primeiro_nome,
+                c.segundo_nome
+            ORDER BY
+                s.id_setor,
+                c.primeiro_nome;
+        `;
+        
+    const retorno_sql = runSqlSelect(sql_comando)
+    return retorno_sql
+}

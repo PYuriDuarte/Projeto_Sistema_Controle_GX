@@ -1,0 +1,62 @@
+/* Full HD (1920 × 1080) ou maior */
+@media (min-width: 1920px) and (min-height: 1080px) {
+    .linha_card_chamado{
+        width: 108.2%;
+    }
+    .colab-chart{
+        margin: .5rem 2.5rem;
+        width: 94.2%;
+    }
+    #corpo_abertura_chamado{
+        width: 66%;
+        height: 1%;
+        margin: auto auto auto 15%;
+    }
+    .btn_att_pag_atribuir_chamados {
+        margin-right: 17.2%;
+    }
+    .central_atribuir_chamados{
+        min-height: 58rem;
+    }
+
+    /* CHAMADOS RECEBIDOS */
+    .chamados_recebidos_central,
+    .chamados_enviados_central {
+        width: 98%;
+    }
+    #modal_chamado_recebido .modal_chamado_recebido_content,
+    #modal_chamado_enviado .modal_chamado_enviado_content {
+        width: 100rem;
+        height: 55rem;
+    }
+    .modal_info_chamado_recebido_container,
+    .modal_info_chamado_enviado_container {
+        height: 53.5rem;
+    }
+    .modal_info_chamado_recebido_tabela th,
+    .modal_info_chamado_enviado_tabela th {
+        font-size: .9rem;
+    }
+    .modal_info_chamado_recebido_tabela td,
+    .modal_info_chamado_enviado_tabela td {
+        font-size: 1rem;
+    }
+    .valor_comprovacao button {
+        font-size: .9rem;
+    }
+    .modal_info_chamado_recebido_btn_finalizar {
+        font-size: 1.1rem;
+    }
+    .modal_info_chamado_recebido_chat_input input[type="text"],
+    .modal_info_chamado_enviado_chat_input input[type="text"] {
+        font-size: 1rem;
+    }
+    .modal_info_chamado_recebido_chat_input button,
+    .modal_info_chamado_enviado_chat_input button {
+        font-size: 1rem;
+    }
+    .modal_info_chamado_recebido_msg,
+    .modal_info_chamado_enviado_msg {
+        font-size: 1rem;
+    }
+}

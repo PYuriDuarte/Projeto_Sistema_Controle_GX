@@ -14,7 +14,6 @@
     margin: .1rem auto;
     align-items: flex-end;
     justify-content: center;
-    background-color: red;
 }
 
 .coluna_campo {
@@ -83,7 +82,7 @@
     padding: .8rem;
     background-color: var(--cor-fundo-card);
     transition: .3s ease-in-out;
-    border-radius: 1rem;
+    border-radius: .5rem;
     border: 1px solid var(--cor--borda-cinzinha);
     margin-bottom: .15rem;
 }

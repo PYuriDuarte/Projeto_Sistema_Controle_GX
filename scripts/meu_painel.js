@@ -21,6 +21,34 @@ function atualizarBarraChamados() {
 
 // ==============================
 
+function preencher_qtde_chamados_realizados() {
+    return consultar_qtde_chamados_realizados(usuario_logado.idColaborador)
+        .then(qtde => {
+            // qtde[0] RESPONSAVEL
+            // qtde[1] SOLICITANTE
+            return new Promise(resolve => {
+                setTimeout(() => resolve(qtde), 0);
+            });
+        })
+        .then(linha => {
+            if(linha[0].nome_status === "ATENDIDOS") {
+                const el_qtd_realizados = document.getElementById('qtd_realizados');
+                if (el_qtd_realizados) el_qtd_realizados.textContent = String(linha[0].qtde_chamados);
+            }
+
+            if(linha[0].nome_status === "EM ANDAMENTO") {
+                const el_qtd_pendentes = document.getElementById('qtd_pendentes');
+                if (el_qtd_pendentes) el_qtd_pendentes.textContent = String(linha[0].qtde_chamados);
+            }       
+            
+            const el_qtd_abertos = document.getElementById('qtd_abertos'); // NÃO ATRIBUÍDOS
+            if (el_qtd_abertos) el_qtd_abertos.textContent = String(linha[1].qtde_chamados);
+        })
+        .catch(console.error); // trate erros para não silenciar a falha
+}
+
+// ==============================
+
 // Gráfico de Área (Visão Geral dos Ganhos)
 function desenharGraficos() {
     // Gráfico de Área (Visão Geral dos Ganhos) - Linha crescendo mês a mês
@@ -133,4 +161,77 @@ function desenharGraficos() {
         }
     }
     animarPizza();
+}
+
+// ==============================================================================================================================================
+//  CHAMADOS POR COLABORADOR
+
+function initColabChart(dadosColaboradores) {
+    // 1) Elementos do fragmento
+    const rootElement = document.querySelector('#colabChart');
+    const selectSetor = rootElement.querySelector('#colabChartSelect');
+    const tbody       = rootElement.querySelector('.colab-chart-tbody');
+    const ctx         = rootElement.querySelector('#colabChartCanvas').getContext('2d');
+
+    // 2) Preenche <select> com setores
+    [...new Set(dadosColaboradores.map(c => c.setor))].forEach(setor => {
+        const opt = document.createElement('option');
+        opt.value = setor;
+        opt.textContent = setor;
+        selectSetor.appendChild(opt);
+    });
+
+    // 3) Cria gráfico Chart.js
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [],
+            datasets: [
+                { label: 'Em Andamento', backgroundColor: getVar('--cor-alerta'),  data: [] },
+                { label: 'Atendidos',    backgroundColor: getVar('--cor-correto'), data: [] },
+                { label: 'Solicitados',  backgroundColor: getVar('--cor-erro'), data: [] },
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+        }
+    });
+
+    // 4) Renderizador
+    function render(setorAtual) {
+        const filtrados = dadosColaboradores.filter(c => c.setor === setorAtual);
+
+        // tabela
+        tbody.innerHTML = '';
+        filtrados.forEach(c => {
+            const tr = document.createElement('tr');
+            tr.className = 'colab-chart-tr';
+            tr.innerHTML = `
+                <td>${c.nome}</td>
+                <td>${c.atendidos}</td>
+                <td>${c.andamento}</td>
+                <td>${c.solicitados}</td>`;
+            tbody.appendChild(tr);
+        });
+
+        // gráfico
+        chart.data.labels           = filtrados.map(c => c.nome);
+        chart.data.datasets[0].data = filtrados.map(c => c.atendidos);
+        chart.data.datasets[1].data = filtrados.map(c => c.andamento);
+        chart.data.datasets[2].data = filtrados.map(c => c.solicitados);
+        chart.update();
+    }
+
+    // 5) Utilitário de cores
+    function getVar(cssVar) {
+        return getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
+    }
+
+    // 6) Eventos
+    selectSetor.addEventListener('change', e => render(e.target.value));
+
+    // 7) Primeira renderização
+    render(selectSetor.options[0].value);
 }
